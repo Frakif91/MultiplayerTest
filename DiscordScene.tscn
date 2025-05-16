@@ -1,0 +1,107 @@
+[gd_scene load_steps=7 format=3 uid="uid://d33fyaogwc2o2"]
+
+[ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://discord_scene.gd" id="1_4cmua"]
+[ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/add_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="1_hmsvi"]
+[ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/check_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="2_lihdk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
+font_size = 32
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lihdk"]
+diffuse_texture = ExtResource("1_hmsvi")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4cmua"]
+specular_texture = ExtResource("1_hmsvi")
+specular_color = Color(0.8, 0.8, 0.8, 1)
+specular_shininess = 0.7
+
+[node name="App" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4cmua")
+
+[node name="MainFrame" type="SplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GuildList" type="PanelContainer" parent="MainFrame"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="GuildInterface" type="SplitContainer" parent="MainFrame"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Background" type="PanelContainer" parent="MainFrame/GuildInterface"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Container" type="MarginContainer" parent="MainFrame/GuildInterface/Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ChannelElements" type="VBoxContainer" parent="MainFrame/GuildInterface/Background/Container"]
+layout_mode = 2
+
+[node name="ChannelTitle" type="Label" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+text = "Channel -"
+label_settings = SubResource("LabelSettings_3kbok")
+
+[node name="HSeparator" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+
+[node name="ChannelChat" type="RichTextLabel" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+
+[node name="UserInput" type="HBoxContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="AddFile" type="TextureButton" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("1_hmsvi")
+texture_pressed = ExtResource("1_hmsvi")
+texture_hover = SubResource("CanvasTexture_lihdk")
+texture_disabled = SubResource("CanvasTexture_4cmua")
+texture_focused = ExtResource("1_hmsvi")
+stretch_mode = 0
+
+[node name="ChatInput" type="LineEdit" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+placeholder_text = "Write something here..."
+
+[node name="Emoji" type="TextureButton" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("2_lihdk")
+texture_pressed = ExtResource("2_lihdk")
+texture_hover = ExtResource("2_lihdk")
+texture_disabled = ExtResource("2_lihdk")
+texture_focused = ExtResource("2_lihdk")
+stretch_mode = 0
+
+[node name="Panel2" type="PanelContainer" parent="MainFrame/GuildInterface"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2

@@ -1,0 +1,200 @@
+[gd_scene load_steps=16 format=3 uid="uid://byqgf1jy436na"]
+
+[ext_resource type="Script" uid="uid://ch04fjuvkhph2" path="res://World3D_ENet.gd" id="1_by4yc"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="2_j7kei"]
+[ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://Assets/Icons/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="3_j7kei"]
+[ext_resource type="AudioStream" uid="uid://b5q3h34e2qb4n" path="res://Assets/SFX/SE_BTL_DEADE.wav" id="4_2vx13"]
+[ext_resource type="AudioStream" uid="uid://bl61pdjanca2g" path="res://Assets/SFX/SE_BTL_1UP.wav" id="5_fgt84"]
+[ext_resource type="AudioStream" uid="uid://bt3jehpf0m7bp" path="res://Assets/SFX/Under Taco Taker Bell.mp3" id="5_t3o02"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f5f6b"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_o853b"]
+sky_material = SubResource("ProceduralSkyMaterial_f5f6b")
+
+[sub_resource type="Environment" id="Environment_by4yc"]
+background_mode = 2
+sky = SubResource("Sky_o853b")
+tonemap_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_j7kei"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lkq30"]
+frequency = 0.0514
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2vx13"]
+width = 2024
+height = 2024
+seamless = true
+seamless_blend_skirt = 0.2
+as_normal_map = true
+bump_strength = 5.0
+color_ramp = SubResource("Gradient_j7kei")
+noise = SubResource("FastNoiseLite_lkq30")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgt84"]
+albedo_texture = SubResource("NoiseTexture2D_2vx13")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_t3o02"]
+material = SubResource("StandardMaterial3D_fgt84")
+size = Vector2(100, 100)
+subdivide_width = 200
+subdivide_depth = 200
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rby8v"]
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("ip_text", "port_text", "join_button", "host_button", "disconnect_button", "server_name_text", "server_info_text", "multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
+script = ExtResource("1_by4yc")
+ip_text = NodePath("ENet_UI/IP")
+port_text = NodePath("ENet_UI/Port")
+join_button = NodePath("ENet_UI/VBoxContainer/Join_Button")
+host_button = NodePath("ENet_UI/VBoxContainer/Host_Button")
+disconnect_button = NodePath("ENet_UI/VBoxContainer/Disconnect_Button")
+server_name_text = NodePath("ENet_UI/PanelContainer/HBoxContainer/VBoxContainer/PlayerName")
+server_info_text = NodePath("ENet_UI/PanelContainer/HBoxContainer/VBoxContainer/ServerInfo")
+multiplayer_spawner = NodePath("MultiplayerSpawner")
+spawnpoint = NodePath("Spawnpoint")
+join_audioplayer = NodePath("JoinSFX")
+leave_audioplayer = NodePath("LeaveSFX")
+terminate_connection_sfx = NodePath("TerminateSFX")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_by4yc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_t3o02")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_rby8v")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://tfrtpbbgo6uq")
+spawn_path = NodePath("../Spawnpoint")
+
+[node name="Spawnpoint" type="Node3D" parent="."]
+
+[node name="ENet_UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IP" type="LineEdit" parent="ENet_UI"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 148.0
+offset_right = 162.0
+offset_bottom = 185.0
+text = "127.0.0.1"
+placeholder_text = "IP"
+max_length = 15
+
+[node name="Port" type="LineEdit" parent="ENet_UI"]
+layout_mode = 2
+offset_left = 166.0
+offset_top = 148.0
+offset_right = 235.0
+offset_bottom = 185.0
+text = "4046"
+placeholder_text = "IP"
+virtual_keyboard_type = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ENet_UI"]
+layout_mode = 0
+anchor_left = 0.0138889
+anchor_top = 0.0246914
+anchor_right = 0.302083
+anchor_bottom = 0.222222
+offset_right = -199.0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ENet_UI/PanelContainer"]
+layout_mode = 2
+
+[node name="PFP" type="TextureRect" parent="ENet_UI/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("2_j7kei")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ENet_UI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerName" type="LineEdit" parent="ENet_UI/PanelContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "<Null>"
+placeholder_text = "Player Name"
+
+[node name="ServerInfo" type="Label" parent="ENet_UI/PanelContainer/HBoxContainer/VBoxContainer"]
+modulate = Color(0.68, 0.68, 0.68, 1)
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "<Null>"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ENet_UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.795139
+anchor_top = 0.0246914
+anchor_right = 0.986111
+anchor_bottom = 0.364198
+offset_left = 180.0
+offset_bottom = -180.0
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ENet_UI/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ItemList" type="ItemList" parent="ENet_UI/PanelContainer2/MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ENet_UI"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 19.0
+offset_right = 514.0
+offset_bottom = 144.0
+
+[node name="Join_Button" type="Button" parent="ENet_UI/VBoxContainer"]
+layout_mode = 2
+text = "REJOINDRE"
+
+[node name="Host_Button" type="Button" parent="ENet_UI/VBoxContainer"]
+layout_mode = 2
+text = "HEBERGER"
+
+[node name="Disconnect_Button" type="Button" parent="ENet_UI/VBoxContainer"]
+layout_mode = 2
+text = "Terminate"
+icon = ExtResource("3_j7kei")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.93807, 0.346445, 0, -0.346445, 0.93807, 0, 9.70044, 10.9965)
+
+[node name="LeaveSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2vx13")
+volume_db = -5.0
+
+[node name="TerminateSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_t3o02")
+volume_db = -5.0
+
+[node name="JoinSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_fgt84")
+volume_db = -5.0

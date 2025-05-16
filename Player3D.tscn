@@ -1,0 +1,147 @@
+[gd_scene load_steps=11 format=3 uid="uid://tfrtpbbgo6uq"]
+
+[ext_resource type="Script" uid="uid://chd6asgm6rgkl" path="res://Godot/Scripts/MarioOverworld_Movement.gd" id="1_4bs16"]
+[ext_resource type="SpriteFrames" uid="uid://cs32jqshu76is" path="res://Godot/overworld_test_mario_animations_new.tres" id="2_6muop"]
+[ext_resource type="AudioStream" uid="uid://cm8whqc1dnbfa" path="res://Assets/SFX/SML2_Jump.ogg" id="3_r8qlg"]
+[ext_resource type="AudioStream" uid="uid://cttis7n05pt8l" path="res://Assets/SFX/WU_SE_PLY_FOOTNOTE_DIRT_L.wav" id="4_mi6r4"]
+[ext_resource type="AudioStream" uid="uid://cgow18214066p" path="res://Assets/SFX/WU_SE_PLY_FOOTNOTE_DIRT.wav" id="5_yvtab"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_as0x0"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r8qlg"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("JumpSFX:playing")
+properties/2/spawn = false
+properties/2/replication_mode = 2
+properties/3/path = NodePath("FootLeftSFX:playing")
+properties/3/spawn = false
+properties/3/replication_mode = 2
+properties/4/path = NodePath("FootRightSFX:playing")
+properties/4/spawn = false
+properties/4/replication_mode = 2
+properties/5/path = NodePath("AnimatedSprite3D:animation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("AnimatedSprite3D:frame")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("AnimatedSprite3D:speed_scale")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r8qlg"]
+bg_color = Color(0.0823529, 0.0823529, 0.0823529, 0.694118)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="SystemFont" id="SystemFont_mi6r4"]
+font_names = PackedStringArray("Segoe UI")
+font_weight = 999
+font_stretch = 200
+hinting = 2
+subpixel_positioning = 2
+oversampling = 3.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_yvtab"]
+font = SubResource("SystemFont_mi6r4")
+
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("asprite3D", "sfx_jump", "sfx_foot_left", "sfx_foot_right", "timer", "camera", "player_name_tag")]
+script = ExtResource("1_4bs16")
+asprite3D = NodePath("AnimatedSprite3D")
+sfx_jump = NodePath("JumpSFX")
+sfx_foot_left = NodePath("FootLeftSFX")
+sfx_foot_right = NodePath("FootRightSFX")
+timer = NodePath("Timer")
+camera = NodePath("Camera3D")
+player_name_tag = NodePath("Control/PlayerNameTag")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_as0x0")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(3.465, 0, 0, 0, 3.465, 0, 0, 0, 3.465, 0, 0, 0)
+billboard = 1
+texture_filter = 4
+sprite_frames = ExtResource("2_6muop")
+animation = &"walk-S"
+frame_progress = 0.593045
+
+[node name="JumpSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_r8qlg")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.93985, 6.4184)
+
+[node name="FootLeftSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_mi6r4")
+
+[node name="FootRightSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_yvtab")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_r8qlg")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18423, 0)
+pixel_size = 0.002
+billboard = 1
+double_sided = false
+fixed_size = true
+texture_filter = 5
+text = "Mario
+"
+font_size = 50
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerNameTag" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="PanelContainer" parent="Control/PlayerNameTag"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.5
+offset_top = -21.0
+offset_right = 71.5
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r8qlg")
+
+[node name="Borders" type="MarginContainer" parent="Control/PlayerNameTag/Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayerName" type="Label" parent="Control/PlayerNameTag/Background/Borders"]
+layout_mode = 2
+text = "<Player Name>"
+label_settings = SubResource("LabelSettings_yvtab")
