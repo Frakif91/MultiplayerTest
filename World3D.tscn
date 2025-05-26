@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://byqgf1jy436na"]
+[gd_scene load_steps=17 format=3 uid="uid://byqgf1jy436na"]
 
 [ext_resource type="Script" uid="uid://ch04fjuvkhph2" path="res://World3D_ENet.gd" id="1_by4yc"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="2_j7kei"]
@@ -45,7 +45,9 @@ subdivide_depth = 200
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rby8v"]
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("ip_text", "port_text", "join_button", "host_button", "disconnect_button", "server_name_text", "server_info_text", "multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fgt84"]
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("ip_text", "port_text", "join_button", "host_button", "disconnect_button", "server_name_text", "server_info_text", "player_list", "multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
 script = ExtResource("1_by4yc")
 ip_text = NodePath("ENet_UI/IP")
 port_text = NodePath("ENet_UI/Port")
@@ -54,6 +56,7 @@ host_button = NodePath("ENet_UI/VBoxContainer/Host_Button")
 disconnect_button = NodePath("ENet_UI/VBoxContainer/Disconnect_Button")
 server_name_text = NodePath("ENet_UI/PanelContainer/HBoxContainer/VBoxContainer/PlayerName")
 server_info_text = NodePath("ENet_UI/PanelContainer/HBoxContainer/VBoxContainer/ServerInfo")
+player_list = NodePath("ENet_UI/PanelContainer2/MarginContainer/ItemList")
 multiplayer_spawner = NodePath("MultiplayerSpawner")
 spawnpoint = NodePath("Spawnpoint")
 join_audioplayer = NodePath("JoinSFX")
@@ -198,3 +201,6 @@ volume_db = -5.0
 [node name="JoinSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_fgt84")
 volume_db = -5.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fgt84")

@@ -10,7 +10,13 @@ var random_player_name = ["John Pork","John Cena","Dave","Dwayne Johnson","Kevin
 var enet : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var max_player_count : int = 8
 var particle_disconnect : PackedScene = preload("res://disconnect_particle.tscn")
-var players : Array[PlayerListEntry] = []
+@export var players : Array[PlayerListEntry] = [] : set = _set_players
+
+func _set_players(value):
+	players = value
+	player_list.clear()
+	for player in players:
+		player_list.add_item(player.player_name)
 
 ## Returns the first occurence of the player's id in the player list
 func find_player_by_id(player_id : int) -> PlayerListEntry:
@@ -27,7 +33,7 @@ func find_player_by_name(player_id : int) -> PlayerListEntry:
 	return null
 
 
-class PlayerListEntry:
+class PlayerListEntry extends Resource:
 	var player_name : String
 	var player_id : int
 	var player_data : Dictionary = {}
@@ -106,6 +112,7 @@ func summon_player(id : int) -> Node:
 func _set_players_name(player_id : int, player_name : String):
 	var player : MarioOW_Movement= spawnpoint.find_child(str(player_id))
 	if player:
+		print_debug("Player: " + str(player_id) + " name set to " + player_name)
 		player.player_name = player_name
 
 func player_connected(id : int = 0):
@@ -115,18 +122,17 @@ func player_connected(id : int = 0):
 	#emit_signal("player_connected",id)
 	multiplayer_spawner.spawn(id)
 	players.append(PlayerListEntry.new(id,players_names.get(id)))
-	player_list.add_item(players_names.get(id)) 
+	#player_list.add_item(players_names.get(id)) 
 
 func player_disconnected(id : int):
+	print_debug("Player : ",id," disconnected")
 	leave_audioplayer.play()
 	players_names.erase(id)
 	for p_index in range(players.size()):
 		if players[p_index].player_id == id:
 			players.remove_at(p_index)
-			player_list.remove_item(p_index)
+			#player_list.remove_item(p_index)
 	
-
-	#emit_signal("player_disconnected",id)
 	var child = spawnpoint.get_node_or_null(str(id))
 	if child:
 		var p : GPUParticles3D = particle_disconnect.instantiate()
@@ -139,27 +145,40 @@ func player_disconnected(id : int):
 	else:
 		push_warning("Player: " + str(id) + " not found")
 
-func player_leave_server(): # Self
-	#for child in spawnpoint.get_children():
-		#child.queue_free()
+func client_join_server(): # Self
 	players_names.clear()
+	players.clear()
+	#player_list.clear()
+	
+	for id in spawnpoint.get_child_count():
+		var player : MarioOW_Movement = spawnpoint.get_child(id)
+		players_names[id] = player.player_name
+		players.append(PlayerListEntry.new(id,player.player_name))
+		#player_list.add_item(player.player_name)
+
+func client_leave_server(): # Self
+	players_names.clear()
+	players.clear()
+	#player_list.clear()
 	terminate_connection_sfx.play()
 
-func player_fail_to_connect():
+func client_fail_to_connect():
 	terminate_connection_sfx.play()
 	players_names.clear()
+	players.clear()
+	#player_list.clear()
 
 func _process(_delta : float) -> void:
-	if multiplayer.has_multiplayer_peer():
+	if multiplayer.has_multiplayer_peer() and multiplayer.multiplayer_peer != null:
 		#server_name_text.text = "Server Status: " + connection_status_names[multiplayer.multiplayer_peer.get_connection_status()]
 		if OS.get_cmdline_user_args().size() > 0 and OS.get_cmdline_user_args().find("launch") != -1:
 			server_name_text.text = OS.get_cmdline_user_args()[OS.get_cmdline_user_args().find("launch")] + " (" + cur_player_name + ")"
 
 		server_info_text.text = "\n".join(PackedStringArray(
 			[
-				"Player ID: " + str(multiplayer.multiplayer_peer.get_unique_id()) + " (Host)" if multiplayer.is_server() else "",
+				"Player ID: " + str(multiplayer.multiplayer_peer.get_unique_id()) + (" (Host)" if multiplayer.is_server() else ""),
 				"Server slots: " + str(spawnpoint.get_child_count()) + "/" + str(max_player_count),
-				#"Players: " + str(multiplayer.get_peers().size())
+				"State : " + connection_status_names[multiplayer.multiplayer_peer.get_connection_status()],
 			]
 		))
 
@@ -201,8 +220,8 @@ func join_server():
 	if status == OK:
 		multiplayer.multiplayer_peer = enet
 		get_tree().set_multiplayer(multiplayer)
-		#multiplayer.connected_to_server.connect(player)
-		multiplayer.server_disconnected.connect(player_leave_server)
+		multiplayer.connected_to_server.connect(client_join_server)
+		multiplayer.server_disconnected.connect(client_leave_server)
 		summon_player(multiplayer.multiplayer_peer.get_unique_id())
 		players.append(PlayerListEntry.new(multiplayer.multiplayer_peer.get_unique_id(),cur_player_name))
 	
@@ -231,8 +250,9 @@ func terminate_networking():
 	players.clear()
 	if multiplayer.has_multiplayer_peer():
 		print("Disconnecting from Server...")
-		#player_leave_server()
-		multiplayer.multiplayer_peer.disconnect_peer(1)
+		if multiplayer.is_server():
+			multiplayer.multiplayer_peer.free()
+		multiplayer.multiplayer_peer.disconnect_peer(multiplayer.multiplayer_peer.get_unique_id())
 	else:
 		print("Not connected to server")
 	#multiplayer.multiplayer_peer = null
