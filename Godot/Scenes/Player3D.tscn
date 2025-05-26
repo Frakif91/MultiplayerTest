@@ -52,7 +52,7 @@ oversampling = 3.0
 [sub_resource type="LabelSettings" id="LabelSettings_yvtab"]
 font = SubResource("SystemFont_mi6r4")
 
-[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("asprite3D", "sfx_jump", "sfx_foot_left", "sfx_foot_right", "timer", "camera", "player_name_tag", "player_name_label")]
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("asprite3D", "sfx_jump", "sfx_foot_left", "sfx_foot_right", "timer", "camera", "player_name_tag")]
 script = ExtResource("1_4bs16")
 asprite3D = NodePath("AnimatedSprite3D")
 sfx_jump = NodePath("JumpSFX")
@@ -61,7 +61,6 @@ sfx_foot_right = NodePath("FootRightSFX")
 timer = NodePath("Timer")
 camera = NodePath("Camera3D")
 player_name_tag = NodePath("Control/PlayerNameTag")
-player_name_label = NodePath("Control/PlayerNameTag/Background/Borders/PlayerName")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_as0x0")
@@ -93,7 +92,6 @@ replication_config = SubResource("SceneReplicationConfig_r8qlg")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18423, 0)
-visible = false
 pixel_size = 0.002
 billboard = 1
 double_sided = false

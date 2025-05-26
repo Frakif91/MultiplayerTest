@@ -14,8 +14,8 @@ var is_mario_walking
 
 
 func _ready() -> void:
-	print(Globals.Bros.get("Luigi"))
-	print(Globals.Bros)
+	#print(Globals.Bros.get("Luigi"))
+	#print(Globals.Bros)
 	mario.did_move.connect(_luigi_global_movement)
 	mario.start_move.connect(func():is_mario_walking = true)
 	mario.stop_move.connect(func():is_mario_walking = false; velocity.x = 0; velocity.z = 0)
@@ -42,9 +42,9 @@ func _physics_process(delta: float) -> void:
 	velocity.y += delta * get_gravity().y
 	move_and_slide()
 
-	if is_on_floor() and Input.is_action_just_pressed((Globals.Bros.get("Luigi") as Brother).action_button):
-		velocity.y = 4.5
-		$"JumpSFX".play()
+	# if is_on_floor() and Input.is_action_just_pressed((Globals.Bros.get("Luigi") as Brother).action_button):
+	# 	velocity.y = 4.5
+	# 	$"JumpSFX".play()
 
 const DIRECTION : Dictionary = {UP = &"N", DOWN = &"S", LEFT = &"L", RIGHT = &"R",
 								UPLEFT = &"NL", UPRIGHT = &"NR", DOWNLEFT = &"SL", DOWNRIGHT = &"SR"}

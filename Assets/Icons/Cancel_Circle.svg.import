@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7cgmqbvqo7g6"
-path="res://.godot/imported/check_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg-f3782c5c5f9bbf283c0e71e10ce571fa.ctex"
+uid="uid://bgndbf0mwwd3a"
+path="res://.godot/imported/Cancel_Circle.svg-de4a194a4e50c11f6c3c0ed31e7b1884.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/check_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-dest_files=["res://.godot/imported/check_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg-f3782c5c5f9bbf283c0e71e10ce571fa.ctex"]
+source_file="res://Assets/Icons/Cancel_Circle.svg"
+dest_files=["res://.godot/imported/Cancel_Circle.svg-de4a194a4e50c11f6c3c0ed31e7b1884.ctex"]
 
 [params]
 

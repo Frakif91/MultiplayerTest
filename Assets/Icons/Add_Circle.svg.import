@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1j5q2y5dmbm7"
-path="res://.godot/imported/Timer.png-3fa69aec2efbfe6669a990b10506e843.ctex"
+uid="uid://y5m3d8nhergn"
+path="res://.godot/imported/Add_Circle.svg-49db91d1230a718173c96249cee1c2f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/Timer.png"
-dest_files=["res://.godot/imported/Timer.png-3fa69aec2efbfe6669a990b10506e843.ctex"]
+source_file="res://Assets/Icons/Add_Circle.svg"
+dest_files=["res://.godot/imported/Add_Circle.svg-49db91d1230a718173c96249cee1c2f2.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

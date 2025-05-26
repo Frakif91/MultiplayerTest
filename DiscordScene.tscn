@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://d33fyaogwc2o2"]
+[gd_scene load_steps=10 format=3 uid="uid://d33fyaogwc2o2"]
 
-[ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://discord_scene.gd" id="1_4cmua"]
-[ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/add_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="1_hmsvi"]
-[ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/check_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="2_lihdk"]
+[ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://Godot/Scripts/discord_scene.gd" id="1_4cmua"]
+[ext_resource type="Theme" uid="uid://hcxydqie4qt7" path="res://Discord_Theme.tres" id="1_5lu6i"]
+[ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/Add.svg" id="1_hmsvi"]
+[ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/Check.svg" id="2_lihdk"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="3_h6mo5"]
+[ext_resource type="PackedScene" uid="uid://dto7bfu4j1ahq" path="res://Godot/Scenes/DiscordChatMessage.tscn" id="4_h6mo5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
 font_size = 32
@@ -22,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_5lu6i")
 script = ExtResource("1_4cmua")
 
 [node name="MainFrame" type="SplitContainer" parent="."]
@@ -35,6 +39,57 @@ grow_vertical = 2
 [node name="GuildList" type="PanelContainer" parent="MainFrame"]
 custom_minimum_size = Vector2(300, 648)
 layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="MainFrame/GuildList"]
+layout_mode = 2
+split_offset = 300
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainFrame/GuildList/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerList" type="ItemList" parent="MainFrame/GuildList/VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 1
+fixed_icon_size = Vector2i(60, 60)
+item_0/text = "Godot Server #1"
+item_0/icon = ExtResource("3_h6mo5")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainFrame/GuildList/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MainFrame/GuildList/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ServerInfo" type="RichTextLabel" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="RefreshButton" type="Button" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Refresh Server List"
+
+[node name="JoinButton" type="Button" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join
+"
 
 [node name="GuildInterface" type="SplitContainer" parent="MainFrame"]
 layout_mode = 2
@@ -55,16 +110,35 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="ChannelTitle" type="Label" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Channel -"
+text = "Channel - Global Chat"
 label_settings = SubResource("LabelSettings_3kbok")
 
 [node name="HSeparator" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
 
-[node name="ChannelChat" type="RichTextLabel" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="ChannelChat" type="VBoxContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+layout_mode = 2
+
+[node name="Control2" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+layout_mode = 2
+
+[node name="Control3" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+layout_mode = 2
+
+[node name="Control4" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+layout_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
@@ -85,6 +159,7 @@ texture_focused = ExtResource("1_hmsvi")
 stretch_mode = 0
 
 [node name="ChatInput" type="LineEdit" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -104,4 +179,7 @@ stretch_mode = 0
 
 [node name="Panel2" type="PanelContainer" parent="MainFrame/GuildInterface"]
 custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainFrame/GuildInterface/Panel2"]
 layout_mode = 2

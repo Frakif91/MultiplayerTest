@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwvem2agecyue"
-path="res://.godot/imported/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg-96687ada04b5fe3edcc3f66affc2e476.ctex"
+uid="uid://bm1na5o05qvcg"
+path="res://.godot/imported/Join.svg-8af5e238a057093cfef9463d023a5477.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
-dest_files=["res://.godot/imported/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg-96687ada04b5fe3edcc3f66affc2e476.ctex"]
+source_file="res://Assets/Icons/Join.svg"
+dest_files=["res://.godot/imported/Join.svg-8af5e238a057093cfef9463d023a5477.ctex"]
 
 [params]
 

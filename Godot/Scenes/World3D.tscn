@@ -1,11 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://byqgf1jy436na"]
+[gd_scene load_steps=16 format=3 uid="uid://byqgf1jy436na"]
 
-[ext_resource type="Script" uid="uid://ch04fjuvkhph2" path="res://World3D_ENet.gd" id="1_by4yc"]
-[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="2_j7kei"]
-[ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://Assets/Icons/home_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="3_j7kei"]
-[ext_resource type="AudioStream" uid="uid://b5q3h34e2qb4n" path="res://Assets/SFX/SE_BTL_DEADE.wav" id="4_2vx13"]
-[ext_resource type="AudioStream" uid="uid://bl61pdjanca2g" path="res://Assets/SFX/SE_BTL_1UP.wav" id="5_fgt84"]
-[ext_resource type="AudioStream" uid="uid://bt3jehpf0m7bp" path="res://Assets/SFX/Under Taco Taker Bell.mp3" id="5_t3o02"]
+[ext_resource type="Script" uid="uid://ch04fjuvkhph2" path="res://Godot/Scripts/World3D_ENet.gd" id="1_joi3e"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="2_0mtgl"]
+[ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://Assets/Icons/Home.svg" id="3_5uoac"]
+[ext_resource type="AudioStream" uid="uid://b5q3h34e2qb4n" path="res://Assets/SFX/SE_BTL_DEADE.wav" id="4_7xn8j"]
+[ext_resource type="AudioStream" uid="uid://bt3jehpf0m7bp" path="res://Assets/SFX/Under Taco Taker Bell.mp3" id="5_g575m"]
+[ext_resource type="AudioStream" uid="uid://bl61pdjanca2g" path="res://Assets/SFX/SE_BTL_1UP.wav" id="6_007nr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f5f6b"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -45,10 +45,9 @@ subdivide_depth = 200
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rby8v"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fgt84"]
-
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("ip_text", "port_text", "join_button", "host_button", "disconnect_button", "server_name_text", "server_info_text", "player_list", "multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
-script = ExtResource("1_by4yc")
+script = ExtResource("1_joi3e")
+print_instance_name = null
 ip_text = NodePath("ENet_UI/IP")
 port_text = NodePath("ENet_UI/Port")
 join_button = NodePath("ENet_UI/VBoxContainer/Join_Button")
@@ -79,7 +78,6 @@ mesh = SubResource("PlaneMesh_t3o02")
 shape = SubResource("WorldBoundaryShape3D_rby8v")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://tfrtpbbgo6uq")
 spawn_path = NodePath("../Spawnpoint")
 
 [node name="Spawnpoint" type="Node3D" parent="."]
@@ -127,7 +125,7 @@ layout_mode = 2
 [node name="PFP" type="TextureRect" parent="ENet_UI/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture = ExtResource("2_j7kei")
+texture = ExtResource("2_0mtgl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ENet_UI/PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -185,22 +183,19 @@ text = "HEBERGER"
 [node name="Disconnect_Button" type="Button" parent="ENet_UI/VBoxContainer"]
 layout_mode = 2
 text = "Terminate"
-icon = ExtResource("3_j7kei")
+icon = ExtResource("3_5uoac")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.93807, 0.346445, 0, -0.346445, 0.93807, 0, 9.70044, 10.9965)
 
 [node name="LeaveSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_2vx13")
+stream = ExtResource("4_7xn8j")
 volume_db = -5.0
 
 [node name="TerminateSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_t3o02")
+stream = ExtResource("5_g575m")
 volume_db = -5.0
 
 [node name="JoinSFX" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_fgt84")
+stream = ExtResource("6_007nr")
 volume_db = -5.0
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_fgt84")

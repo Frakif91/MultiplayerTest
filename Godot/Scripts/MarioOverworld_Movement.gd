@@ -12,7 +12,7 @@ signal stop_move()
 @export var timer : Timer
 @export var camera : Camera3D
 @export var player_name_tag : Control
-@export var player_name_label : Label
+@export var player_name_label : Label3D
 
 @export var center_fall_anim_rspeed : float = 0.3
 @export var walk_sound_waittime = 12.0/20./2.
@@ -133,18 +133,10 @@ func _physics_process(delta):
 	move_and_slide()
 
 	camera = get_viewport().get_camera_3d()
-	if not camera.is_position_behind(global_position + Vector3(0, 0.5, 0)):
-		var label_pos = camera.unproject_position(global_position + Vector3(0, 0.5, 0))
+	if not camera.is_position_behind(global_position):
+		var label_pos = camera.unproject_position(global_position)
 		player_name_tag.visible = true
-		player_name_tag.global_position = label_pos + Vector2(0,-20)
-		# Ajust opacity by distance, should be between 2 meter and 15 meters
-		var camera_distance = (camera.global_position - global_position).length()
-		if camera_distance > 10:
-			player_name_tag.modulate.a = clamp((20 - camera_distance)/5, 0, 1)
-		elif camera_distance < 2:
-			player_name_tag.modulate.a = clamp(1-camera_distance, 0, 1)
-		else:
-			player_name_tag.modulate.a = clamp( camera_distance/10, 0, 1)
+		player_name_tag.global_position = label_pos + Vector2(0,-50)
 	else:
 		player_name_tag.visible = false
 
