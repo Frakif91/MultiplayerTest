@@ -1,11 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://d33fyaogwc2o2"]
+[gd_scene load_steps=13 format=3 uid="uid://d33fyaogwc2o2"]
 
 [ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://Godot/Scripts/discord_scene.gd" id="1_4cmua"]
 [ext_resource type="Theme" uid="uid://hcxydqie4qt7" path="res://Discord_Theme.tres" id="1_5lu6i"]
 [ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/Add.svg" id="1_hmsvi"]
+[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://Godot/Scripts/BlurryEffect.gd" id="2_f0gu2"]
 [ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/Check.svg" id="2_lihdk"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="3_h6mo5"]
 [ext_resource type="PackedScene" uid="uid://dto7bfu4j1ahq" path="res://Godot/Scenes/DiscordChatMessage.tscn" id="4_h6mo5"]
+[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://blur.gdshader" id="8_jhxtx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
 font_size = 32
@@ -18,6 +20,11 @@ specular_texture = ExtResource("1_hmsvi")
 specular_color = Color(0.8, 0.8, 0.8, 1)
 specular_shininess = 0.7
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxt4k"]
+shader = ExtResource("8_jhxtx")
+shader_parameter/strength = 1.419
+shader_parameter/mix_percentage = 0.0
+
 [node name="App" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -25,129 +32,210 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_5lu6i")
 script = ExtResource("1_4cmua")
 
-[node name="MainFrame" type="SplitContainer" parent="."]
-layout_mode = 1
+[node name="PopupPanel" type="PopupPanel" parent="."]
+title = "Add a Server"
+initial_position = 5
+size = Vector2i(350, 350)
+borderless = false
+always_on_top = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 346.0
+offset_bottom = 346.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Information" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add a server that will be listed in your
+server list with information to connect."
+horizontal_alignment = 1
+text_overrun_behavior = 4
+
+[node name="HS1" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerNameI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server Name (option)"
+
+[node name="ServerNameE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"Wonder Land\""
+
+[node name="HS2" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerIPI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "IP Adress / Host Name"
+
+[node name="ServerIPE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"127.0.0.1\""
+
+[node name="HS3" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerPortI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Port Number (Server Port)"
+
+[node name="ServerPortE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"4044\""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AddButtonServer" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add Server"
+
+[node name="Cancel" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
+script = ExtResource("2_f0gu2")
+blurry_node = NodePath("ColorRect")
+
+[node name="MainFrame" type="SplitContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_5lu6i")
 
-[node name="GuildList" type="PanelContainer" parent="MainFrame"]
+[node name="GuildList" type="PanelContainer" parent="CanvasLayer/MainFrame"]
 custom_minimum_size = Vector2(300, 648)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VSplitContainer" parent="MainFrame/GuildList"]
+[node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildList"]
 layout_mode = 2
 split_offset = 300
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainFrame/GuildList/VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ServerList" type="ItemList" parent="MainFrame/GuildList/VBoxContainer/MarginContainer2"]
+[node name="ServerList" type="ItemList" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+max_text_lines = 2
+text_overrun_behavior = 4
 item_count = 1
 fixed_icon_size = Vector2i(60, 60)
 item_0/text = "Godot Server #1"
 item_0/icon = ExtResource("3_h6mo5")
 
-[node name="MarginContainer" type="MarginContainer" parent="MainFrame/GuildList/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="MainFrame/GuildList/VBoxContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ServerInfo" type="RichTextLabel" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+[node name="ServerInfo" type="RichTextLabel" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="RefreshButton" type="Button" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="AddButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Refresh Server List"
+text = "Add Server"
 
-[node name="JoinButton" type="Button" parent="MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Join
-"
+text = "Join Selected"
 
-[node name="GuildInterface" type="SplitContainer" parent="MainFrame"]
+[node name="GuildInterface" type="SplitContainer" parent="CanvasLayer/MainFrame"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Background" type="PanelContainer" parent="MainFrame/GuildInterface"]
+[node name="Background" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Container" type="MarginContainer" parent="MainFrame/GuildInterface/Background"]
+[node name="Container" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ChannelElements" type="VBoxContainer" parent="MainFrame/GuildInterface/Background/Container"]
+[node name="ChannelElements" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container"]
 layout_mode = 2
 
-[node name="ChannelTitle" type="Label" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="ChannelTitle" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Channel - Global Chat"
 label_settings = SubResource("LabelSettings_3kbok")
 
-[node name="HSeparator" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ChannelChat" type="VBoxContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer"]
+[node name="ChannelChat" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+[node name="Control" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
 layout_mode = 2
 
-[node name="Control2" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+[node name="Control2" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
 layout_mode = 2
 
-[node name="Control3" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+[node name="Control3" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
 layout_mode = 2
 
-[node name="Control4" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
+[node name="Control4" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer/ChannelChat" instance=ExtResource("4_h6mo5")]
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
 layout_mode = 2
 
-[node name="UserInput" type="HBoxContainer" parent="MainFrame/GuildInterface/Background/Container/ChannelElements"]
+[node name="UserInput" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 
-[node name="AddFile" type="TextureButton" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+[node name="AddFile" type="TextureButton" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_vertical = 8
@@ -158,7 +246,7 @@ texture_disabled = SubResource("CanvasTexture_4cmua")
 texture_focused = ExtResource("1_hmsvi")
 stretch_mode = 0
 
-[node name="ChatInput" type="LineEdit" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+[node name="ChatInput" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -166,7 +254,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 placeholder_text = "Write something here..."
 
-[node name="Emoji" type="TextureButton" parent="MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+[node name="Emoji" type="TextureButton" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_vertical = 8
@@ -177,9 +265,21 @@ texture_disabled = ExtResource("2_lihdk")
 texture_focused = ExtResource("2_lihdk")
 stretch_mode = 0
 
-[node name="Panel2" type="PanelContainer" parent="MainFrame/GuildInterface"]
+[node name="Panel2" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
 custom_minimum_size = Vector2(300, 648)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainFrame/GuildInterface/Panel2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Panel2"]
 layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_qxt4k")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer/AddButton" to="." method="_on_add_server_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer/JoinButton" to="." method="_on_join_server_pressed"]
