@@ -11,7 +11,7 @@ shader_parameter/mix_percentage = 0.0
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("blurry_node")]
 script = ExtResource("1_3475y")
 blurry_node = NodePath("ColorRect")
-blurry_value = 20.0
+blurry_value = 0.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_pb7pg")

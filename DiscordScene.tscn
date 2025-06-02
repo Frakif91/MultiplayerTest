@@ -71,7 +71,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Server Name (option)"
 
-[node name="ServerNameE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="P_ServerNameE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "i.e : \"Wonder Land\""
 
@@ -82,7 +82,7 @@ layout_mode = 2
 layout_mode = 2
 text = "IP Adress / Host Name"
 
-[node name="ServerIPE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="P_ServerIPE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "i.e : \"127.0.0.1\""
 
@@ -93,7 +93,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Port Number (Server Port)"
 
-[node name="ServerPortE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="P_ServerPortE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "i.e : \"4044\""
 
@@ -101,12 +101,12 @@ placeholder_text = "i.e : \"4044\""
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AddButtonServer" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+[node name="Popup_Add" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Add Server"
 
-[node name="Cancel" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+[node name="Popup_Cancel" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
@@ -114,6 +114,7 @@ text = "Cancel"
 [node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
 script = ExtResource("2_f0gu2")
 blurry_node = NodePath("ColorRect")
+blurry_value = 0.0
 
 [node name="MainFrame" type="SplitContainer" parent="CanvasLayer"]
 anchors_preset = 15

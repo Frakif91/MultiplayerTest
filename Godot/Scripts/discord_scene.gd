@@ -15,10 +15,10 @@ signal popup_request_status_changed(status : POPUP_STATUS)
 enum POPUP_STATUS {POPUP_ACCEPT, POPUP_DECLINED, POPUP_CLOSED}
 
 func _ready() -> void:
-    $"PopupPanel".close_requested.connect(_on_popup_close)
-    $"PopupPanel/VBoxContainer/HBoxContainer/AddButtonServer".pressed.connect(func(): popup_request_status_changed.emit(POPUP_STATUS.POPUP_ACCEPT); $"PopupPanel".hide())
-    $"PopupPanel/VBoxContainer/HBoxContainer/Cancel".pressed.connect(func(): popup_request_status_changed.emit(POPUP_STATUS.POPUP_DECLINED); $"PopupPanel".hide())
+	$"PopupPanel".close_requested.connect(_on_popup_close)
+	$"PopupPanel/VBoxContainer/HBoxContainer/AddButtonServer".pressed.connect(func(): popup_request_status_changed.emit(POPUP_STATUS.POPUP_ACCEPT); $"PopupPanel".hide())
+	$"PopupPanel/VBoxContainer/HBoxContainer/Cancel".pressed.connect(func(): popup_request_status_changed.emit(POPUP_STATUS.POPUP_DECLINED); $"PopupPanel".hide())
 
 func _on_popup_close():
-    $"PopupPanel".hide()
-    emit_signal("popup_request_status_changed", POPUP_STATUS.POPUP_CLOSED)
+	$"PopupPanel".hide()
+	emit_signal("popup_request_status_changed", POPUP_STATUS.POPUP_CLOSED)
