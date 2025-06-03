@@ -18,6 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 Globals="*res://Godot/Scripts/Globals.gd"
+Networking="*res://Godot/Scripts/NetworkUtilities.gd"
+
+[display]
+
+window/per_pixel_transparency/allowed=true
 
 [input]
 

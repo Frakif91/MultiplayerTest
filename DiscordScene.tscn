@@ -1,13 +1,19 @@
-[gd_scene load_steps=13 format=3 uid="uid://d33fyaogwc2o2"]
+[gd_scene load_steps=14 format=3 uid="uid://d33fyaogwc2o2"]
 
 [ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://Godot/Scripts/discord_scene.gd" id="1_4cmua"]
 [ext_resource type="Theme" uid="uid://hcxydqie4qt7" path="res://Discord_Theme.tres" id="1_5lu6i"]
 [ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/Add.svg" id="1_hmsvi"]
 [ext_resource type="Script" uid="uid://bspj848irntc5" path="res://Godot/Scripts/BlurryEffect.gd" id="2_f0gu2"]
 [ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/Check.svg" id="2_lihdk"]
-[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://icon.svg" id="3_h6mo5"]
 [ext_resource type="PackedScene" uid="uid://dto7bfu4j1ahq" path="res://Godot/Scenes/DiscordChatMessage.tscn" id="4_h6mo5"]
 [ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://blur.gdshader" id="8_jhxtx"]
+
+[sub_resource type="SystemFont" id="SystemFont_f0gu2"]
+font_names = PackedStringArray("Nirmala UI")
+font_weight = 999
+
+[sub_resource type="Theme" id="Theme_jhxtx"]
+Label/fonts/font = SubResource("SystemFont_f0gu2")
 
 [sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
 font_size = 32
@@ -22,7 +28,7 @@ specular_shininess = 0.7
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qxt4k"]
 shader = ExtResource("8_jhxtx")
-shader_parameter/strength = 1.419
+shader_parameter/strength = 0.0
 shader_parameter/mix_percentage = 0.0
 
 [node name="App" type="Control"]
@@ -32,12 +38,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_jhxtx")
 script = ExtResource("1_4cmua")
 
 [node name="PopupPanel" type="PopupPanel" parent="."]
 title = "Add a Server"
 initial_position = 5
 size = Vector2i(350, 350)
+visible = true
 borderless = false
 always_on_top = true
 
@@ -131,6 +139,9 @@ layout_mode = 2
 [node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildList"]
 layout_mode = 2
 split_offset = 300
+drag_area_margin_begin = 100
+drag_area_margin_end = 450
+drag_area_highlight_in_editor = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
 layout_mode = 2
@@ -144,10 +155,7 @@ unique_name_in_owner = true
 layout_mode = 2
 max_text_lines = 2
 text_overrun_behavior = 4
-item_count = 1
 fixed_icon_size = Vector2i(60, 60)
-item_0/text = "Godot Server #1"
-item_0/icon = ExtResource("3_h6mo5")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
 layout_mode = 2
@@ -159,22 +167,42 @@ theme_override_constants/margin_bottom = 10
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ServerInfo" type="RichTextLabel" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
-unique_name_in_owner = true
+[node name="VSplitContainer" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerInfo" type="RichTextLabel" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+bbcode_enabled = true
+text = "[color=dark_gray] No server info to display. [/color]"
+selection_enabled = true
+
+[node name="Button" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="AddButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="AddButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Add Server"
 
-[node name="JoinButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer"]
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -282,5 +310,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="pressed" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer/AddButton" to="." method="_on_add_server_pressed"]
-[connection signal="pressed" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/HBoxContainer/JoinButton" to="." method="_on_join_server_pressed"]
+[connection signal="focus_exited" from="PopupPanel" to="." method="_on_popup_close" binds= [2]]
+[connection signal="empty_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_empty_clicked"]
+[connection signal="item_activated" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_server_double_clicked"]
+[connection signal="item_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_item_clicked"]
+[connection signal="meta_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer/ServerInfo" to="." method="_on_server_info_meta_clicked"]

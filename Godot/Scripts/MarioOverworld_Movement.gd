@@ -39,10 +39,9 @@ var player_name : String :
 		player_name = value
 		if player_name_label:
 			player_name_label.text = value
-			player_name_label.text = value
 			$Label3D.text = value
 		else:
-			set_deferred(&"player_name",value)
+			player_name_label.ready.connect(func(): player_name_label.text = value)
 
 signal touched_floor
 
@@ -97,6 +96,7 @@ func _process(_delta):
 		await animation_process()
 
 func _physics_process(delta):
+
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta

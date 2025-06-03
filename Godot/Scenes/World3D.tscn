@@ -47,7 +47,6 @@ subdivide_depth = 200
 
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("ip_text", "port_text", "join_button", "host_button", "disconnect_button", "server_name_text", "server_info_text", "player_list", "multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
 script = ExtResource("1_joi3e")
-print_instance_name = null
 ip_text = NodePath("ENet_UI/IP")
 port_text = NodePath("ENet_UI/Port")
 join_button = NodePath("ENet_UI/VBoxContainer/Join_Button")
