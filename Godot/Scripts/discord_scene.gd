@@ -65,8 +65,6 @@ func _on_server_list_server_double_clicked(index: int) -> void:
 
 func _on_server_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	var server_info : Dictionary = server_list.get_item_metadata(index)
-	
-
 	## If the server isn't in the list of available servers, Ask the server's information
 	if server_info.has("server_ip") and not Networking.server_responses.has(server_info["server_ip"]):
 		%ServerInfo.set_text("[color=dark_gray] Server is being interrogated... [/color]")
@@ -83,7 +81,7 @@ func _on_server_list_item_clicked(index: int, at_position: Vector2, mouse_button
 	%ServerInfo.clear()
 	for key in server_info:
 		#%ServerInfo.push_bold()
-		%ServerInfo.append_text("[b]" +key + " :[/b] ")
+		%ServerInfo.append_text("[b]" + key.capitalize() + " :[/b] ")
 		%ServerInfo.append_text(str(server_info[key]))
 		%ServerInfo.newline()
 
