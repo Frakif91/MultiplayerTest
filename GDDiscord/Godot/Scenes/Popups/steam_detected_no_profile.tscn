@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b6yfnrkd6xyme"]
+
+[node name="SteamDetected_NoProfile" type="ConfirmationDialog"]
+initial_position = 2
+size = Vector2i(391, 158)
+visible = true
+unresizable = true
+borderless = true
+popup_window = true
+ok_button_text = "Use my Steam account"
+dialog_text = "You seem to have no account linked yet
+but Steam seems open on your computer.
+
+Create an Account using Steam ?"
+dialog_autowrap = true
+cancel_button_text = "No, let me create one"

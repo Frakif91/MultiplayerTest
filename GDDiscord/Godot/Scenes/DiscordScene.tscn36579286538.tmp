@@ -1,0 +1,275 @@
+[gd_scene load_steps=21 format=3 uid="uid://d33fyaogwc2o2"]
+
+[ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://GDDiscord/Godot/Scripts/discord_scene.gd" id="1_8i01x"]
+[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://GDDiscord/Godot/Scripts/BlurryEffect.gd" id="2_a6ige"]
+[ext_resource type="PackedScene" uid="uid://l57gwx43khf" path="res://GDDiscord/Godot/Scenes/Popups/add_server.tscn" id="2_ddotw"]
+[ext_resource type="PackedScene" uid="uid://borvfpk87lvll" path="res://GDDiscord/Godot/Scenes/Popups/error_message.tscn" id="3_71kmf"]
+[ext_resource type="Theme" uid="uid://hcxydqie4qt7" path="res://GDDiscord/Discord_Theme.tres" id="3_bkeay"]
+[ext_resource type="Script" uid="uid://ybl75s5bgp2n" path="res://GDDiscord/Godot/Scripts/Networking/add_server.gd" id="3_f02ji"]
+[ext_resource type="FontFile" uid="uid://dl7or6se6bxr7" path="res://GDDiscord/Assets/Font/OpenSans-VariableFont_wdth,wght.ttf" id="4_ddotw"]
+[ext_resource type="Texture2D" uid="uid://bgndbf0mwwd3a" path="res://GDDiscord/Assets/Icons/Cancel_Circle.svg" id="5_71kmf"]
+[ext_resource type="Texture2D" uid="uid://y5m3d8nhergn" path="res://GDDiscord/Assets/Icons/Add_Circle.svg" id="6_13ow6"]
+[ext_resource type="Texture2D" uid="uid://k5slq351yr7s" path="res://GDDiscord/Assets/ServerIcons/todo.jpg" id="6_c0g5p"]
+[ext_resource type="PackedScene" uid="uid://buv14akurqjyc" path="res://GDDiscord/Godot/Scenes/DiscordScene/server_container.tscn" id="6_f02ji"]
+[ext_resource type="Texture2D" uid="uid://bm1na5o05qvcg" path="res://GDDiscord/Assets/Icons/Join.svg" id="7_lmpna"]
+[ext_resource type="Texture2D" uid="uid://frw1ioaogf5n" path="res://GDDiscord/Assets/Icons/Delete.svg" id="10_f02ji"]
+[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://GDDiscord/blur.gdshader" id="12_a10t4"]
+[ext_resource type="PackedScene" uid="uid://cio0obkwxr1ep" path="res://GDDiscord/Godot/Scenes/DiscordScene/general_ui.tscn" id="12_ekifu"]
+[ext_resource type="PackedScene" uid="uid://ckuaco0axqrm7" path="res://GDDiscord/Godot/Scenes/DiscordScene/friend_list.tscn" id="13_c0g5p"]
+[ext_resource type="PackedScene" uid="uid://dyvrb5rtnoxva" path="res://GDDiscord/Godot/Scenes/DiscordScene/server_creation.tscn" id="14_f02ji"]
+
+[sub_resource type="FontVariation" id="FontVariation_jhxtx"]
+base_font = ExtResource("4_ddotw")
+
+[sub_resource type="FontVariation" id="FontVariation_ey5hv"]
+base_font = ExtResource("4_ddotw")
+variation_embolden = 1.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxt4k"]
+shader = ExtResource("12_a10t4")
+shader_parameter/strength = 3.0
+shader_parameter/mix_percentage = 0.0
+
+[node name="App" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8i01x")
+scenes_files = null
+discord_message_packed_scene = null
+persona_status_colors = null
+
+[node name="AddServer" parent="." instance=ExtResource("2_ddotw")]
+visible = false
+script = ExtResource("3_f02ji")
+
+[node name="ErrorMessage" parent="." instance=ExtResource("3_71kmf")]
+oversampling_override = 1.0
+visible = false
+
+[node name="RemoveDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Are you sure ?"
+initial_position = 1
+size = Vector2i(382, 106)
+popup_window = true
+ok_button_text = "Remove"
+dialog_text = "Do you really want to remove 
+that server from the server list ?"
+dialog_autowrap = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
+script = ExtResource("2_a6ige")
+blurry_node = NodePath("ColorRect")
+blurry_value = 0.0
+
+[node name="MainFrame" type="SplitContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_bkeay")
+
+[node name="GuildList" type="PanelContainer" parent="CanvasLayer/MainFrame"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="VSep" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildList"]
+layout_mode = 2
+split_offset = 300
+drag_area_margin_begin = 10
+drag_area_margin_end = 10
+
+[node name="MC" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VSep"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VB" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FavoriteCollapse" type="FoldableContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB"]
+layout_mode = 2
+title = "Favorites (Personals) Servers"
+
+[node name="Favorites" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ServerContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse/Favorites" instance=ExtResource("6_f02ji")]
+layout_mode = 2
+
+[node name="FavoriteCollapse2" type="FoldableContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB"]
+layout_mode = 2
+title = "Favorites (Personals) Servers"
+
+[node name="Favorites" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2/Favorites"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Button" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2/Favorites/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2/Favorites/MarginContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2/Favorites/MarginContainer/Button/PanelContainer"]
+layout_mode = 2
+
+[node name="ServerOptions" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="AddButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/ServerOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add"
+icon = ExtResource("6_13ow6")
+expand_icon = true
+
+[node name="RemoveButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/ServerOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Remove"
+icon = ExtResource("10_f02ji")
+expand_icon = true
+
+[node name="ServerList" type="ItemList" parent="CanvasLayer/MainFrame/GuildList/VSep/MC"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+max_text_lines = 2
+text_overrun_behavior = 4
+item_count = 1
+fixed_icon_size = Vector2i(60, 60)
+item_0/text = "Local Server"
+item_0/icon = ExtResource("6_c0g5p")
+
+[node name="MC2" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VSep"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PC" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2"]
+layout_mode = 2
+
+[node name="VSC" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC"]
+layout_mode = 2
+
+[node name="MC" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerInfo" type="RichTextLabel" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC/MC"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_fonts/normal_font = SubResource("FontVariation_jhxtx")
+theme_override_fonts/bold_font = SubResource("FontVariation_ey5hv")
+bbcode_enabled = true
+text = "[color=dark_gray] No[b] server [/b]info to display. [/color]"
+selection_enabled = true
+
+[node name="VisibilityButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC/MC"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+icon = ExtResource("5_71kmf")
+expand_icon = true
+
+[node name="ServerActionLabel" type="Label" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC"]
+layout_mode = 2
+text = "Server Actions :"
+
+[node name="HB" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Secret" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Show"
+icon = ExtResource("7_lmpna")
+expand_icon = true
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC2/PC/VSC/HB"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join"
+icon = ExtResource("7_lmpna")
+expand_icon = true
+
+[node name="GuildInterface" type="SplitContainer" parent="CanvasLayer/MainFrame"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Background" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Container" parent="CanvasLayer/MainFrame/GuildInterface/Background" instance=ExtResource("12_ekifu")]
+layout_mode = 2
+
+[node name="PlayerlistAndHost" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost"]
+layout_mode = 2
+split_offset = 190
+
+[node name="FriendList" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer" instance=ExtResource("13_c0g5p")]
+layout_mode = 2
+
+[node name="ServerCreation" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer" instance=ExtResource("14_f02ji")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_qxt4k")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[editable path="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation"]

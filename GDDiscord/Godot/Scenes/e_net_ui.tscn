@@ -1,0 +1,122 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5eraco3gry2u"]
+
+[ext_resource type="Texture2D" uid="uid://dfl17gplv2lqd" path="res://GDDiscord/Assets/ServerIcons/jay.jpg" id="1_afw5d"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_mbbb5"]
+[ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://GDDiscord/Assets/Icons/Home.svg" id="2_n2sg5"]
+[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://GDDiscord/blur.gdshader" id="2_ol0eh"]
+[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://GDDiscord/Godot/Scripts/BlurryEffect.gd" id="3_bntdv"]
+[ext_resource type="PackedScene" uid="uid://dfs5ffwpy5ucq" path="res://GDDiscord/Godot/SettingsMenu/settings.tscn" id="6_ol0eh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y377j"]
+shader = ExtResource("2_ol0eh")
+shader_parameter/strength = 13.934
+shader_parameter/mix_percentage = 0.0
+
+[node name="ENet_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -0.00154321
+anchor_right = 1.0
+anchor_bottom = 0.998457
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_afw5d")
+metadata/_edit_use_anchors_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_y377j")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_bntdv")
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -226.0
+offset_top = -176.0
+offset_right = 226.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TAB" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/TAB"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer/Control/HBoxContainer/TAB/MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+
+[node name="User" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User"]
+layout_mode = 2
+
+[node name="PFP" type="TextureRect" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_mbbb5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerName" type="LineEdit" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "John Cena"
+placeholder_text = "Player Name"
+
+[node name="ServerInfo" type="Label" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer/VBoxContainer"]
+modulate = Color(0.68, 0.68, 0.68, 1)
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Mage Sorcerer LVL 0"
+
+[node name="Disconnect_Button" type="Button" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+icon = ExtResource("2_n2sg5")
+
+[node name="Settings" parent="." instance=ExtResource("6_ol0eh")]
+layout_mode = 1

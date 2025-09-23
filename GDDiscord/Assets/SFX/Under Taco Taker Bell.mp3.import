@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bt3jehpf0m7bp"
+path="res://.godot/imported/Under Taco Taker Bell.mp3-3f21b8721460cf5f3ba0840d7ec8d0f5.mp3str"
+
+[deps]
+
+source_file="res://GDDiscord/Assets/SFX/Under Taco Taker Bell.mp3"
+dest_files=["res://.godot/imported/Under Taco Taker Bell.mp3-3f21b8721460cf5f3ba0840d7ec8d0f5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

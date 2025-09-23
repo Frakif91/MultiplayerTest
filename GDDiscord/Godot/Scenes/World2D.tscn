@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://csxbnvwbb2eby"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cmany"]
+size = Vector2(1154, 65)
+
+[sub_resource type="Gradient" id="Gradient_ct5k0"]
+offsets = PackedFloat32Array(0, 0.172619, 0.375, 0.547619, 0.696429, 0.845238, 1)
+colors = PackedColorArray(1, 0, 0, 1, 0.87, 0.87, 0.0696, 1, 0, 1, 0.0833333, 1, 0, 0.966667, 1, 1, 0.0666666, 0, 1, 1, 0.9, 0, 1, 1, 1, 0, 0.0166664, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2dftf"]
+gradient = SubResource("Gradient_ct5k0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bcbcq"]
+size = Vector2(82, 682)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(576, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_cmany")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(-3.05176e-05, 0)
+scale = Vector2(18.0313, 1)
+texture = SubResource("GradientTexture2D_2dftf")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(0, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(0, -308)
+shape = SubResource("RectangleShape2D_bcbcq")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(0.751319, -308.048)
+rotation = 1.5708
+scale = Vector2(10.6505, 1.30264)
+texture = SubResource("GradientTexture2D_2dftf")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(1152, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(0, -308)
+shape = SubResource("RectangleShape2D_bcbcq")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+position = Vector2(0.751319, -308.048)
+rotation = 1.5708
+scale = Vector2(10.6505, 1.30264)
+texture = SubResource("GradientTexture2D_2dftf")

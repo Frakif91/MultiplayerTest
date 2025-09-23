@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://borvfpk87lvll"]
+
+[node name="ErrorMessage" type="PopupPanel"]
+auto_translate_mode = 1
+title = "Error !"
+initial_position = 5
+size = Vector2i(350, 350)
+visible = true
+borderless = false
+always_on_top = true
+extend_to_title = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 346.0
+offset_bottom = 346.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Uh, Oh ! An error occured !"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ErrorContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ErrorContent" type="RichTextLabel" parent="VBoxContainer/MarginContainer/VBoxContainer/ErrorContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "You fucking piece of shit"
+
+[node name="OptionsButtons" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Popup_Copy" type="Button" parent="VBoxContainer/OptionsButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Copy to Clipboard"
+
+[node name="Popup_Ok" type="Button" parent="VBoxContainer/OptionsButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ok"

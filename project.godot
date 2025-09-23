@@ -11,14 +11,19 @@ config_version=5
 [application]
 
 config/name="SteamMultiplayerTester"
-run/main_scene="uid://byqgf1jy436na"
-config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+run/main_scene="uid://d33fyaogwc2o2"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+config/icon="res://GDDiscord/icon.svg"
+game_id=""
+
+[audio]
+
+buses/default_bus_layout="res://GDDiscord/default_bus_layout.tres"
 
 [autoload]
 
-Globals="*res://Godot/Scripts/Globals.gd"
-Networking="*res://Godot/Scripts/NetworkUtilities.gd"
+Globals="*res://GDDiscord/Godot/Scripts/Globals.gd"
+Networking="*res://GDDiscord/Godot/Scripts/NetworkUtilities.gd"
 
 [display]
 
@@ -37,3 +42,8 @@ Jump={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[steam]
+
+initialization/app_id=480
+initialization/initialize_on_startup=true

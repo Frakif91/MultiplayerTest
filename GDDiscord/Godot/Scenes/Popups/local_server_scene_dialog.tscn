@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cvmooqmjtc1np"]
+
+[node name="FileDialog" type="FileDialog"]
+oversampling_override = 1.0
+title = "Select a scene you want to create your server too"
+position = Vector2i(0, 36)
+size = Vector2i(800, 500)
+visible = true
+mode_overrides_title = false
+file_mode = 0
+filters = PackedStringArray("*.tscn")
+hidden_files_toggle_enabled = false
+file_filter_toggle_enabled = false
+file_sort_options_enabled = false
+folder_creation_enabled = false

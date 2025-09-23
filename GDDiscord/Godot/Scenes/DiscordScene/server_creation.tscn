@@ -1,0 +1,311 @@
+[gd_scene load_steps=8 format=3 uid="uid://dyvrb5rtnoxva"]
+
+[ext_resource type="Texture2D" uid="uid://kqxblvn7g0wn" path="res://GDDiscord/Assets/Icons/flash_off_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="1_g1lyq"]
+[ext_resource type="Script" uid="uid://dqpnkw1pqiw1e" path="res://GDDiscord/Godot/Scripts/Networking/server_creation.gd" id="1_oejax"]
+[ext_resource type="Texture2D" uid="uid://c4khoge13uqy7" path="res://GDDiscord/Assets/Icons/Public.svg" id="2_cja41"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="5_oejax"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1bh46"]
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8i01x"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 100000
+corner_radius_top_right = 100000
+corner_radius_bottom_right = 100000
+corner_radius_bottom_left = 100000
+corner_detail = 16
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_c0g5p"]
+
+[node name="ServerCreation" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 365)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_oejax")
+
+[node name="BGP" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="BGS" type="MarginContainer" parent="BGP"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerCreation" type="VBoxContainer" parent="BGP/BGS"]
+layout_mode = 2
+
+[node name="Title" type="HBoxContainer" parent="BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/Title"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create your server"
+label_settings = SubResource("LabelSettings_1bh46")
+
+[node name="Status" type="Panel" parent="BGP/BGS/ServerCreation/Title"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_8i01x")
+
+[node name="HSeparator" type="HSeparator" parent="BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BGP/BGS/ServerCreation"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ServerContents" type="VBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Name" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name :"
+
+[node name="NameEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Name"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Great Server !"
+select_all_on_focus = true
+
+[node name="Description" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description :"
+
+[node name="DescEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Join my cool server"
+select_all_on_focus = true
+
+[node name="Port" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Port"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "This is the port that will be configured for players to join the Multiplayer Network (Here, that's the port they would join to join the game)"
+mouse_filter = 1
+text = "Port (?):"
+
+[node name="PortEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Port"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Default is 4046"
+
+[node name="PortUDP" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/PortUDP"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Port UDP (?):"
+
+[node name="PortUDPEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/PortUDP"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Default is 4044"
+
+[node name="Password" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Password"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Password :"
+
+[node name="PassEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Password"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "∅ = Disabled"
+max_length = 24
+editable = false
+virtual_keyboard_type = 6
+clear_button_enabled = true
+select_all_on_focus = true
+
+[node name="MaxPlayer" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/MaxPlayer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Max. Player count"
+
+[node name="MaxPlayerEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/MaxPlayer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "8"
+alignment = 2
+max_length = 2
+virtual_keyboard_type = 2
+drag_and_drop_selection_enabled = false
+
+[node name="Map" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Map"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Map"
+
+[node name="MapEdit" type="OptionButton" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Map"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+flat = true
+selected = 0
+item_count = 2
+popup/item_0/text = "koth_speedrun"
+popup/item_0/id = 0
+popup/item_1/text = "ctf_2fort"
+popup/item_1/id = 1
+
+[node name="FoldableContainer" type="FoldableContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+title = "Metadata"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer"]
+layout_mode = 2
+
+[node name="SteamDisc" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/SteamDisc"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Create a lobby and mark yourself as host. (Steam) Friends can see the lobby in their friends list."
+mouse_filter = 1
+text = "Steam Discovery (?)"
+
+[node name="SteamDiscEdit" type="CheckButton" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/SteamDisc"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+flat = true
+
+[node name="JoinableIP" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/JoinableIP"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "When creating a server, your public adress should be used to join your lobby, Here, it's used to tell Steam how to join your server (So not 127.0.0.1 nor localhost)"
+mouse_filter = 1
+text = "Public IP (?) "
+
+[node name="PublicIPEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/JoinableIP"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "192.168.10.24"
+
+[node name="JoinablePort" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/JoinablePort"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "When creating a server, your public adress should be used to join your lobby, Here, it's used to tell Steam how to join your server (So not 127.0.0.1 nor localhost)"
+mouse_filter = 1
+text = "Public Port (?) "
+
+[node name="PublicPortEdit" type="LineEdit" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/JoinablePort"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "30642"
+virtual_keyboard_type = 2
+
+[node name="Icon" type="HBoxContainer" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/Icon"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "Icone"
+
+[node name="SelectIcon" type="Button" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/Icon"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "Choose"
+icon_alignment = 2
+expand_icon = true
+
+[node name="IconEdit" type="TextureRect" parent="BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/Icon"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("5_oejax")
+expand_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ServerErrorLbl" type="Label" parent="BGP/BGS/ServerCreation"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 0.425788, 0.357085, 1)
+layout_mode = 2
+text = "Erreur : Mot de passe non défini"
+label_settings = SubResource("LabelSettings_c0g5p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ServerLocal" type="Button" parent="BGP/BGS/ServerCreation/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Local Host "
+icon = ExtResource("1_g1lyq")
+
+[node name="ServerCreateButton" type="Button" parent="BGP/BGS/ServerCreation/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create Server"
+icon = ExtResource("2_cja41")
+expand_icon = true
+
+[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerLocal" to="." method="_on_server_local_pressed"]
+[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerCreateButton" to="." method="_on_server_create_button_pressed"]

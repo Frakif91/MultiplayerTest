@@ -1,0 +1,83 @@
+[gd_scene load_steps=6 format=3 uid="uid://cio0obkwxr1ep"]
+
+[ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://GDDiscord/Assets/Icons/Add.svg" id="2_pk5qb"]
+[ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://GDDiscord/Assets/Icons/Check.svg" id="3_02qbj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
+font_size = 32
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lihdk"]
+diffuse_texture = ExtResource("2_pk5qb")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4cmua"]
+specular_texture = ExtResource("2_pk5qb")
+specular_color = Color(0.8, 0.8, 0.8, 1)
+specular_shininess = 0.7
+
+[node name="Container" type="MarginContainer"]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ChannelElements" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ChannelTitle" type="Label" parent="ChannelElements"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Channel - Global Chat"
+label_settings = SubResource("LabelSettings_3kbok")
+
+[node name="HSeparator" type="HSeparator" parent="ChannelElements"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ChannelElements"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChannelChat" type="VBoxContainer" parent="ChannelElements/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="ChannelElements"]
+layout_mode = 2
+
+[node name="UserInput" type="HBoxContainer" parent="ChannelElements"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="AddFile" type="TextureButton" parent="ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("2_pk5qb")
+texture_pressed = ExtResource("2_pk5qb")
+texture_hover = SubResource("CanvasTexture_lihdk")
+texture_disabled = SubResource("CanvasTexture_4cmua")
+texture_focused = ExtResource("2_pk5qb")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ChatInput" type="LineEdit" parent="ChannelElements/UserInput"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+placeholder_text = "Write something here..."
+keep_editing_on_text_submit = true
+
+[node name="Emoji" type="TextureButton" parent="ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("3_02qbj")
+texture_pressed = ExtResource("3_02qbj")
+texture_hover = ExtResource("3_02qbj")
+texture_disabled = ExtResource("3_02qbj")
+texture_focused = ExtResource("3_02qbj")
+ignore_texture_size = true
+stretch_mode = 0

@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://buv14akurqjyc"]
+
+[ext_resource type="Script" uid="uid://dpbw2ukupx8hp" path="res://GDDiscord/Godot/Scripts/Networking/server_container.gd" id="1_4be71"]
+[ext_resource type="Texture2D" uid="uid://b2rqfly14thll" path="res://GDDiscord/Assets/ServerIcons/cat.png" id="1_e2oiu"]
+[ext_resource type="FontFile" uid="uid://e058w2kxf1e0" path="res://GDDiscord/Assets/Font/Roboto-VariableFont_wdth,wght.ttf" id="2_4be71"]
+
+[sub_resource type="FontVariation" id="FontVariation_6bap7"]
+base_font = ExtResource("2_4be71")
+spacing_bottom = -5
+
+[sub_resource type="LabelSettings" id="LabelSettings_f02ji"]
+font = SubResource("FontVariation_6bap7")
+font_size = 11
+
+[sub_resource type="SystemFont" id="SystemFont_6bap7"]
+font_names = PackedStringArray("Ink Free")
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="FontVariation" id="FontVariation_1iplt"]
+base_font = SubResource("SystemFont_6bap7")
+
+[sub_resource type="LabelSettings" id="LabelSettings_q8of0"]
+font = SubResource("FontVariation_1iplt")
+font_size = 12
+
+[node name="ServerContainer" type="MarginContainer"]
+custom_minimum_size = Vector2(0, 60)
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_4be71")
+
+[node name="Button" type="Button" parent="."]
+clip_contents = true
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="ServerInfo" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HB" type="HBoxContainer" parent="MarginContainer/ServerInfo"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/ServerInfo/HB"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_e2oiu")
+expand_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ServerInfo/HB"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ServerInfo/HB/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="MarginContainer/ServerInfo/HB/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="MarginContainer/ServerInfo/HB/MarginContainer/VBoxContainer/Control"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 128.0
+offset_bottom = 14.3125
+size_flags_vertical = 0
+text = "localhost"
+label_settings = SubResource("LabelSettings_f02ji")
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/ServerInfo/HB/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Desc" type="Label" parent="MarginContainer/ServerInfo/HB/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Welcome to my local game "
+label_settings = SubResource("LabelSettings_q8of0")

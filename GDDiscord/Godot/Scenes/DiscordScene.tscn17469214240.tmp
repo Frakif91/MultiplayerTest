@@ -1,0 +1,535 @@
+[gd_scene load_steps=22 format=3 uid="uid://d33fyaogwc2o2"]
+
+[ext_resource type="Script" uid="uid://ty0aoqoifq36" path="res://Godot/Scripts/discord_scene.gd" id="1_8i01x"]
+[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://Godot/Scripts/BlurryEffect.gd" id="2_a6ige"]
+[ext_resource type="Theme" uid="uid://hcxydqie4qt7" path="res://Discord_Theme.tres" id="3_bkeay"]
+[ext_resource type="FontFile" uid="uid://dl7or6se6bxr7" path="res://Assets/Font/OpenSans-VariableFont_wdth,wght.ttf" id="4_ddotw"]
+[ext_resource type="Texture2D" uid="uid://bgndbf0mwwd3a" path="res://Assets/Icons/Cancel_Circle.svg" id="5_71kmf"]
+[ext_resource type="Texture2D" uid="uid://y5m3d8nhergn" path="res://Assets/Icons/Add_Circle.svg" id="6_13ow6"]
+[ext_resource type="Texture2D" uid="uid://bm1na5o05qvcg" path="res://Assets/Icons/Join.svg" id="7_lmpna"]
+[ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://Assets/Icons/Add.svg" id="8_pjk6j"]
+[ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://Assets/Icons/Check.svg" id="9_j7xmo"]
+[ext_resource type="Texture2D" uid="uid://kqxblvn7g0wn" path="res://Godot/Scripts/flash_off_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="10_jmpjf"]
+[ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://Assets/Icons/Home.svg" id="11_wc4nu"]
+[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://blur.gdshader" id="12_a10t4"]
+
+[sub_resource type="SystemFont" id="SystemFont_f0gu2"]
+font_names = PackedStringArray("Nirmala UI")
+font_weight = 999
+
+[sub_resource type="Theme" id="Theme_jhxtx"]
+Label/fonts/font = SubResource("SystemFont_f0gu2")
+
+[sub_resource type="FontVariation" id="FontVariation_jhxtx"]
+base_font = ExtResource("4_ddotw")
+
+[sub_resource type="FontVariation" id="FontVariation_ey5hv"]
+base_font = ExtResource("4_ddotw")
+variation_embolden = 1.3
+
+[sub_resource type="LabelSettings" id="LabelSettings_3kbok"]
+font_size = 32
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lihdk"]
+diffuse_texture = ExtResource("8_pjk6j")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4cmua"]
+specular_texture = ExtResource("8_pjk6j")
+specular_color = Color(0.8, 0.8, 0.8, 1)
+specular_shininess = 0.7
+
+[sub_resource type="LabelSettings" id="LabelSettings_1bh46"]
+font_size = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxt4k"]
+shader = ExtResource("12_a10t4")
+shader_parameter/strength = 0.0
+shader_parameter/mix_percentage = 0.0
+
+[node name="App" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jhxtx")
+script = ExtResource("1_8i01x")
+discord_message_packed_scene = null
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+title = "Add a Server"
+initial_position = 5
+size = Vector2i(350, 350)
+borderless = false
+always_on_top = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 346.0
+offset_bottom = 346.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Information" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add a server that will be listed in your
+server list with information to connect."
+horizontal_alignment = 1
+text_overrun_behavior = 4
+
+[node name="HS1" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerNameI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server Name (option)"
+
+[node name="P_ServerNameE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"Wonder Land\""
+
+[node name="HS2" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerIPI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "IP Adress / Host Name"
+
+[node name="P_ServerIPE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"127.0.0.1\""
+
+[node name="HS3" type="HSeparator" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerPortI" type="Label" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Port Number (Server Port)"
+
+[node name="P_ServerPortE" type="LineEdit" parent="PopupPanel/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "i.e : \"4044\""
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Popup_Add" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add Server"
+
+[node name="Popup_Cancel" type="Button" parent="PopupPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
+script = ExtResource("2_a6ige")
+blurry_node = NodePath("ColorRect")
+blurry_value = 0.0
+
+[node name="MainFrame" type="SplitContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_bkeay")
+
+[node name="GuildList" type="PanelContainer" parent="CanvasLayer/MainFrame"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildList"]
+layout_mode = 2
+split_offset = 300
+drag_area_margin_begin = 10
+drag_area_margin_end = 10
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerList" type="ItemList" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+max_text_lines = 2
+text_overrun_behavior = 4
+fixed_icon_size = Vector2i(60, 60)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VSplitContainer" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerInfo" type="RichTextLabel" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 2
+theme_override_fonts/normal_font = SubResource("FontVariation_jhxtx")
+theme_override_fonts/bold_font = SubResource("FontVariation_ey5hv")
+bbcode_enabled = true
+text = "[color=dark_gray] No[b] server [/b]info to display. [/color]"
+selection_enabled = true
+
+[node name="Button" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+icon = ExtResource("5_71kmf")
+
+[node name="Button" type="Label" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+text = "Server Actions :"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="AddButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add"
+icon = ExtResource("6_13ow6")
+
+[node name="RemoveButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Remove"
+icon = ExtResource("5_71kmf")
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join"
+icon = ExtResource("7_lmpna")
+
+[node name="GuildInterface" type="SplitContainer" parent="CanvasLayer/MainFrame"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Background" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Container" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ChannelElements" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container"]
+layout_mode = 2
+
+[node name="ChannelTitle" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Channel - Global Chat"
+label_settings = SubResource("LabelSettings_3kbok")
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChannelChat" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
+layout_mode = 2
+
+[node name="UserInput" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="AddFile" type="TextureButton" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("8_pjk6j")
+texture_pressed = ExtResource("8_pjk6j")
+texture_hover = SubResource("CanvasTexture_lihdk")
+texture_disabled = SubResource("CanvasTexture_4cmua")
+texture_focused = ExtResource("8_pjk6j")
+stretch_mode = 0
+
+[node name="ChatInput" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+placeholder_text = "Write something here..."
+
+[node name="Emoji" type="TextureButton" parent="CanvasLayer/MainFrame/GuildInterface/Background/Container/ChannelElements/UserInput"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_vertical = 8
+texture_normal = ExtResource("9_j7xmo")
+texture_pressed = ExtResource("9_j7xmo")
+texture_hover = ExtResource("9_j7xmo")
+texture_disabled = ExtResource("9_j7xmo")
+texture_focused = ExtResource("9_j7xmo")
+stretch_mode = 0
+
+[node name="PlayerlistAndHost" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
+custom_minimum_size = Vector2(300, 648)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost"]
+layout_mode = 2
+split_offset = 280
+
+[node name="BGS" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BGP" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS"]
+layout_mode = 2
+
+[node name="BGS" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS/BGP"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Separator" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS/BGP"]
+layout_mode = 2
+
+[node name="PlayerListLabel" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS/BGP/Separator"]
+layout_mode = 2
+text = "Player List :"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS/BGP/Separator"]
+layout_mode = 2
+
+[node name="PlayerList" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS/BGP/Separator/MarginContainer"]
+layout_mode = 2
+
+[node name="BGS2" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BGP" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2"]
+layout_mode = 2
+
+[node name="BGS" type="MarginContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ServerCreation" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+layout_mode = 2
+text = "Create your server"
+label_settings = SubResource("LabelSettings_1bh46")
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ServerContents" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Name" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name :"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Name"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Great Server !"
+
+[node name="Description" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description :"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Join my cool server"
+
+[node name="Description2" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Description :"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Description2"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "Default is 4046"
+
+[node name="Password" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Password"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Password :"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Password"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+placeholder_text = "∅ = Disabled"
+virtual_keyboard_type = 6
+clear_button_enabled = true
+
+[node name="Gamemode" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Gamemode"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Gamemode :"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Gamemode"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+selected = 0
+item_count = 5
+popup/item_0/text = "Survival"
+popup/item_0/id = 0
+popup/item_1/text = "Capture The Flag"
+popup/item_1/id = 1
+popup/item_2/text = "King of the Hill"
+popup/item_2/id = 2
+popup/item_3/text = "Capture Points"
+popup/item_3/id = 3
+popup/item_4/text = "Plaza"
+popup/item_4/id = 4
+
+[node name="Map" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Map"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Map"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Map"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+flat = true
+selected = 0
+item_count = 2
+popup/item_0/text = "koth_speedrun"
+popup/item_0/id = 0
+popup/item_1/text = "ctf_2fort"
+popup/item_1/id = 1
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ServerErrorLbl" type="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+unique_name_in_owner = true
+self_modulate = Color(1, 0.425788, 0.357085, 1)
+layout_mode = 2
+text = "Erreur : Mot de passe non défini"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation"]
+layout_mode = 2
+
+[node name="ServerAbort" type="Button" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Abort"
+icon = ExtResource("10_jmpjf")
+
+[node name="ServerCreateButton" type="Button" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create Server"
+icon = ExtResource("11_wc4nu")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_qxt4k")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="focus_exited" from="PopupPanel" to="." method="_on_popup_close" binds= [2]]
+[connection signal="empty_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_empty_clicked"]
+[connection signal="item_activated" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_server_double_clicked"]
+[connection signal="item_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer2/ServerList" to="." method="_on_server_list_item_clicked"]
+[connection signal="meta_clicked" from="CanvasLayer/MainFrame/GuildList/VBoxContainer/MarginContainer/PanelContainer/VSplitContainer/MarginContainer/ServerInfo" to="." method="_on_server_info_meta_clicked"]
+[connection signal="pressed" from="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/HBoxContainer/ServerAbort" to="." method="_on_server_abort_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/BGS2/BGP/BGS/ServerCreation/HBoxContainer/ServerCreateButton" to="." method="_on_create_server_button_pressed"]
