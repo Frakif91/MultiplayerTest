@@ -5,11 +5,11 @@ class_name DiscordMenu extends Control
 # * - Creation d'un serveur (custom)
 # X - Suppression d'un serveur
 # * - Censurer des informations sur le serveur (si bouton censuré presser)
-# X - Rejoindre un serveur (ENET)
+# V - Rejoindre un serveur (ENET)
 # X - Connect to UDP Server (Chat + Liste Joueur)
-# X - Stocker des information sur le disque sur le joeur (liste des serveur, pseudo, etc...)
+# V - Stocker des information sur le disque sur le joueur (liste des serveur, pseudo, etc...)
 # X - Intégration d'image (de joueur = avatar)
-# X - Intégration de Steam (pseudo + Image (++ Serveur))
+# * - Intégration de Steam (pseudo + Image (++ Serveur))
 # X - Envoi de message (ENET)
 # X - Recepteur de message (ENET)
 # X - Envoi de message (UDP)
@@ -34,8 +34,10 @@ class_name DiscordMenu extends Control
 
 #@export_tool_button("Prints Hello") var hello = func(): print("Hello")
 @export var discord_message_packed_scene : PackedScene = preload("res://GDDiscord/Godot/Scenes/DiscordChatMessage.tscn")
+var current_selected_server : DServerContainer = null
 
 @onready var server_storage_inst : DServerList = DServerList.new()
+
 
 func _ready() -> void:
 	#$"AddServer".close_requested.connect(_on_addserver_popup_close.bind(POPUP_STATUS.POPUP_CLOSED))
@@ -97,7 +99,7 @@ func _add_server_to_server_list(server_name : String, server_ip : String, server
 
 func add_server_to_server_list(server_info : DServer):
 	var server_c : DServerContainer = preload("uid://buv14akurqjyc").instantiate()
-	server_c.callback = func(): try_join_server.bind(server_info)
+	server_c.callback = (func(): current_selected_server = self)
 	%Favorites.add_child(server_c)
 	server_c.load_profile(server_info)
 	server_storage_inst.server_list.merge({server_info.name : server_info})
@@ -111,7 +113,9 @@ func try_join_server(server_info : Dictionary):
 		get_tree().change_scene_to_file(server_info["server_scene"])
 
 func _on_server_remove_pressed():
-	pass
+	if current_selected_server:
+		current_selected_server.queue_free()
+		current_selected_server = null
 
 func _on_addserver_popup_show():
 	$"AddServer".show()
@@ -152,20 +156,18 @@ func _on_server_info_meta_clicked(meta: Variant) -> void:
 		OS.shell_open(result.get_string())
 		return
 
-func _on_server_list_item_clicked(index: int, _at_position: Vector2, _mouse_button_index: int) -> void:
-	var server_info : Dictionary = server_list.get_item_metadata(index)
+func _on_server_list_item_clicked(server_c : DServerContainer) -> void:
+	var choosen_server : Dictionary = server_c.server_info.dserver_to_data()
 	## If the server isn't in the list of available servers, Ask the server's information
-	if server_info.has("server_ip") and not Networking.server_responses.has(server_info["server_ip"]):
+	if choosen_server.has("server_ip") and not Networking.server_responses.has(choosen_server["server_ip"]):
 		%ServerInfo.set_text("[color=orange] Server is being interrogated... [/color]")
-		var status = await Networking.ask_availability(server_info["server_ip"], server_info["server_port"])
+		var status = await Networking.ask_availability(choosen_server["server_ip"], choosen_server["server_port"])
 		if status == ERR_UNAVAILABLE:
 			%ServerInfo.set_text("[color=dark_gray] Server is not available. [/color]")
 			return
-		if Networking.server_responses.has(server_info["server_ip"]):
-			server_info.merge(Networking.server_responses[server_info["server_ip"]])
-			server_list.set_item_metadata(index, server_info)
-			server_list.set_item_custom_fg_color(index, Color(0.2, 8.0, 0.2))
-			server_list.set_item_disabled(index, false)
+		if Networking.server_responses.has(choosen_server["server_ip"]):
+			server_c.server_info = server_c.server_info.data_to_dserver(Networking.server_responses[choosen_server["server_ip"]])
+			server_c.server_info.server_confirmed = true	
 	
 	%ServerInfo.clear()
 	for key in server_info:

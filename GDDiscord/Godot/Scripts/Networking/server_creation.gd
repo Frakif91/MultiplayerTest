@@ -2,7 +2,6 @@ class_name ServerCreation extends MarginContainer
 
 signal server_created(server_info : Dictionary)
 
-
 @onready var name_edit : LineEdit = %NameEdit
 @onready var desc_edit : LineEdit = %DescEdit
 @onready var pass_edit : LineEdit = %PassEdit
@@ -20,12 +19,6 @@ func _ready() -> void:
 
 func _process(delta):
 	%ServerCreateButton.disabled = not check_server_info_valid()
-
-func _on_server_create_button_pressed() -> void:
-	pass # Replace with function body.
-
-func _on_server_local_pressed() -> void:
-	pass # Replace with function body.
 
 func check_server_info_valid() -> bool:
 	if name_edit.text.length() < 3:
@@ -82,7 +75,6 @@ func _on_local_server_button_pressed() -> void:
 
 
 func _on_create_server_button_pressed() -> void:
-
 	if not check_server_info_valid():
 		return
 

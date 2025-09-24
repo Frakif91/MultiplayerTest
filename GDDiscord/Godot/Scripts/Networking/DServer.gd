@@ -16,7 +16,7 @@ var server_confirmed := false
 var server_data : Dictionary = {}
 var server_icon_data : Image
 
-func dserver_to_data(dserv : DServer):
+func dserver_to_data(dserv : DServer = self):
     return {
         "status" : "UNKNOWN",
         "server_name" : dserv.name,
@@ -33,7 +33,7 @@ func dserver_to_data(dserv : DServer):
         "server_public_port" : dserv.server_public_port
     }
 # Data is server_info of course
-func data_to_dserver(data : Dictionary):
+static func data_to_dserver(data : Dictionary) -> DServer:
     var dserv = DServer.new()
 
     dserv.name = data["server_name"]
@@ -50,4 +50,3 @@ func data_to_dserver(data : Dictionary):
     dserv.server_public_port = data["server_public_port"]
 
     return dserv
-

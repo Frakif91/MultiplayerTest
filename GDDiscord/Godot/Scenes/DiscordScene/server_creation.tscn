@@ -307,5 +307,5 @@ text = "Create Server"
 icon = ExtResource("2_cja41")
 expand_icon = true
 
-[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerLocal" to="." method="_on_server_local_pressed"]
-[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerCreateButton" to="." method="_on_server_create_button_pressed"]
+[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerLocal" to="." method="_on_local_server_button_pressed"]
+[connection signal="pressed" from="BGP/BGS/ServerCreation/HBoxContainer/ServerCreateButton" to="." method="_on_create_server_button_pressed"]

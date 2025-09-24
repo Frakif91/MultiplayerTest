@@ -87,6 +87,12 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
+[node name="ServerListEmptyField" type="Button" parent="CanvasLayer/MainFrame/GuildList/VSep/MC"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+flat = true
+
 [node name="VB" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC"]
 layout_mode = 2
 
@@ -112,7 +118,7 @@ layout_mode = 2
 
 [node name="FavoriteCollapse2" type="FoldableContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB"]
 layout_mode = 2
-title = "Favorites (Personals) Servers"
+title = "Common Ones"
 
 [node name="Favorites" type="VBoxContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse2"]
 layout_mode = 2

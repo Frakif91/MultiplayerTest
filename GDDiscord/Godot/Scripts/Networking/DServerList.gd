@@ -16,7 +16,8 @@ func store_servers_profiles() -> void:
 		push_error("Failed to write file " + server_storage_path + " : " + error_string(FileAccess.get_open_error()))
 	file.close()
 
-func retrieve_servers_profiles() -> Dictionary[String, DServer]:
+func retrieve_servers_profiles(): #-> Dictionary[String, DServer]:
+	if not FileAccess.file_exists(server_storage_path): return
 	var file = FileAccess.open(server_storage_path, FileAccess.ModeFlags.READ)
 	if file:
 		var rv = file.get_var()
