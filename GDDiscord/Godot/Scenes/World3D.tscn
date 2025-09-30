@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://c5eraco3gry2u" path="res://GDDiscord/Godot/Scenes/e_net_ui.tscn" id="2_dc1xy"]
 [ext_resource type="PackedScene" uid="uid://bl3ff7ub73dw1" path="res://GDDiscord/Godot/Scenes/disconnect_particle.tscn" id="2_joi3e"]
 [ext_resource type="AudioStream" uid="uid://b5q3h34e2qb4n" path="res://GDDiscord/Assets/SFX/SE_BTL_DEADE.wav" id="4_7xn8j"]
-[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://GDDiscord/Godot/Scripts/BlurryEffect.gd" id="5_7jlx5"]
 [ext_resource type="AudioStream" uid="uid://bt3jehpf0m7bp" path="res://GDDiscord/Assets/SFX/Under Taco Taker Bell.mp3" id="5_g575m"]
 [ext_resource type="AudioStream" uid="uid://bl61pdjanca2g" path="res://GDDiscord/Assets/SFX/SE_BTL_1UP.wav" id="6_007nr"]
 
@@ -28,12 +27,12 @@ frequency = 0.0514
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2vx13"]
 width = 2024
 height = 2024
-seamless = true
-seamless_blend_skirt = 0.2
-as_normal_map = true
-bump_strength = 5.0
-color_ramp = SubResource("Gradient_j7kei")
 noise = SubResource("FastNoiseLite_lkq30")
+color_ramp = SubResource("Gradient_j7kei")
+seamless = true
+as_normal_map = true
+seamless_blend_skirt = 0.2
+bump_strength = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgt84"]
 albedo_texture = SubResource("NoiseTexture2D_2vx13")
@@ -45,6 +44,11 @@ subdivide_width = 200
 subdivide_depth = 200
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rby8v"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2paup"]
+properties/0/path = NodePath(".:players")
+properties/0/spawn = false
+properties/0/replication_mode = 1
 
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
 script = ExtResource("1_joi3e")
@@ -77,13 +81,6 @@ spawn_path = NodePath("../Spawnpoint")
 
 [node name="ENet_UI" parent="." instance=ExtResource("2_dc1xy")]
 
-[node name="CanvasLayer" parent="ENet_UI" index="1" node_paths=PackedStringArray("blurry_node")]
-script = ExtResource("5_7jlx5")
-blurry_node = NodePath("ColorRect")
-
-[node name="ColorRect" parent="ENet_UI/CanvasLayer" index="0"]
-script = null
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.93807, 0.346445, 0, -0.346445, 0.93807, 0, 9.70044, 10.9965)
 
@@ -100,4 +97,8 @@ volume_db = -5.0
 stream = ExtResource("6_007nr")
 volume_db = -5.0
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_2paup")
+
 [editable path="ENet_UI"]
+[editable path="ENet_UI/CanvasLayer"]

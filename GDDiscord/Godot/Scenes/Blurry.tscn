@@ -5,7 +5,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pb7pg"]
 shader = ExtResource("1_8f7ih")
-shader_parameter/strength = 0.0
+shader_parameter/strength = 0.10000000149012
 shader_parameter/mix_percentage = 0.0
 
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("blurry_node")]

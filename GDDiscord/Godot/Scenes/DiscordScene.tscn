@@ -247,8 +247,18 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Container" parent="CanvasLayer/MainFrame/GuildInterface/Background" instance=ExtResource("12_ekifu")]
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background"]
 layout_mode = 2
+current_tab = 1
+
+[node name="Chat" parent="CanvasLayer/MainFrame/GuildInterface/Background/TabContainer" instance=ExtResource("12_ekifu")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="FriendList" parent="CanvasLayer/MainFrame/GuildInterface/Background/TabContainer" instance=ExtResource("13_c0g5p")]
+layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="PlayerlistAndHost" type="PanelContainer" parent="CanvasLayer/MainFrame/GuildInterface"]
 custom_minimum_size = Vector2(300, 648)
@@ -257,9 +267,6 @@ layout_mode = 2
 [node name="VBoxContainer" type="VSplitContainer" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost"]
 layout_mode = 2
 split_offset = 120
-
-[node name="FriendList" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer" instance=ExtResource("13_c0g5p")]
-layout_mode = 2
 
 [node name="ServerCreation" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer" instance=ExtResource("14_f02ji")]
 unique_name_in_owner = true

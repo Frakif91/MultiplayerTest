@@ -1,16 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5eraco3gry2u"]
+[gd_scene load_steps=6 format=3 uid="uid://c5eraco3gry2u"]
 
 [ext_resource type="Texture2D" uid="uid://dfl17gplv2lqd" path="res://GDDiscord/Assets/ServerIcons/jay.jpg" id="1_afw5d"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_mbbb5"]
+[ext_resource type="PackedScene" uid="uid://cemx0k0s1ftpp" path="res://GDDiscord/Godot/Scenes/Blurry.tscn" id="2_afw5d"]
 [ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://GDDiscord/Assets/Icons/Home.svg" id="2_n2sg5"]
-[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://GDDiscord/blur.gdshader" id="2_ol0eh"]
-[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://GDDiscord/Godot/Scripts/BlurryEffect.gd" id="3_bntdv"]
 [ext_resource type="PackedScene" uid="uid://dfs5ffwpy5ucq" path="res://GDDiscord/Godot/SettingsMenu/settings.tscn" id="6_ol0eh"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y377j"]
-shader = ExtResource("2_ol0eh")
-shader_parameter/strength = 13.934
-shader_parameter/mix_percentage = 0.0
 
 [node name="ENet_UI" type="Control"]
 layout_mode = 3
@@ -32,17 +26,8 @@ grow_vertical = 2
 texture = ExtResource("1_afw5d")
 metadata/_edit_use_anchors_ = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_y377j")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_bntdv")
-metadata/_edit_use_anchors_ = true
+[node name="CanvasLayer" parent="." instance=ExtResource("2_afw5d")]
+visible = false
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -120,3 +105,5 @@ icon = ExtResource("2_n2sg5")
 
 [node name="Settings" parent="." instance=ExtResource("6_ol0eh")]
 layout_mode = 1
+
+[editable path="CanvasLayer"]

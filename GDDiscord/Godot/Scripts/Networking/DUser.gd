@@ -15,18 +15,16 @@ static var default_user_profile_extension = ".duser"
 @export var peer_id : int
 @export var status : DUserStatus = DUserStatus.DISCONNECTED
 
-func _init(peer_id : int = 0, name : String = "User", ip : String = "0.0.0.0", port : int = 0):
-    self.peer_id = peer_id
-    self.name = name
-    self.ip = ip
-    self.port = port
+func _init(_peer_id : int = 0, _name : String = "User"):
+    self.peer_id = _peer_id
+    self.name = _name
 
-static func user_profile_path(name : String) -> String:
-    return default_profile_path + name + default_user_profile_extension
+static func user_profile_path(_name : String) -> String:
+    return default_profile_path + _name + default_user_profile_extension
 
 ## Retrieve from disk the user profile of "name"
-static func retrieve_user_cached_profile(name : String) -> DUser:
-    var userpath = user_profile_path(name)
+static func retrieve_user_cached_profile(_name : String) -> DUser:
+    var userpath = user_profile_path(_name)
     if FileAccess.file_exists(userpath):
         var user := ResourceLoader.load(userpath)
         if user is DUser:

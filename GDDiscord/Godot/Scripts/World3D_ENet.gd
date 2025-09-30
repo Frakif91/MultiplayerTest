@@ -1,29 +1,24 @@
 class_name  World3D_ENet extends Node3D
 
-signal received_player_name(id, player_name)
-
 var random_player_name = ["John Pork","John Cena","Dave","Dwayne Johnson","Kevin","Stevie Ray","Kurt Cobain","Will Smith", "James", "Matthew", "Noah", "The Rock"]
 var enet : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var max_player_count : int = 8
 
 ## Returns the first occurence of the player's id in the player list
 func find_player_by_id(player_id : int) -> Player:
-	for player in players:
-		if player.player_id == player_id:
-			return player
+	if player_id in players:
+		return players[player_id]
 	return null
 
 ## Returns the first occurence of the player's name in the player list
 func find_player_by_name(player_name : String) -> Player:
-	for player in players:
-		if player.player_name == player_name:
-			return player
+	if player_name in players:
+		for player in players.values():
+			if player.player_name == player_name:
+				return player
 	return null
 
-func _on_item_list_item_activated(index:int) -> void:
-	pass # Replace with function body.
-
-@export var players : Array[Player]
+@export var players : Dictionary[int, Player]
 
 @export var print_instance_name : bool = false
 
@@ -55,32 +50,6 @@ const connection_status_names = {
 	MultiplayerPeer.CONNECTION_DISCONNECTED : "Disconnected",
 }
 
-class ServerInfo:
-	enum Gamemode {FREEPLAY, COOP, VS}
-	var players : Array[Player]
-	var cur_players : int = 0
-	var max_players : int = 8
-	var server_name : String = "Cool Server"
-	var server_motd : String = "Welcome to my server !"
-	var server_ip : String = "127.0.0.1"
-	var server_port : int = 0
-	var server_gamemode : int = (0 as Gamemode)
-	var server_gamestate : int
-	var server_map : String
-
-	func _init(_server_name : String = "Cool Server", _server_ip : String = "127.0.0.1", _server_port : int = 4046, _server_motd : String = "Hello There !", _max_players : int = 8):
-		server_name = _server_name
-		server_ip = _server_ip
-		server_port = _server_port
-		server_gamemode = Gamemode.FREEPLAY
-		server_gamestate = 0
-		server_map = "None"
-		server_motd = _server_motd
-		max_players = _max_players
-
-	func _to_string() -> String:
-		return "[ Server: " + server_name + "\nIP: " + server_ip + "\nPort: " + str(server_port) + "Players : " + str(cur_players) + "/" + str(max_players) + " ]"
-
 #region Virtuals Functions
 func _ready():
 	multiplayer.server_disconnected.connect(func(): get_tree().change_scene_to_packed(gddiscord_scene))
@@ -90,84 +59,14 @@ func _ready():
 	#multiplayer.peer_disconnected.connect(player_disconnected)
 	multiplayer_spawner.spawn_function = summon_player
 
-func _process(_delta : float) -> void:
-	if multiplayer.has_multiplayer_peer():
-		#server_name_text.text = "Server Status: " + connection_status_names[multiplayer.multiplayer_peer.get_connection_status()]
-		server_info_text.text = "\n".join(PackedStringArray(
-			[
-				"Player ID: " + str(cur_player.player_id) + (" (Host)" if multiplayer.is_server() else ""),
-				"Server slots: " + str(spawnpoint.get_child_count()) + "/" + str(max_player_count),
-				#"Players: " + str(multiplayer.get_peers().size())
-			]
-		))
-
-	disconnect_button.disabled = (not multiplayer.has_multiplayer_peer())
-	join_button.disabled = not(multiplayer.has_multiplayer_peer()) and not multiplayer.is_server()
-	host_button.disabled = not(multiplayer.has_multiplayer_peer()) and multiplayer.is_server()
-
 func summon_player(id : int) -> Node:
 	var player = player_scene_instance.instantiate()
+	if player.has_method("set_player_id"):
+		player.set_player_id(id)
+	player.name = str(id)
 	return player
 
 #endregion Godot Virtuals Functions
-
-
-func add_player(player : Player):
-	players.append(player)
-	player_list.add_item(player.player_name)
-
-func remove_player(player : Player):
-	players.erase(player)
-	player_list.remove_item(player_list.find_item_by_text(player.player_name))
-
-
-#region Networking
-func join_server(ip, port):
-	if multiplayer.has_multiplayer_peer():
-		terminate_networking() # If joins
-
-	var status = enet.create_client(ip, port)
-	print("[WORLD ENET] Joining Server Status : " + error_string(status))
-	if status == OK:
-		multiplayer.multiplayer_peer = enet
-		get_tree().set_multiplayer(multiplayer)
-		multiplayer.server_disconnected.connect(player_fail_to_connect)
-		multiplayer.server_disconnected.connect(player_leave_server)
-		summon_player(multiplayer.multiplayer_peer.get_unique_id())
-	
-func host_server(port):
-	if  (multiplayer.multiplayer_peer != null) or (multiplayer.has_multiplayer_peer()):
-		multiplayer.multiplayer_peer.close()
-
-	var status = enet.create_server(port,max_player_count)
-	print("[WORLD ENET] Hosting Server Status : " + error_string(status))
-
-	players.clear()
-	player_list.clear()
-
-	if status == OK:
-		multiplayer.multiplayer_peer = enet
-		get_tree().set_multiplayer(multiplayer)
-
-		multiplayer.peer_connected.connect(player_connected)
-		multiplayer.peer_disconnected.connect(player_disconnected)
-		
-		multiplayer_spawner.spawn(multiplayer.multiplayer_peer.get_unique_id())
-		add_player(cur_player)
-	
-
-func terminate_networking():
-	players.clear()
-	if multiplayer.has_multiplayer_peer():
-		print("Disconnecting from Server...")
-		#player_leave_server()
-		if multiplayer.peer_connected.is_connected(player_connected):
-			multiplayer.peer_connected.disconnect(player_connected)
-		if multiplayer.peer_disconnected.is_connected(player_disconnected):
-			multiplayer.peer_disconnected.disconnect(player_disconnected)
-
-		multiplayer.multiplayer_peer.disconnect_peer(1)
-		multiplayer.multiplayer_peer.close()
 
 enum DisconnectionType {
 	FAILED_TO_CONNECT,
@@ -177,26 +76,92 @@ enum DisconnectionType {
 	TIMED_OUT
 }
 
-func player_got_disconnected(id : int, reason : int):
-	pass
+## Register a player to this Side (Both Side) | Does not create player, only list them for easy access later
+func register_player(player_id : int, duser : DUser):
+	players.set(player_id,Player.new(player_id,duser))
+	var idx = player_list.add_item(duser.name)
+	player_list.set_item_metadata(idx,player_id)
+
+## Unregister a player from this Side (Both Side) on the "data" meaning of things | look for [register_player]
+func unregister_player(player_id : int):
+	players.erase(find_player_by_id(player_id))
+	player_list.remove_item(player_list.find_item_by_metadata(player_id))
+
+func terminate(conx : DisconnectionType = DisconnectionType.DISCONNECTED):
+	if multiplayer.has_multiplayer_peer():
+		terminate_networking()
+	get_tree().change_scene_to_packed(gddiscord_scene)
+
+#region Networking
+func join_server(ip, port):
+	if multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer.close() # Disconnecting from Server
+
+	var status = enet.create_client(ip, port)
+	print("[WORLD ENET] Joining Server Status : " + error_string(status))
+
+	multiplayer.connection_failed.connect(player_fail_to_connect)
+	multiplayer.server_disconnected.connect(player_leave_server)
+
+	if status == OK:
+		multiplayer.multiplayer_peer = enet
+		get_tree().set_multiplayer(multiplayer)
+		summon_player(multiplayer.multiplayer_peer.get_unique_id())
+	
+func host_server(port):
+	if multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer.close()
+
+	var status = enet.create_server(port,max_player_count)
+	print("[WORLD ENET] Hosting Server Status : " + error_string(status))
+
+	if status == OK:
+		multiplayer.multiplayer_peer = enet
+		get_tree().set_multiplayer(multiplayer)
+
+		multiplayer.peer_connected.connect(player_connected)
+		multiplayer.peer_disconnected.connect(player_disconnected)
+		
+		multiplayer_spawner.spawn(multiplayer.multiplayer_peer.get_unique_id())
+		register_player(multiplayer.multiplayer_peer.get_unique_id(),cur_player.player_name)
+	
+
+func terminate_networking():
+	players.clear()
+	if multiplayer.has_multiplayer_peer():
+		print("Disconnecting from Server...")
+		if multiplayer.server_disconnected.is_connected(player_leave_server):
+			multiplayer.server_disconnected.disconnect(player_leave_server)
+		if multiplayer.connection_failed.is_connected(player_fail_to_connect):
+			multiplayer.connection_failed.disconnect(player_fail_to_connect)
+		
+		if multiplayer.peer_connected.is_connected(player_connected):
+			multiplayer.peer_connected.disconnect(player_connected)
+		if multiplayer.peer_disconnected.is_connected(player_disconnected):
+			multiplayer.peer_disconnected.disconnect(player_disconnected)
+
+		multiplayer.multiplayer_peer.disconnect_peer(1)
+		multiplayer.multiplayer_peer.close()
 
 
 #endregion Networking
 
-enum REQUEST_TYPE { SET, GET}
-
 #region Client Functions
 
-## Emitted when someone connect to the server, even called when YOU join and it emit with the ID of the Server
-func player_connected(id : int = 0):
+## Emitted when someone connect to the server, even called when YOU JOIN and it emit with the ID of the Server
+func player_connected(id : int = 0): # Client Side
 	join_audioplayer.play()
-	await await_player_name(id)
+	if id != 0:
+		register_player(id,find_player_by_id(id).player_name)
 	print_rich("[WORLD ENET] [color=green]Player : ",id," (",find_player_by_id(id).player_name,") connected [/color]")
 	#emit_signal("player_connected",id)
 	multiplayer_spawner.spawn(id)
-	add_player(Player.new(find_player_by_id(id).player_name,id))
+	register_player(id, find_player_by_id(id).player_name)
 
-func player_disconnected(id : int):
+## Both Side (Only active Server Side) | Emitted when someone(else) disconnect from the server
+func player_disconnected(id : int = 0):
+	var sender = multiplayer.multiplayer_peer.get_unique_id()
+	
 	leave_audioplayer.play()
 	unregister_player(id)
 	
@@ -214,56 +179,43 @@ func player_disconnected(id : int):
 	else:
 		push_warning("Player: " + str(id) + " not found")
 
-func player_leave_server(): # Self
-	#for child in spawnpoint.get_children():
-		#child.queue_free()
-	unregister_player(multiplayer.multiplayer_peer.get_unique_id())
-	terminate_connection_sfx.play()
 
-func player_fail_to_connect():
+## Client Side | Emitted if YOU left a server (The leaving User is the sender)
+func player_leave_server(): # Client Side Only
 	terminate_connection_sfx.play()
 	unregister_player(multiplayer.multiplayer_peer.get_unique_id())
+
+
+## Client Side | Emitted if YOU fail to connect to a server
+func player_fail_to_connect():
+	terminate(DisconnectionType.FAILED_TO_CONNECT)
 #endregion
 
 
 
 #region Addons
 
-## Kicks this player, called by the host only
-@rpc("authority","call_local","reliable")
-func kick_peer(id : int):
-	if multiplayer.is_server() and id != multiplayer.multiplayer_peer.get_unique_id():
-		multiplayer.multiplayer_peer.disconnect_peer(id)
+signal received_player_user_info(id : int, userinfo : DServer)
+var received_player_user_infos : Dictionary[int, DUser] = {}
 
-func _set_players_name(player_id : int, player_name : String):
-	var player := find_player_by_id(player_id)
-	if player:
-		player.player_name = player_name
+func await_player_user_info(id) -> DUser:
+	ask_player_user_info(id)
+	await received_player_user_info
+	return received_player_user_infos[id]
 
-func ask_player_name(id):
+func ask_player_user_info(id):
 	rpc_id(id,&"get_player_name")
 
-func await_player_name(id):
-	ask_player_name(id)
-	await received_player_name
+## Respond to ask_player_name
+@rpc("any_peer","call_remote","reliable")
+func get_player_user_info():
+	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_name",multiplayer.multiplayer_peer.get_unique_id(),)
 
 @rpc("any_peer","call_remote","reliable")
-func get_player_name():
-	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_name",multiplayer.multiplayer_peer.get_unique_id(),cur_player.player_name)
+func receive_player_user_info(id : int, userinfo : DUser):
+	received_player_user_infos[id] = userinfo
+	received_player_user_info.emit(id,userinfo)
 
-@rpc("any_peer","call_remote","reliable")
-func receive_player_name(id : int, playername : String):
-	players[id].player_name = playername
-	received_player_name.emit(id,playername)
 
-func register_player(player_id : int, player_name : String):
-	players.append(Player.new(player_name, player_id))
-	var idx = player_list.add_item(player_name)
-	player_list.set_item_metadata(idx,player_id)
-
-func unregister_player(player_id : int):
-	players.erase(find_player_by_id(player_id))
-	player_list.remove_item(player_list.find_item_by_metadata(player_id))
 
 #endregion Addons
-

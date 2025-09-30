@@ -3,12 +3,22 @@ class_name DServer extends Resource
 @export var name : String = ""
 @export var ip : String = ""
 @export var port : int = 0
-@export var server_id : int = 0
-@export var found_via_steam := false
 
-@export var max_players : int
-@export var cur_players : int
+@export var server_name : String
 @export var server_motd : String
+@export var server_password : String
+@export var server_port : int
+@export var server_enet_port : int
+@export var server_has_password : bool
+@export var max_players : int
+@export var server_map : String
+@export var server_scene : String
+@export var server_use_steam : bool
+@export var server_public_ip : String
+@export var server_public_port : String
+
+@export var found_via_steam := false
+@export var cur_players : int
 @export var server_ping : int
 @export var icon : Texture = preload("res://GDDiscord/icon.svg")
 

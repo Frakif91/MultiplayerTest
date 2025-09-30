@@ -30,6 +30,8 @@ var server_info: Dictionary = {
 	"server_scene" : "res://scene.tscn",
 }
 
+var server_icon : Image
+
 ## Returns [000.000.000.000:00000] type of IP from a hostname
 func get_ip_from_hostname(hostname : String) -> String:
 	var queue_id = IP.resolve_hostname_queue_item(hostname)

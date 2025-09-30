@@ -50,8 +50,7 @@ func _ready() -> void:
 	$AddServer.add_server_confirmed.connect(_add_server_to_server_list)
 	$AddServer.add_server_error.connect(error_popup_show)
 	$ErrorMessage.close_requested.connect(_on_error_popup_ok)
-	%ServerCreation.server_created.connect(server_created)
-
+	%ServerCreation.server_created.connect(server_got_created)
 
 	var map_choose_menu : OptionButton = %ServerCreation.map_edit
 	map_choose_menu.clear()
@@ -68,13 +67,9 @@ func _ready() -> void:
 		childs.queue_free()
 	
 	for server in server_storage_inst.server_list.values():
-		var server_c : DServerContainer = preload("uid://buv14akurqjyc").instantiate()
-		server_c.load_profile(server)
-		%Favorites.add_child(server_c)
+		add_server_to_server_list(server)
 	
-
 #region Aestetics
-
 
 func blur_disapeer():
 	$"CanvasLayer/ColorRect".show()
@@ -85,30 +80,28 @@ func blur_appear():
 	$"CanvasLayer/ColorRect".show()
 	$"CanvasLayer".blurry_start(0.5)
 
-
 func _add_server_to_server_list(server_name : String, server_ip : String, server_port : int):
 	var dserv : DServer = DServer.new()
 	dserv.name = server_name
 	dserv.ip = server_ip
 	dserv.port = int(server_port)
 	dserv.server_confirmed = false
-	dserv.server_id = 0
 	dserv.icon = preload("res://GDDiscord/icon.svg")
 
 	add_server_to_server_list(dserv)
 
 func add_server_to_server_list(server_info : DServer):
 	var server_c : DServerContainer = preload("uid://buv14akurqjyc").instantiate()
-	server_c.callback = (func(): current_selected_server = self)
+	server_c.callback = (_on_server_list_item_clicked.bind(server_c))
 	%Favorites.add_child(server_c)
 	server_c.load_profile(server_info)
 	server_storage_inst.server_list.merge({server_info.name : server_info})
 
 
-func try_join_server(server_info : Dictionary):
-	if server_info.has("server_ip") and server_info.has("server_enet_port"):
-		Networking.target_enet_server_ip = server_info["server_ip"]
-		Networking.target_enet_server_port = server_info["server_enet_port"]
+func try_join_server(dserv : DServer):
+	if dserv.server_confirmed:
+		Networking.target_enet_server_ip = dserv.ip
+		Networking.target_enet_server_port = dserv.port
 		Networking.is_hosting_enet = false
 		get_tree().change_scene_to_file(server_info["server_scene"])
 
@@ -132,9 +125,7 @@ func _on_error_popup_ok():
 func _on_error_popup_copy_to_clipboard():
 	DisplayServer.clipboard_set($ErrorMessage/VBoxContainer/MarginContainer/VBoxContainer/ErrorContainer/ErrorContent.text)
 
-
-
-func server_created(server_info : Dictionary):
+func server_got_created(server_info : Dictionary):
 	if FileAccess.file_exists(server_info["server_scene"]):
 		Networking.server_info = server_info
 		Networking.target_enet_server_ip = server_info["server_ip"]
@@ -157,6 +148,7 @@ func _on_server_info_meta_clicked(meta: Variant) -> void:
 		return
 
 func _on_server_list_item_clicked(server_c : DServerContainer) -> void:
+	current_selected_server = server_c
 	var choosen_server : Dictionary = server_c.server_info.dserver_to_data()
 	## If the server isn't in the list of available servers, Ask the server's information
 	if choosen_server.has("server_ip") and not Networking.server_responses.has(choosen_server["server_ip"]):
@@ -178,6 +170,7 @@ func _on_server_list_item_clicked(server_c : DServerContainer) -> void:
 
 
 func _on_server_list_empty_clicked(_at_position: Vector2, mouse_button_index: int) -> void:
+	current_selected_server = null
 	%ServerInfo.set_text("[color=dark_gray] No server info to display.\nOr nothing selected [/color]")
 
 

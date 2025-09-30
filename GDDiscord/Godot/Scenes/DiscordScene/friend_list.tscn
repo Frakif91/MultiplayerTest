@@ -1,6 +1,19 @@
-[gd_scene format=3 uid="uid://ckuaco0axqrm7"]
+[gd_scene load_steps=5 format=3 uid="uid://ckuaco0axqrm7"]
+
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_4o581"]
+[ext_resource type="Texture2D" uid="uid://b2rqfly14thll" path="res://GDDiscord/Assets/ServerIcons/cat.png" id="2_ymlgy"]
+
+[sub_resource type="SystemFont" id="SystemFont_4o581"]
+font_names = PackedStringArray("Carlito")
+font_weight = 999
+oversampling = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ymlgy"]
+font = SubResource("SystemFont_4o581")
+font_size = 32
 
 [node name="FriendList" type="MarginContainer"]
+custom_minimum_size = Vector2(400, 600)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -19,12 +32,30 @@ theme_override_constants/margin_bottom = 10
 [node name="Separator" type="VBoxContainer" parent="BGP"]
 layout_mode = 2
 
-[node name="FriendListLabel" type="Label" parent="BGP/Separator"]
+[node name="VBInfo" type="VBoxContainer" parent="BGP/Separator"]
+layout_mode = 2
+
+[node name="FriendListLabel" type="Label" parent="BGP/Separator/VBInfo"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 size_flags_stretch_ratio = 0.2
 text = "Friends List"
+label_settings = SubResource("LabelSettings_ymlgy")
+
+[node name="HSeparator" type="HSeparator" parent="BGP/Separator/VBInfo"]
+layout_mode = 2
+
+[node name="FriendListLabel2" type="Label" parent="BGP/Separator/VBInfo"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.2
+text = "This Friendlist shows the list of people that you've met and added as \"Friends\" to keep contact.
+Note that this also includes your Steam's Friend if Steam's Available."
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="ProfileSteam" type="MarginContainer" parent="BGP/Separator"]
 layout_mode = 2
@@ -34,7 +65,14 @@ theme_override_constants/margin_right = 10
 
 [node name="FriendsList" type="ItemList" parent="BGP/Separator/ProfileSteam"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 121.345)
 layout_mode = 2
+item_count = 2
+fixed_icon_size = Vector2i(40, 40)
+item_0/text = "Test Item"
+item_0/icon = ExtResource("1_4o581")
+item_1/text = "TEs2"
+item_1/icon = ExtResource("2_ymlgy")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BGP/Separator"]
 custom_minimum_size = Vector2(0, 50)
