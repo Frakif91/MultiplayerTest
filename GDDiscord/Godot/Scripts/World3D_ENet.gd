@@ -77,15 +77,29 @@ enum DisconnectionType {
 }
 
 ## Register a player to this Side (Both Side) | Does not create player, only list them for easy access later
-func register_player(player_id : int, duser : DUser):
-	players.set(player_id,Player.new(player_id,duser))
+func register_player(player_id : int):
+	var duser = DUser.new()
+	players.set(player_id,duser)
 	var idx = player_list.add_item(duser.name)
 	player_list.set_item_metadata(idx,player_id)
+	ask_player_user_info(player_id)
+
+func finish_registering(player_id : int, duser : DUser):
+	players.set(player_id,duser)
+	player_list.set_item_metadata(player_list.find_item_by_metadata(player_id),player_id)
 
 ## Unregister a player from this Side (Both Side) on the "data" meaning of things | look for [register_player]
 func unregister_player(player_id : int):
 	players.erase(find_player_by_id(player_id))
 	player_list.remove_item(player_list.find_item_by_metadata(player_id))
+
+func refresh_player_list():
+	player_list.clear()
+	for player_id in players:
+		var idx = player_list.add_item(players[player_id].player_name)
+		player_list.set_item_metadata(idx,player_id)
+
+
 
 func terminate(conx : DisconnectionType = DisconnectionType.DISCONNECTED):
 	if multiplayer.has_multiplayer_peer():
@@ -95,13 +109,15 @@ func terminate(conx : DisconnectionType = DisconnectionType.DISCONNECTED):
 #region Networking
 func join_server(ip, port):
 	if multiplayer.has_multiplayer_peer():
-		multiplayer.multiplayer_peer.close() # Disconnecting from Server
+		terminate(DisconnectionType.DISCONNECTED)
 
 	var status = enet.create_client(ip, port)
 	print("[WORLD ENET] Joining Server Status : " + error_string(status))
 
 	multiplayer.connection_failed.connect(player_fail_to_connect)
 	multiplayer.server_disconnected.connect(player_leave_server)
+	multiplayer.peer_connected.connect(player_connected)
+	multiplayer.peer_disconnected.connect(player_disconnected)
 
 	if status == OK:
 		multiplayer.multiplayer_peer = enet
@@ -110,7 +126,7 @@ func join_server(ip, port):
 	
 func host_server(port):
 	if multiplayer.has_multiplayer_peer():
-		multiplayer.multiplayer_peer.close()
+		terminate(DisconnectionType.DISCONNECTED)
 
 	var status = enet.create_server(port,max_player_count)
 	print("[WORLD ENET] Hosting Server Status : " + error_string(status))
@@ -123,7 +139,7 @@ func host_server(port):
 		multiplayer.peer_disconnected.connect(player_disconnected)
 		
 		multiplayer_spawner.spawn(multiplayer.multiplayer_peer.get_unique_id())
-		register_player(multiplayer.multiplayer_peer.get_unique_id(),cur_player.player_name)
+		register_player(multiplayer.multiplayer_peer.get_unique_id())
 	
 
 func terminate_networking():
@@ -152,28 +168,25 @@ func terminate_networking():
 func player_connected(id : int = 0): # Client Side
 	join_audioplayer.play()
 	if id != 0:
-		register_player(id,find_player_by_id(id).player_name)
+		register_player(id)
 	print_rich("[WORLD ENET] [color=green]Player : ",id," (",find_player_by_id(id).player_name,") connected [/color]")
 	#emit_signal("player_connected",id)
 	multiplayer_spawner.spawn(id)
-	register_player(id, find_player_by_id(id).player_name)
 
 ## Both Side (Only active Server Side) | Emitted when someone(else) disconnect from the server
-func player_disconnected(id : int = 0):
-	var sender = multiplayer.multiplayer_peer.get_unique_id()
-	
+func player_disconnected(id : int = 0):	
 	leave_audioplayer.play()
 	unregister_player(id)
-	
 	
 	#emit_signal("player_disconnected",id)
 	var child = spawnpoint.get_node_or_null(str(id))
 	if child:
-		var p : GPUParticles3D = particle_disconnect.instantiate()
-		p.global_position = child.global_position
-		p.finished.connect(p.queue_free)
-		spawnpoint.add_child(p)
-		p.emitting = true
+		if particle_disconnect:
+			var p : GPUParticles3D = particle_disconnect.instantiate()
+			p.global_position = child.global_position
+			p.finished.connect(p.queue_free)
+			spawnpoint.add_child(p)
+			p.emitting = true
 		child.queue_free()
 		
 	else:
@@ -183,7 +196,7 @@ func player_disconnected(id : int = 0):
 ## Client Side | Emitted if YOU left a server (The leaving User is the sender)
 func player_leave_server(): # Client Side Only
 	terminate_connection_sfx.play()
-	unregister_player(multiplayer.multiplayer_peer.get_unique_id())
+	terminate(DisconnectionType.DISCONNECTED)
 
 
 ## Client Side | Emitted if YOU fail to connect to a server
@@ -209,7 +222,7 @@ func ask_player_user_info(id):
 ## Respond to ask_player_name
 @rpc("any_peer","call_remote","reliable")
 func get_player_user_info():
-	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_name",multiplayer.multiplayer_peer.get_unique_id(),)
+	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_user_info",multiplayer.multiplayer_peer.get_unique_id(),cur_player)
 
 @rpc("any_peer","call_remote","reliable")
 func receive_player_user_info(id : int, userinfo : DUser):

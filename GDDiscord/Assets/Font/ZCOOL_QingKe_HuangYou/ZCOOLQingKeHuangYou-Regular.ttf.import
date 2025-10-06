@@ -1,0 +1,41 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://dj2558fkc5if4"
+path="res://.godot/imported/ZCOOLQingKeHuangYou-Regular.ttf-c5f04183096af1b8ba10d2afb4063cfa.fontdata"
+
+[deps]
+
+source_file="res://GDDiscord/Assets/Font/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf"
+dest_files=["res://.godot/imported/ZCOOLQingKeHuangYou-Regular.ttf-c5f04183096af1b8ba10d2afb4063cfa.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=true
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=true
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=true
+modulate_color_glyphs=true
+hinting=1
+subpixel_positioning=4
+keep_rounding_remainders=true
+oversampling=2.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "Nouvelle configuration",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={}

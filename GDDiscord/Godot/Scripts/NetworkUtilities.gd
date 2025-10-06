@@ -9,10 +9,12 @@ var target_enet_server_port : int
 var target_enet_error : Error
 var is_hosting_enet : bool = false
 var is_using_steam : bool = true
+
+## Steam Lobby, for checking lobby related thing on the last checked lobby
 var steam_lobby_id : int = 0
 var steam_lobby_creation_error : Error
+## Game Lobby, Current connected lobby
 var current_lobby_id : int
-
 
 var client_or_server : NetworkType = NetworkType.NONE
 var udp_server: PacketPeerUDP = PacketPeerUDP.new()
@@ -30,7 +32,7 @@ var server_info: Dictionary = {
 	"server_scene" : "res://scene.tscn",
 }
 
-var server_icon : Image
+var current_duser : DUser = await get_duser_by_steam(Steam.getSteamID())
 
 ## Returns [000.000.000.000:00000] type of IP from a hostname
 func get_ip_from_hostname(hostname : String) -> String:
@@ -41,14 +43,18 @@ func get_ip_from_hostname(hostname : String) -> String:
 
 
 func _ready() -> void:
-	print("[LOCAL IP] ", find_ip())
+	print("[LOCAL IP] ", NetParser.find_local_ip())
 	var initsteam = Steam.steamInit(true,480)
 	if Steam.isSteamRunning():
 		if Steam.getAppID() == 0:
-			push_error("Cannot Initialize Steam") if not initsteam else print_debug("Steam's Good")
+			if initsteam:
+				print_debug("Steam running but no game")
+			else:
+				print_debug("Steam's stuck")
 		# Connect the important Steam signals once
 		Steam.lobby_created.connect(_on_lobby_created)
-		Steam.lobby_joined.connect(_on_lobby_entered)
+		Steam.lobby_joined.connect(_on_lobby_joined)
+		Steam.lobby_invite.connect(_on_lobby_invited)
 
 	if (OS.has_feature("dedicated_server")) or ("--server" in OS.get_cmdline_args()):
 		udp_server.set_broadcast_enabled(true)
@@ -113,16 +119,6 @@ func host_server(use_steam : bool = true) -> void:
 	if use_steam and Steam.isSteamRunning():
 		print_debug("Creating Steam Lobby")
 		Steam.createLobby(Steam.LOBBY_TYPE_FRIENDS_ONLY, server_info.get("max_players", 8))
-		Steam.lobby_created.connect(func(connect, lobby_id):
-			steam_lobby_id = lobby_id
-			steam_lobby_creation_error = connect
-			Steam.setLobbyData(lobby_id, "host", str(Steam.getSteamID()));
-			Steam.setLobbyData(lobby_id, "ip", target_enet_server_ip);
-			Steam.setLobbyData(lobby_id, "port", str(target_enet_server_port));
-			Steam.setLobbyData(lobby_id, "name", server_info.get("server_name", "Unknown") + " - " + server_info.get("server_motd", "No Description"));
-			Steam.setLobbyData(lobby_id, "version", ProjectSettings.get_setting("application/config/version"));
-			Steam.setLobbyData(lobby_id, "gamemode", server_info.get("server_gamemode", 0));
-		)
 
 	while udp_server.is_bound():
 		while udp_server.get_available_packet_count() > 0:
@@ -142,7 +138,7 @@ func host_process(packet : Variant) -> bool:
 
 #region Steam
 
-# When a join request comes through Steam overlay
+## When a join request comes through Steam overlay
 func _on_lobby_join_requested(lobby_id: int, friend_id: int) -> void:
 	print("(Steam)Join requested! Lobby:", lobby_id, "from friend:", friend_id)
 	Steam.joinLobby(lobby_id)
@@ -155,15 +151,32 @@ func _on_lobby_created(connect_r: int, lobby_id: int) -> void:
 		Steam.setLobbyData(lobby_id, "host", str(Steam.getSteamID()));
 		Steam.setLobbyData(lobby_id, "ip", target_enet_server_ip);
 		Steam.setLobbyData(lobby_id, "port", str(target_enet_server_port));
-		Steam.setLobbyData(lobby_id, "name", server_info.get("server_name", "Unknown") + " - " + server_info.get("server_motd", "No Description"));
-		Steam.setLobbyData(lobby_id, "version", ProjectSettings.get_setting("application/config/version"));
-		Steam.setLobbyData(lobby_id, "gamemode", server_info.get("server_gamemode", 0));
+		Steam.setLobbyData(lobby_id, "name", server_info.server_motd + " - " + server_info.server_name);
+		Steam.setLobbyData(lobby_id, "version", ProjectSettings.get_setting("application/config/version","1.0.0"));
+		Steam.setLobbyData(lobby_id, "map", server_info.server_map);
 	else:
 		push_error("Failed to create lobby, EResult = %d" % connect)
 
+##
+func refresh_lobby_stat():
+	if steam_lobby_id == 0:
+		return
+	Steam.setLobbyData(steam_lobby_id, "host", str(Steam.getSteamID()));
+	Steam.setLobbyData(steam_lobby_id, "ip", target_enet_server_ip);
+	Steam.setLobbyData(steam_lobby_id, "port", str(target_enet_server_port));
+	Steam.setLobbyData(steam_lobby_id, "name", server_info.get("server_name", "Unknown") + " - " + server_info.get("server_motd", "No Description"));
+	Steam.setLobbyData(steam_lobby_id, "version", ProjectSettings.get_setting("application/config/version"));
+	Steam.setLobbyData(steam_lobby_id, "gamemode", server_info.get("server_gamemode", 0));
 
-# --- When YOU enter someone’s lobby (client side) ---
-func _on_lobby_entered(lobby_id: int, success: int, _steam_id: int) -> void:
+
+
+## --- When YOU receive an invite to a lobby (client side) ---
+func _on_lobby_invited(inviter_id: int, lobby_id: int, game_id: int) -> void:
+	print("(Steam) Invite received! Lobby:", lobby_id, "from friend:", Steam.getFriendPersonaName(inviter_id))
+
+
+## --- When YOU enter someone’s lobby (client side) ---
+func _on_lobby_joined(lobby_id: int, success: int, _steam_id: int) -> void:
 	if success != 1:
 		push_error("Failed to enter lobby %d" % lobby_id)
 		return
@@ -183,13 +196,14 @@ func _on_lobby_entered(lobby_id: int, success: int, _steam_id: int) -> void:
 	# Connect to ENet host
 	var ip   := Steam.getLobbyData(lobby_id, "ip")
 	var port := int(Steam.getLobbyData(lobby_id, "port"))
+	var map := Steam.getLobbyData(lobby_id, "map")
 
 	target_enet_server_ip = ip
 	target_enet_server_port = port
 	is_hosting_enet = false
 
-	if FileAccess.file_exists(server_info["server_scene"]):
-		get_tree().change_scene_to_file(server_info["server_scene"])
+	if FileAccess.file_exists(map):
+		get_tree().change_scene_to_file(map)
 	else:
 		push_error("Server scene not found : %s" % server_info["server_scene"])
 		Steam.leaveLobby(lobby_id)
@@ -209,58 +223,15 @@ func get_steam_avatar(id) -> ImageTexture:
 		await Steam.avatar_loaded
 	return loaded_avatars.get(id,preload("res://GDDiscord/icon.svg"))
 
-# returns the best local IPv4 address on this device that matches private LAN ranges
-func find_ip() -> String:
-	var addrs = IP.get_local_addresses()   # returns PoolStringArray / Array of strings
-	var candidates := {
-		"192": [], # 192.168.x.x
-		"10":  [], # 10.x.x.x
-		"172": []  # 172.16.x.x - 172.31.x.x
-	}
-
-	for a in addrs:
-		# ignore IPv6 addresses
-		if ":" in a:
-			continue
-		# ignore loopback & link-local (APIPA)
-		if a.begins_with("127.") or a.begins_with("169.254."):
-			continue
-		var parts = a.split(".")
-		if parts.size() != 4:
-			continue
-		var p0 = int(parts[0])
-		var p1 = int(parts[1])
-		# 192.168.x.x
-		if p0 == 192 and p1 == 168:
-			candidates["192"].append(a)
-			continue
-		# 10.x.x.x
-		if p0 == 10:
-			candidates["10"].append(a)
-			continue
-		# 172.16.x.x - 172.31.x.x  (private 172.16/12 block)
-		if p0 == 172 and p1 >= 16 and p1 <= 31:
-			candidates["172"].append(a)
-			continue
-		# otherwise ignore other public addresses
-
-	# Choose priority: prefer 192.168, then 10, then 172 (adjust order if you want)
-	var priority = ["192", "10", "172"]
-	for key in priority:
-		if candidates.has(key) and candidates[key].size() > 0:
-			return candidates[key][0]  # return first found in that range
-
-	# fallback: return any non-loopback IPv4 if present
-	for a in addrs:
-		if ":" in a:
-			continue
-		if not a.begins_with("127.") and not a.begins_with("169.254."):
-			return a
-
-	return "127.0.0.1"  # ultimate fallback
-
-
 func host_process_image(data : PackedByteArray):
 	var image = Image.create_from_data(128, 128, false, Image.FORMAT_RGBA8, data)
 	var texture = ImageTexture.create_from_image(image)
 	$TextureRect.texture = texture
+
+func get_duser_by_steam(steam_id : int) -> DUser:
+	var duser = DUser.new()
+	duser._is_steam_user = true
+	duser._steam_id = steam_id
+	duser.name = (Steam.getPersonaName() if Steam.getSteamID() == steam_id else Steam.getFriendPersonaName(steam_id) )
+	duser.avatar = await get_steam_avatar(steam_id)
+	return duser

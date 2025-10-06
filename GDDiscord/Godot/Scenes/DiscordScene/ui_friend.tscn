@@ -1,0 +1,234 @@
+[gd_scene load_steps=14 format=3 uid="uid://dgsbl6k3xi2ir"]
+
+[ext_resource type="Script" uid="uid://bkpj8w75y78c6" path="res://GDDiscord/Godot/Scripts/ui_list_entry_friend.gd" id="1_pih6b"]
+[ext_resource type="Texture2D" uid="uid://k5slq351yr7s" path="res://GDDiscord/Assets/ServerIcons/todo.jpg" id="2_qhlf0"]
+[ext_resource type="FontFile" uid="uid://dj2558fkc5if4" path="res://GDDiscord/Assets/Font/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf" id="3_f31t8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhlf0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.043039158, 0.04303915, 0.04303915, 0.6)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f31t8"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.033853278, 0.033853278, 0.033853274, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.46229059, 0.46229064, 0.4622904, 0.6)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mkqya"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.25929382, 0.25929365, 0.2592937, 0.6)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.427493, 0.42749307, 0.42749295, 0.6)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pih6b"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awudk"]
+bg_color = Color(1, 0, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+anti_aliasing_size = 0.5
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cfsbk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7txjp"]
+font = ExtResource("3_f31t8")
+font_size = 24
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.39215687)
+
+[sub_resource type="FontVariation" id="FontVariation_ji863"]
+base_font = ExtResource("3_f31t8")
+
+[sub_resource type="LabelSettings" id="LabelSettings_pk4cl"]
+font = SubResource("FontVariation_ji863")
+font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1aaic"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.043039158, 0.04303915, 0.04303915, 0.6)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[node name="UIListEntryFriend" type="MarginContainer"]
+custom_minimum_size = Vector2(300, 45)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 42.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_pih6b")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_qhlf0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f31t8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mkqya")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pih6b")
+
+[node name="Border" type="MarginContainer" parent="Button"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 45.0
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 2
+
+[node name="UIHB" type="HBoxContainer" parent="Button/Border"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Icons" type="PanelContainer" parent="Button/Border/UIHB"]
+clip_children = 1
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_awudk")
+
+[node name="PlaceHolder" type="TextureRect" parent="Button/Border/UIHB/Icons"]
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("PlaceholderTexture2D_cfsbk")
+
+[node name="ProfilePicture" type="TextureRect" parent="Button/Border/UIHB/Icons"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_qhlf0")
+expand_mode = 4
+
+[node name="UserName" type="Label" parent="Button/Border/UIHB"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+text = "KingKong (OO)"
+label_settings = SubResource("LabelSettings_7txjp")
+
+[node name="PersonaInfo" type="VBoxContainer" parent="Button/Border/UIHB"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Status" type="Label" parent="Button/Border/UIHB/PersonaInfo"]
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.05
+text = "Playing"
+label_settings = SubResource("LabelSettings_pk4cl")
+horizontal_alignment = 2
+vertical_alignment = 3
+
+[node name="HSeparator" type="HSeparator" parent="Button/Border/UIHB/PersonaInfo"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="StatusExtra" type="Label" parent="Button/Border/UIHB/PersonaInfo"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.05
+text = "Another Game"
+label_settings = SubResource("LabelSettings_pk4cl")
+horizontal_alignment = 2
+vertical_alignment = 3
+
+[node name="BG" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1aaic")
+
+[node name="MenuButton" type="MenuButton" parent="."]
+visible = false
+layout_mode = 2
+item_count = 7
+popup/item_0/text = "Kill"
+popup/item_0/id = 0
+popup/item_1/text = "Call"
+popup/item_1/id = 1
+popup/item_2/text = "Invite Friend"
+popup/item_2/id = 2
+popup/item_3/id = 3
+popup/item_3/separator = true
+popup/item_4/text = "Is Dumb"
+popup/item_4/checkable = 1
+popup/item_4/id = 4
+popup/item_5/text = "Is Productive"
+popup/item_5/id = 5
+popup/item_5/disabled = true
+popup/item_6/text = "Is Playing"
+popup/item_6/checked = true
+popup/item_6/id = 6

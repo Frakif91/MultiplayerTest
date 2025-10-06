@@ -1,6 +1,6 @@
 class_name DUser extends Resource
 
-enum DUserStatus { CONNECTED, DISCONNECTED, KICKED, BANNED, CONNECTING, AFK, PLAYING}
+enum DUserStatus {CONNECTED, DISCONNECTED, KICKED, BANNED, CONNECTING, AFK, PLAYING, ONLINE }
 
 static var default_profile_path = "user://GDDiscord/profiles/"
 static var default_user_profile_extension = ".duser"
@@ -11,7 +11,6 @@ static var default_user_profile_extension = ".duser"
 @export var avatar : Texture = preload("res://GDDiscord/icon.svg")
 @export var _is_steam_user : bool
 @export var _steam_id : int
-
 @export var peer_id : int
 @export var status : DUserStatus = DUserStatus.DISCONNECTED
 

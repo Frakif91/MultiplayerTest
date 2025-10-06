@@ -1,41 +1,167 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckuaco0axqrm7"]
+[gd_scene load_steps=11 format=3 uid="uid://ckuaco0axqrm7"]
 
-[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_4o581"]
-[ext_resource type="Texture2D" uid="uid://b2rqfly14thll" path="res://GDDiscord/Assets/ServerIcons/cat.png" id="2_ymlgy"]
+[ext_resource type="Script" uid="uid://hsfylhxl4qj2" path="res://GDDiscord/Godot/Scenes/DiscordScene/friend_list.gd" id="1_7leex"]
+[ext_resource type="Texture2D" uid="uid://dfl17gplv2lqd" path="res://GDDiscord/Assets/ServerIcons/jay.jpg" id="1_ymlgy"]
+[ext_resource type="PackedScene" uid="uid://dgsbl6k3xi2ir" path="res://GDDiscord/Godot/Scenes/DiscordScene/ui_friend.tscn" id="2_4o581"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ymlgy"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.2781651, 0.2781651, 0.2781651, 0.84705883)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="SystemFont" id="SystemFont_4o581"]
 font_names = PackedStringArray("Carlito")
 font_weight = 999
+subpixel_positioning = 0
 oversampling = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_ymlgy"]
 font = SubResource("SystemFont_4o581")
 font_size = 32
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ymlgy"]
+
+[sub_resource type="SystemFont" id="SystemFont_ymlgy"]
+font_names = PackedStringArray("Calibri")
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_7leex"]
+font = SubResource("SystemFont_ymlgy")
+font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4o581"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
 [node name="FriendList" type="MarginContainer"]
-custom_minimum_size = Vector2(400, 600)
+custom_minimum_size = Vector2(508, 621)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+script = ExtResource("1_7leex")
 
 [node name="BGP" type="PanelContainer" parent="."]
 layout_mode = 2
 
-[node name="BGS" type="MarginContainer" parent="BGP"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BGP"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="BGP/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ymlgy")
+
+[node name="BGS" type="MarginContainer" parent="BGP/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Separator" type="VBoxContainer" parent="BGP"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BGP/VBoxContainer/PanelContainer/BGS"]
 layout_mode = 2
 
-[node name="VBInfo" type="VBoxContainer" parent="BGP/Separator"]
+[node name="FriendListLabel3" type="Label" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.2
+text = "Profile"
+label_settings = SubResource("LabelSettings_ymlgy")
+
+[node name="MarginContainer" type="MarginContainer" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="FriendListLabel" type="Label" parent="BGP/Separator/VBInfo"]
+[node name="Panel" type="Panel" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="PlaceHolder" type="TextureRect" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer"]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_ymlgy")
+expand_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer/MarginContainer"]
+texture_filter = 2
+layout_mode = 2
+texture = ExtResource("1_ymlgy")
+expand_mode = 1
+
+[node name="VSeparator" type="VSeparator" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "KingKong (金刚)"
+label_settings = SubResource("LabelSettings_7leex")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ManageProfile" type="Button" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Manage Profile"
+
+[node name="SteamFriendJoin" type="Button" parent="BGP/VBoxContainer/PanelContainer/BGS/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hello"
+
+[node name="HSeparator" type="HSeparator" parent="BGP/VBoxContainer"]
+layout_mode = 2
+
+[node name="BGS2" type="MarginContainer" parent="BGP/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Separator" type="VBoxContainer" parent="BGP/VBoxContainer/BGS2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBInfo" type="VBoxContainer" parent="BGP/VBoxContainer/BGS2/Separator"]
+layout_mode = 2
+
+[node name="FriendListLabel" type="Label" parent="BGP/VBoxContainer/BGS2/Separator/VBInfo"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -43,50 +169,51 @@ size_flags_stretch_ratio = 0.2
 text = "Friends List"
 label_settings = SubResource("LabelSettings_ymlgy")
 
-[node name="HSeparator" type="HSeparator" parent="BGP/Separator/VBInfo"]
-layout_mode = 2
-
-[node name="FriendListLabel2" type="Label" parent="BGP/Separator/VBInfo"]
+[node name="FriendListLabel2" type="Label" parent="BGP/VBoxContainer/BGS2/Separator/VBInfo"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 size_flags_stretch_ratio = 0.2
-text = "This Friendlist shows the list of people that you've met and added as \"Friends\" to keep contact.
-Note that this also includes your Steam's Friend if Steam's Available."
+text = "This Friendlist shows the list of people that you've met and added as \"Friends\" to keep contact. Note that this also includes your Steam's Friend if Steam's available."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ProfileSteam" type="MarginContainer" parent="BGP/Separator"]
+[node name="ProfileSteam" type="MarginContainer" parent="BGP/VBoxContainer/BGS2/Separator"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="FriendsList" type="ItemList" parent="BGP/Separator/ProfileSteam"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 121.345)
+[node name="ScrollContainer" type="ScrollContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam"]
+custom_minimum_size = Vector2(0, 169.585)
 layout_mode = 2
-item_count = 2
-fixed_icon_size = Vector2i(40, 40)
-item_0/text = "Test Item"
-item_0/icon = ExtResource("1_4o581")
-item_1/text = "TEs2"
-item_1/icon = ExtResource("2_ymlgy")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BGP/Separator"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="ManageProfile" type="Button" parent="BGP/Separator/HBoxContainer"]
-unique_name_in_owner = true
+[node name="PanelContainer" type="PanelContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Manage Profile"
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_4o581")
 
-[node name="SteamFriendJoin" type="Button" parent="BGP/Separator/HBoxContainer"]
-unique_name_in_owner = true
+[node name="MarginContainer" type="MarginContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Hello"
+size_flags_vertical = 3
+vertical = true
+
+[node name="Control" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer/BoxContainer" instance=ExtResource("2_4o581")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control2" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer/BoxContainer" instance=ExtResource("2_4o581")]
+layout_mode = 2
+size_flags_horizontal = 3

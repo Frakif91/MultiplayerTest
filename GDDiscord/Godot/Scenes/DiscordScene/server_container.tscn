@@ -6,7 +6,6 @@
 
 [sub_resource type="FontVariation" id="FontVariation_6bap7"]
 base_font = ExtResource("2_4be71")
-spacing_bottom = -5
 
 [sub_resource type="LabelSettings" id="LabelSettings_f02ji"]
 font = SubResource("FontVariation_6bap7")

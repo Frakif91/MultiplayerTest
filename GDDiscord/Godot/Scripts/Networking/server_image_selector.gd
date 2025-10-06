@@ -1,8 +1,8 @@
 class_name ServerImageSelector extends Window
 
-@onready var import_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/ImportButton
-@onready var select_button: Button = $MarginContainer/VBoxContainer/HBoxContainer/SelectButton
-@onready var image_list: ItemList = $MarginContainer/VBoxContainer/PanelContainer/ImageList
+@onready var import_button: Button = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ImportButton
+@onready var select_button: Button = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SelectButton
+@onready var image_list: ItemList = $PanelContainer/MarginContainer/VBoxContainer/PanelContainer/ImageList
 @onready var file_dialog: FileDialog = $FileDialog
 
 signal image_selected(tex : Texture)
@@ -11,11 +11,14 @@ var cur_image : Texture2D = null
 
 
 func _ready() -> void:
+	self.close_requested.connect(self.hide)
 	import_button.pressed.connect(_on_import_button_pressed)
 	image_list.item_selected.connect(_on_item_selected)
 	file_dialog.file_selected.connect(_on_file_selected)
+	select_button.pressed.connect(_on_select_button_pressed)
 	select_button.disabled = true
 
+	# if __name__ == '__main__':
 	if get_tree().current_scene == self:
 		await get_tree().create_timer(0.1).timeout
 		self.popup_centered()

@@ -14,8 +14,15 @@ signal server_created(server_info : Dictionary)
 @onready var public_port_edit : LineEdit = %PublicPortEdit
 @onready var icon_edit: TextureRect = %IconEdit
 
+@onready var select_icon: Button = $BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/Icon/SelectIcon
+const server_image_chooser_popup_path = preload("uid://dusdfgoow6jr6")
+
 func _ready() -> void:
+	var server_image_chooser_popup : ServerImageSelector = server_image_chooser_popup_path.instantiate()
+	add_child(server_image_chooser_popup)
+	server_image_chooser_popup.image_selected.connect(func(tex): icon_edit.texture = tex)
 	%ServerCreateButton.disabled = true
+	select_icon.pressed.connect(func(): server_image_chooser_popup.popup_centered())
 
 func _process(delta):
 	%ServerCreateButton.disabled = not check_server_info_valid()

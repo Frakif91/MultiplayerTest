@@ -60,7 +60,6 @@ dialog_autowrap = true
 [node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
 script = ExtResource("2_a6ige")
 blurry_node = NodePath("ColorRect")
-blurry_value = 0.0
 
 [node name="MainFrame" type="SplitContainer" parent="CanvasLayer"]
 anchors_preset = 15
@@ -284,4 +283,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[editable path="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse/Favorites/ServerContainer"]
 [editable path="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation"]

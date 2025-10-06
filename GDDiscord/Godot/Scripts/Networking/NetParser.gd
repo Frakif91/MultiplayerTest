@@ -111,3 +111,53 @@ static func detect_address_type(address: String) -> AddressType:
 			return AddressType.UNKNOWN
 	
 	return AddressType.UNKNOWN
+
+# returns the best local IPv4 address on this device that matches private LAN ranges
+static func find_local_ip() -> String:
+	var addrs = IP.get_local_addresses()   # returns PoolStringArray / Array of strings
+	var candidates := {
+		"192": [], # 192.168.x.x
+		"10":  [], # 10.x.x.x
+		"172": []  # 172.16.x.x - 172.31.x.x
+	}
+
+	for a in addrs:
+		# ignore IPv6 addresses
+		if ":" in a:
+			continue
+		# ignore loopback & link-local (APIPA)
+		if a.begins_with("127.") or a.begins_with("169.254."):
+			continue
+		var parts = a.split(".")
+		if parts.size() != 4:
+			continue
+		var p0 = int(parts[0])
+		var p1 = int(parts[1])
+		# 192.168.x.x
+		if p0 == 192 and p1 == 168:
+			candidates["192"].append(a)
+			continue
+		# 10.x.x.x
+		if p0 == 10:
+			candidates["10"].append(a)
+			continue
+		# 172.16.x.x - 172.31.x.x  (private 172.16/12 block)
+		if p0 == 172 and p1 >= 16 and p1 <= 31:
+			candidates["172"].append(a)
+			continue
+		# otherwise ignore other public addresses
+
+	# Choose priority: prefer 192.168, then 10, then 172 (adjust order if you want)
+	var priority = ["192", "10", "172"]
+	for key in priority:
+		if candidates.has(key) and candidates[key].size() > 0:
+			return candidates[key][0]  # return first found in that range
+
+	# fallback: return any non-loopback IPv4 if present
+	for a in addrs:
+		if ":" in a:
+			continue
+		if not a.begins_with("127.") and not a.begins_with("169.254."):
+			return a
+
+	return "127.0.0.1"  # ultimate fallback

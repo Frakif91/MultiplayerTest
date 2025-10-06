@@ -1,0 +1,137 @@
+[gd_scene load_steps=14 format=3 uid="uid://dcmrkbyd87ux6"]
+
+[ext_resource type="Script" uid="uid://bewwyspxi7aeb" path="res://GDDiscord/Godot/Scripts/LoadingTick.gd" id="1_xoop3"]
+[ext_resource type="Texture2D" uid="uid://cfid62bkta262" path="res://GDDiscord/Assets/output (1).jpg" id="2_t58gi"]
+[ext_resource type="Shader" uid="uid://dswu2y3a388q0" path="res://GDDiscord/blur.gdshader" id="4_5bqll"]
+[ext_resource type="FontFile" uid="uid://dj2558fkc5if4" path="res://GDDiscord/Assets/Font/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf" id="4_0863m"]
+[ext_resource type="Script" uid="uid://bspj848irntc5" path="res://GDDiscord/Godot/Scripts/BlurryEffect.gd" id="5_0863m"]
+
+[sub_resource type="Curve" id="Curve_5bqll"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0863m"]
+shader = ExtResource("4_5bqll")
+shader_parameter/strength = 3.3
+shader_parameter/mix_percentage = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_6lcf7"]
+font = ExtResource("4_0863m")
+font_size = 32
+outline_size = 227
+outline_color = Color(0.08468992, 0.08468992, 0.08468992, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_xoop3"]
+font_names = PackedStringArray("Calibri")
+font_italic = true
+font_weight = 999
+hinting = 2
+oversampling = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6rkq"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qjj4j"]
+bg_color = Color(0.400698, 0.400698, 0.400698, 1)
+
+[sub_resource type="Gradient" id="Gradient_qjj4j"]
+offsets = PackedFloat32Array(0, 0.429603, 0.461538, 0.676895, 0.722022)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dq85b"]
+gradient = SubResource("Gradient_qjj4j")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="LoadingTick" type="Control" node_paths=PackedStringArray("blurry_effect", "alive_ticker")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_xoop3")
+speed = 600.0
+blurry_effect = NodePath("CanvasLayer")
+alive_ticker = NodePath("CanvasLayer/ColorRect/MarginContainer/AliveTicker")
+pingpong_start_value = 0.15
+pingpong_end_value = 0.8
+pingpong_easing = SubResource("Curve_5bqll")
+pingpong_shift_speed = 1.0
+pingpong_domain_multiplier = 100.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("blurry_node")]
+layer = 3
+script = ExtResource("5_0863m")
+blurry_node = NodePath("ColorRect")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_t58gi")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_0863m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ColorRect"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.326389
+anchor_top = 0.458333
+anchor_right = 0.673611
+anchor_bottom = 0.541667
+offset_left = -0.00015258789
+offset_top = -5.9997864
+offset_right = 0.00012207031
+offset_bottom = 5.9997864
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 6
+text = "Loading"
+label_settings = SubResource("LabelSettings_6lcf7")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = SubResource("SystemFont_xoop3")
+theme_override_styles/background = SubResource("StyleBoxFlat_m6rkq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_qjj4j")
+value = 81.04
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.927083
+anchor_top = 0.87037
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_edit_use_anchors_ = true
+
+[node name="AliveTicker" type="TextureProgressBar" parent="CanvasLayer/ColorRect/MarginContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+value = 12.0
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_dq85b")

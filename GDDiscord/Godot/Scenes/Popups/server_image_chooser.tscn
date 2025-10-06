@@ -13,32 +13,44 @@ disable_3d = true
 oversampling_override = 1.0
 title = "Choose an Image or Import"
 initial_position = 1
-size = Vector2i(368, 273)
+size = Vector2i(380, 285)
+visible = false
 transient = true
 exclusive = true
 unresizable = true
 popup_window = true
+force_native = true
 script = ExtResource("1_6txrc")
 
 [node name="FileDialog" type="FileDialog" parent="."]
 oversampling_override = 1.0
 title = "Open a File"
-position = Vector2i(0, 36)
+initial_position = 1
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.png", "*.jpeg", "*.jpg", "*.svg")
 use_native_dialog = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = -0.016304348
+anchor_top = -0.021978023
+anchor_right = 1.0163044
+anchor_bottom = 1.021978
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
@@ -55,6 +67,7 @@ layout_mode = 2
 [node name="ImageList" type="ItemList" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
+allow_reselect = true
 item_count = 6
 max_columns = 4
 same_column_width = true
