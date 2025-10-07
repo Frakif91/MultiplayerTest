@@ -44,17 +44,19 @@ func get_ip_from_hostname(hostname : String) -> String:
 
 func _ready() -> void:
 	print("[LOCAL IP] ", NetParser.find_local_ip())
-	var initsteam = Steam.steamInit(true,480)
+	#var initsteam = Steam.steamInit(true,480)
 	if Steam.isSteamRunning():
-		if Steam.getAppID() == 0:
-			if initsteam:
-				print_debug("Steam running but no game")
-			else:
-				print_debug("Steam's stuck")
+		print_debug("[NetworkUtilities] Steam is running")
 		# Connect the important Steam signals once
 		Steam.lobby_created.connect(_on_lobby_created)
 		Steam.lobby_joined.connect(_on_lobby_joined)
 		Steam.lobby_invite.connect(_on_lobby_invited)
+	else:
+		var failure_reason = Steam.get_steam_init_result()
+		print("Steam is not available : reasons follows") # New line
+		for reason in failure_reason:
+			print("  ", reason, " : ", failure_reason[reason])
+		print_debug("... and that's why it's stuck (gameID is %s" % Steam.getAppID())
 
 	if (OS.has_feature("dedicated_server")) or ("--server" in OS.get_cmdline_args()):
 		udp_server.set_broadcast_enabled(true)
@@ -217,7 +219,7 @@ func steam_user_avatar_loaded(id, icon_size, buffer : PackedByteArray):
 	var texture = ImageTexture.create_from_image(avatarImage)
 	loaded_avatars.merge({id : texture},true)
 
-func get_steam_avatar(id) -> ImageTexture:
+func get_steam_avatar(id) -> Texture:
 	if not loaded_avatars.has(id):
 		Steam.getPlayerAvatar(Steam.AVATAR_MEDIUM,id)
 		await Steam.avatar_loaded

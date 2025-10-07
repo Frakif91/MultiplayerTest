@@ -26,6 +26,10 @@ Globals="*res://GDDiscord/Godot/Scripts/Globals.gd"
 Networking="*res://GDDiscord/Godot/Scripts/NetworkUtilities.gd"
 LoadingScenes="*res://GDDiscord/Godot/Scenes/DiscordScene/LoadingTick.tscn"
 
+[debug]
+
+file_logging/enable_file_logging=true
+
 [display]
 
 window/per_pixel_transparency/allowed=true

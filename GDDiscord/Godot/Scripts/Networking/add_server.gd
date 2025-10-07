@@ -29,10 +29,10 @@ func _on_addserver_pressed(popup_status : POPUP_STATUS):
 			NetParser.AddressType.IP:
 				server_ip = server_ip
 				server_port = 4044
-			NetParser.AddressType.IP_W_PORT:
-				var spl = server_ip.split(":")
-				server_ip = spl[0]
-				server_port = int(spl[1])
+			NetParser.AddressType.IP_W_PORT: 
+				server_port = server_ip.get_slice(":", 1)
+				server_ip = server_ip.get_slice(":", 0)
+				
 			NetParser.AddressType.HOSTNAME:
 				progress_bar.show()
 				var result = await NetParser.parse_address(server_ip, get_tree())

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dyvrb5rtnoxva"]
 
-[ext_resource type="Texture2D" uid="uid://kqxblvn7g0wn" path="res://GDDiscord/Assets/Icons/flash_off_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" id="1_g1lyq"]
+[ext_resource type="Texture2D" uid="uid://kqxblvn7g0wn" path="res://GDDiscord/Assets/Icons/Flash_Off.svg" id="1_g1lyq"]
 [ext_resource type="Script" uid="uid://dqpnkw1pqiw1e" path="res://GDDiscord/Godot/Scripts/Networking/server_creation.gd" id="1_oejax"]
 [ext_resource type="Texture2D" uid="uid://c4khoge13uqy7" path="res://GDDiscord/Assets/Icons/Public.svg" id="2_cja41"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="5_oejax"]

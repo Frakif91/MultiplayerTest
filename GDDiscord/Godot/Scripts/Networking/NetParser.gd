@@ -37,6 +37,7 @@ static func parse_address(input: String, tree : SceneTree) -> Array[String]:
 	# Vérifie s'il y a un port
 	if ":" in input:
 		var parts = input.split(":")
+		assert(parts.size() > 1, "Symbole ':' trouvé dans l'adresse mais Split = 0")
 		address = parts[0]
 		if parts.size() > 1 and (parts[1] as String).is_valid_int():
 			port = int(parts[1])
@@ -52,9 +53,9 @@ static func parse_address(input: String, tree : SceneTree) -> Array[String]:
 		await tree.process_frame
 
 	if status != IP.RESOLVER_STATUS_DONE:
-		printerr("Impossible de resoudre l'adresse : %s" % input, error_string(status))
+		IP.RESOLVER_STATUS_ERROR
+		printerr("Impossible de resoudre l'adresse : %s" % input, " >> ", error_string(status))
 		return []
-
 	var resolved_ip = IP.get_resolve_item_address(resolved_ip_queue_id)
 	
 	print_debug("Resolved Host : " + resolved_ip + ":" + str(port))
@@ -81,9 +82,18 @@ static func _is_valid_hostname(host: String) -> bool:
 	return regex.search(host) != null
 
 static func detect_address_type(address: String) -> AddressType:
-	var parts = address.split(":")
-	
-	if parts.size() == 2:
+	var parts_count = address.get_slice_count(":")
+	var parts : PackedStringArray
+
+	#assert(parts_count == 0, "Pas de ':' dans l'adresse (Split = 0)" )
+
+	if parts_count == 0:
+		parts = [address]
+		parts_count = 1
+	else:
+		parts = address.split(":",true,1)
+
+	if parts_count == 2:
 		var host = parts[0]
 		var port = parts[1]
 		

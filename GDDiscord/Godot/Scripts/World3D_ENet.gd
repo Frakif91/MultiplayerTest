@@ -42,7 +42,7 @@ func find_player_by_name(player_name : String) -> Player:
 var dialog_confirm : ConfirmationDialog
 var is_dedicated_server : bool = OS.has_feature("dedicated_server")
 
-@export var cur_player : Player
+@export var cur_player : Player = Player.new(0)
 
 const connection_status_names = {
 	MultiplayerPeer.CONNECTION_CONNECTED : "Connected",
@@ -52,9 +52,7 @@ const connection_status_names = {
 
 #region Virtuals Functions
 func _ready():
-	multiplayer.server_disconnected.connect(func(): get_tree().change_scene_to_packed(gddiscord_scene))
-	server_name_text.text = cur_player.player_name
-	server_name_text.text_submitted.connect(func(text):cur_player.player_name = text)
+	#multiplayer.server_disconnected.connect(func(): get_tree().change_scene_to_packed(gddiscord_scene))
 	#multiplayer.peer_connected.connect(player_connected)
 	#multiplayer.peer_disconnected.connect(player_disconnected)
 	multiplayer_spawner.spawn_function = summon_player
@@ -62,7 +60,7 @@ func _ready():
 func summon_player(id : int) -> Node:
 	var player = player_scene_instance.instantiate()
 	if player.has_method("set_player_id"):
-		player.set_player_id(id)
+		player.call("set_player_id",id)
 	player.name = str(id)
 	return player
 

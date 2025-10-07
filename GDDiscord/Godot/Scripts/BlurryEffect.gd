@@ -1,3 +1,4 @@
+@tool
 class_name BlurryEffect extends CanvasLayer
 
 @export var blurry_node : ColorRect
@@ -10,6 +11,9 @@ func _set_blurry_value(value : float):
 		(blurry_node.material as ShaderMaterial).set_shader_parameter(&"strength", value)
 		(blurry_node.material as ShaderMaterial).set_shader_parameter(&"mix_percentage", 0.01)
 	else:
+		if get_node_or_null(^"ColorRect"):
+			(get_node_or_null(^"ColorRect").material as ShaderMaterial).set_shader_parameter(&"strength", value)
+			(get_node_or_null(^"ColorRect").material as ShaderMaterial).set_shader_parameter(&"mix_percentage", 0.01)
 		push_warning("Blurry node not found")
 
 func blurry_start(transition_s : float = 0.5, blurry_max : float = 3.0):

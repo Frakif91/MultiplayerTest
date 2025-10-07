@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dgsbl6k3xi2ir"]
+[gd_scene load_steps=16 format=3 uid="uid://dgsbl6k3xi2ir"]
 
 [ext_resource type="Script" uid="uid://bkpj8w75y78c6" path="res://GDDiscord/Godot/Scripts/ui_list_entry_friend.gd" id="1_pih6b"]
 [ext_resource type="Texture2D" uid="uid://k5slq351yr7s" path="res://GDDiscord/Assets/ServerIcons/todo.jpg" id="2_qhlf0"]
 [ext_resource type="FontFile" uid="uid://dj2558fkc5if4" path="res://GDDiscord/Assets/Font/ZCOOL_QingKe_HuangYou/ZCOOLQingKeHuangYou-Regular.ttf" id="3_f31t8"]
+[ext_resource type="FontFile" uid="uid://c0fo58kyap4dm" path="res://GDDiscord/Assets/Font/Huninn/Huninn-Regular.ttf" id="4_qhlf0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhlf0"]
 content_margin_left = 0.0
@@ -90,8 +91,12 @@ anti_aliasing_size = 0.5
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cfsbk"]
 
+[sub_resource type="FontVariation" id="FontVariation_f31t8"]
+fallbacks = Array[Font]([ExtResource("4_qhlf0")])
+base_font = ExtResource("3_f31t8")
+
 [sub_resource type="LabelSettings" id="LabelSettings_7txjp"]
-font = ExtResource("3_f31t8")
+font = SubResource("FontVariation_f31t8")
 font_size = 24
 shadow_size = 3
 shadow_color = Color(0, 0, 0, 0.39215687)
@@ -176,7 +181,7 @@ expand_mode = 4
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
-text = "KingKong (OO)"
+text = "KingKong (金刚)"
 label_settings = SubResource("LabelSettings_7txjp")
 
 [node name="PersonaInfo" type="VBoxContainer" parent="Button/Border/UIHB"]

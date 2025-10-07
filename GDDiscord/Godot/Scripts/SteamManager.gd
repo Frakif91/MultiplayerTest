@@ -159,6 +159,7 @@ static func send_user_game_invite(user_id: int, lobby_id: int, payload: Dictiona
 
 static func load_friends() -> Array[DUser]:
 	if not Steam.isSteamRunning():
+		print_debug("[SteamManager] Steam not running, returning empty Friend List")
 		return []
 
 	var friend_list = []

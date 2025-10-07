@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5eraco3gry2u"]
+[gd_scene load_steps=9 format=3 uid="uid://c5eraco3gry2u"]
 
 [ext_resource type="Texture2D" uid="uid://dfl17gplv2lqd" path="res://GDDiscord/Assets/ServerIcons/jay.jpg" id="1_afw5d"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_mbbb5"]
+[ext_resource type="Script" uid="uid://cq0bm4vkr5rwr" path="res://GDDiscord/Godot/Scripts/e_net_ui.gd" id="1_ol0eh"]
 [ext_resource type="PackedScene" uid="uid://cemx0k0s1ftpp" path="res://GDDiscord/Godot/Scenes/Blurry.tscn" id="2_afw5d"]
 [ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://GDDiscord/Assets/Icons/Home.svg" id="2_n2sg5"]
+[ext_resource type="PackedScene" uid="uid://ckuaco0axqrm7" path="res://GDDiscord/Godot/Scenes/DiscordScene/friend_list.tscn" id="4_y377j"]
+[ext_resource type="Texture2D" uid="uid://x1sycwc5fokn" path="res://GDDiscord/Assets/Icons/Settings.svg" id="5_bntdv"]
 [ext_resource type="PackedScene" uid="uid://dfs5ffwpy5ucq" path="res://GDDiscord/Godot/SettingsMenu/settings.tscn" id="6_ol0eh"]
 
 [node name="ENet_UI" type="Control"]
@@ -13,9 +16,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ol0eh")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = -0.00154321
@@ -27,7 +30,7 @@ texture = ExtResource("1_afw5d")
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer" parent="." instance=ExtResource("2_afw5d")]
-visible = false
+blurry_value = 10.01
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -38,7 +41,8 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
+[node name="HB" type="HBoxContainer" parent="CanvasLayer/Control"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,58 +56,82 @@ offset_bottom = 176.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TAB" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/HB"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+
+[node name="TAB" type="PanelContainer" parent="CanvasLayer/Control/HB/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/HBoxContainer/TAB"]
+[node name="MC" type="MarginContainer" parent="CanvasLayer/Control/HB/VBoxContainer2/TAB"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ItemList" type="ItemList" parent="CanvasLayer/Control/HBoxContainer/TAB/MarginContainer"]
-custom_minimum_size = Vector2(200, 200)
+[node name="ItemList" type="ItemList" parent="CanvasLayer/Control/HB/VBoxContainer2/TAB/MC"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
+[node name="TAB2" type="PanelContainer" parent="CanvasLayer/Control/HB/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="FriendList" parent="CanvasLayer/Control/HB/VBoxContainer2/TAB2" instance=ExtResource("4_y377j")]
 layout_mode = 2
 
-[node name="User" type="PanelContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HB"]
+layout_mode = 2
+
+[node name="User" type="PanelContainer" parent="CanvasLayer/Control/HB/VBoxContainer"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/HB/VBoxContainer/User"]
 layout_mode = 2
 
-[node name="PFP" type="TextureRect" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer"]
+[node name="PFP" type="TextureRect" parent="CanvasLayer/Control/HB/VBoxContainer/User/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("1_mbbb5")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HB/VBoxContainer/User/HBoxContainer"]
 layout_mode = 2
 
-[node name="PlayerName" type="LineEdit" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer/VBoxContainer"]
+[node name="PlayerName" type="LineEdit" parent="CanvasLayer/Control/HB/VBoxContainer/User/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "John Cena"
 placeholder_text = "Player Name"
 
-[node name="ServerInfo" type="Label" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer/User/HBoxContainer/VBoxContainer"]
+[node name="ServerInfo" type="Label" parent="CanvasLayer/Control/HB/VBoxContainer/User/HBoxContainer/VBoxContainer"]
 modulate = Color(0.68, 0.68, 0.68, 1)
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "Mage Sorcerer LVL 0"
+text = "Playing a server"
 
-[node name="Disconnect_Button" type="Button" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
+[node name="Disconnect_Button" type="Button" parent="CanvasLayer/Control/HB/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_vertical = 0
+text = "Settings"
+icon = ExtResource("5_bntdv")
+expand_icon = true
+
+[node name="Disconnect_Button2" type="Button" parent="CanvasLayer/Control/HB/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
 text = "Quit
 "
 icon = ExtResource("2_n2sg5")
+expand_icon = true
 
 [node name="Settings" parent="." instance=ExtResource("6_ol0eh")]
+visible = false
 layout_mode = 1
 
 [editable path="CanvasLayer"]

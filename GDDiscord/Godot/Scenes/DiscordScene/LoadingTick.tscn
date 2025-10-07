@@ -112,7 +112,6 @@ size_flags_vertical = 10
 theme_override_fonts/font = SubResource("SystemFont_xoop3")
 theme_override_styles/background = SubResource("StyleBoxFlat_m6rkq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_qjj4j")
-value = 81.04
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ColorRect"]
 layout_mode = 1
