@@ -1,11 +1,28 @@
-[gd_scene load_steps=17 format=3 uid="uid://byqgf1jy436na"]
+[gd_scene load_steps=23 format=3 uid="uid://byqgf1jy436na"]
 
 [ext_resource type="Script" uid="uid://ch04fjuvkhph2" path="res://GDDiscord/Godot/Scripts/World3D_ENet.gd" id="1_joi3e"]
+[ext_resource type="PackedScene" uid="uid://tfrtpbbgo6uq" path="res://GDDiscord/Godot/Scenes/Player3D.tscn" id="2_00scj"]
 [ext_resource type="PackedScene" uid="uid://c5eraco3gry2u" path="res://GDDiscord/Godot/Scenes/e_net_ui.tscn" id="2_dc1xy"]
 [ext_resource type="PackedScene" uid="uid://bl3ff7ub73dw1" path="res://GDDiscord/Godot/Scenes/disconnect_particle.tscn" id="2_joi3e"]
 [ext_resource type="AudioStream" uid="uid://b5q3h34e2qb4n" path="res://GDDiscord/Assets/SFX/SE_BTL_DEADE.wav" id="4_7xn8j"]
+[ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="4_xohk7"]
+[ext_resource type="Script" uid="uid://cbvk4lafl5r3v" path="res://GDDiscord/Godot/Scripts/Networking/DUser.gd" id="5_3uktd"]
 [ext_resource type="AudioStream" uid="uid://bt3jehpf0m7bp" path="res://GDDiscord/Assets/SFX/Under Taco Taker Bell.mp3" id="5_g575m"]
 [ext_resource type="AudioStream" uid="uid://bl61pdjanca2g" path="res://GDDiscord/Assets/SFX/SE_BTL_1UP.wav" id="6_007nr"]
+[ext_resource type="Script" uid="uid://bf0nfwpldv178" path="res://GDDiscord/Godot/Scripts/Networking/Player.gd" id="6_i33tw"]
+
+[sub_resource type="Resource" id="Resource_bx5gc"]
+script = ExtResource("5_3uktd")
+name = "Brawltest"
+color = Color(0, 0, 0.5529412, 1)
+_is_steam_user = true
+status = 4
+metadata/_custom_type_script = "uid://cbvk4lafl5r3v"
+
+[sub_resource type="Resource" id="Resource_2kngq"]
+script = ExtResource("6_i33tw")
+player_duser = SubResource("Resource_bx5gc")
+metadata/_custom_type_script = "uid://bf0nfwpldv178"
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f5f6b"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -52,12 +69,14 @@ properties/0/replication_mode = 1
 
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
 script = ExtResource("1_joi3e")
+player_scene_instance = ExtResource("2_00scj")
 particle_disconnect = ExtResource("2_joi3e")
 multiplayer_spawner = NodePath("MultiplayerSpawner")
 spawnpoint = NodePath("Spawnpoint")
 join_audioplayer = NodePath("JoinSFX")
 leave_audioplayer = NodePath("LeaveSFX")
 terminate_connection_sfx = NodePath("TerminateSFX")
+cur_player = SubResource("Resource_2kngq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_by4yc")

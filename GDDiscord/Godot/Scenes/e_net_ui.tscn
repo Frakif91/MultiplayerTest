@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5eraco3gry2u"]
+[gd_scene load_steps=8 format=3 uid="uid://c5eraco3gry2u"]
 
 [ext_resource type="Texture2D" uid="uid://dfl17gplv2lqd" path="res://GDDiscord/Assets/ServerIcons/jay.jpg" id="1_afw5d"]
 [ext_resource type="Texture2D" uid="uid://bwe60dbqbc38o" path="res://GDDiscord/icon.svg" id="1_mbbb5"]
 [ext_resource type="Script" uid="uid://cq0bm4vkr5rwr" path="res://GDDiscord/Godot/Scripts/e_net_ui.gd" id="1_ol0eh"]
 [ext_resource type="PackedScene" uid="uid://cemx0k0s1ftpp" path="res://GDDiscord/Godot/Scenes/Blurry.tscn" id="2_afw5d"]
 [ext_resource type="Texture2D" uid="uid://cwvem2agecyue" path="res://GDDiscord/Assets/Icons/Home.svg" id="2_n2sg5"]
-[ext_resource type="PackedScene" uid="uid://ckuaco0axqrm7" path="res://GDDiscord/Godot/Scenes/DiscordScene/friend_list.tscn" id="4_y377j"]
 [ext_resource type="Texture2D" uid="uid://x1sycwc5fokn" path="res://GDDiscord/Assets/Icons/Settings.svg" id="5_bntdv"]
 [ext_resource type="PackedScene" uid="uid://dfs5ffwpy5ucq" path="res://GDDiscord/Godot/SettingsMenu/settings.tscn" id="6_ol0eh"]
 
@@ -19,6 +18,7 @@ grow_vertical = 2
 script = ExtResource("1_ol0eh")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = -0.00154321
@@ -79,9 +79,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
-
-[node name="FriendList" parent="CanvasLayer/Control/HB/VBoxContainer2/TAB2" instance=ExtResource("4_y377j")]
-layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HB"]
 layout_mode = 2

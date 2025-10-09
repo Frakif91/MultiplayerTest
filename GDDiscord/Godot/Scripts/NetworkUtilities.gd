@@ -19,7 +19,8 @@ var current_lobby_id : int
 var client_or_server : NetworkType = NetworkType.NONE
 var udp_server: PacketPeerUDP = PacketPeerUDP.new()
 var udp_client: PacketPeerUDP = PacketPeerUDP.new()
-var server_responses : Dictionary = {}
+var server_responses : Dictionary[String, Dictionary] = {}
+var server_icons : Dictionary[String, Texture] = {}
 var max_timeout : float = 3.0
 var server_info: Dictionary = {
 	"status" : "AVAILABLE",
@@ -31,6 +32,7 @@ var server_info: Dictionary = {
 	"server_gamestate": 0,
 	"server_scene" : "res://scene.tscn",
 }
+var cur_server_icon : Texture = preload("res://GDDiscord/icon.svg")
 
 var current_duser : DUser = await get_duser_by_steam(Steam.getSteamID())
 
@@ -109,6 +111,35 @@ func ask_availability(server_ip: String, server_port: int) -> Error:
 	timer.queue_free()
 	return ERR_UNAVAILABLE
 
+func ask_server_icon(server_ip: String, server_port: int) -> Texture:
+	var timer := Timer.new()
+	add_child(timer)
+	timer.one_shot = true
+	
+	udp_client.set_dest_address(server_ip, server_port)
+	print("[C] Sent info request to server.")
+	udp_client.put_var("request_icon")
+	
+	timer.start(max_timeout)
+	while udp_client.get_available_packet_count() == 0 and !timer.is_stopped():
+		await get_tree().process_frame
+
+	if udp_client.get_available_packet_count() > 0:
+		var packet = udp_client.get_var()
+		if packet is Texture:
+			return packet
+		else:
+			print("[C] Invalid server response. :", packet.get("status","<null>"))
+			return preload("res://GDDiscord/icon.svg")
+	else:
+		print("[C] No response from server.")
+
+	print("[C] Client disconnected.")
+	udp_client.close()
+	timer.queue_free()
+	return preload("res://GDDiscord/icon.svg")
+
+
 ## Host a MOTD Server that listen other client that ask for [availability : String], and returns a Dictionary with the server's information 
 func host_server(use_steam : bool = true) -> void:
 	var result := udp_server.bind(target_enet_server_port)
@@ -136,6 +167,11 @@ func host_process(packet : Variant) -> bool:
 		if (packet as String) == "request_info":
 			udp_server.set_dest_address(udp_server.get_packet_ip(), udp_server.get_packet_port())
 			udp_server.put_var(server_info)
+		elif (packet as String) == "request_icon":
+			udp_server.set_dest_address(udp_server.get_packet_ip(), udp_server.get_packet_port())
+			udp_server.put_var(cur_server_icon)
+		else:
+			return false
 	return true
 
 #region Steam
