@@ -173,14 +173,14 @@ text = "Manage Profile"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Create Lobby"
+disabled = true
+text = "Use Steam Profile"
 
 [node name="HSeparator" type="HSeparator" parent="BGP/VBoxContainer"]
 layout_mode = 2
 
 [node name="BGS2" type="MarginContainer" parent="BGP/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -202,7 +202,7 @@ text = "Friends List"
 label_settings = SubResource("LabelSettings_ymlgy")
 
 [node name="FriendListLabel2" type="Label" parent="BGP/VBoxContainer/BGS2/Separator/VBInfo"]
-custom_minimum_size = Vector2(450, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -236,10 +236,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="BoxContainer" type="VBoxContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer"]
+[node name="BoxContainer" type="BoxContainer" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+vertical = true
 
 [node name="Control" parent="BGP/VBoxContainer/BGS2/Separator/ProfileSteam/ScrollContainer/PanelContainer/MarginContainer/BoxContainer" instance=ExtResource("2_4o581")]
 layout_mode = 2

@@ -25,6 +25,7 @@ buses/default_bus_layout="res://GDDiscord/default_bus_layout.tres"
 Globals="*res://GDDiscord/Godot/Scripts/Globals.gd"
 Networking="*res://GDDiscord/Godot/Scripts/NetworkUtilities.gd"
 LoadingScenes="*res://GDDiscord/Godot/Scenes/DiscordScene/LoadingTick.tscn"
+SteamManager="*res://GDDiscord/Godot/Scripts/SteamManager.gd"
 
 [debug]
 

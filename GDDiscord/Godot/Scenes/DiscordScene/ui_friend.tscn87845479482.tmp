@@ -130,9 +130,10 @@ corner_detail = 5
 custom_minimum_size = Vector2(300, 45)
 anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 0.07407408
+anchor_bottom = 0.06944445
 offset_bottom = -3.0000038
 grow_horizontal = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource("1_pih6b")
 menu_button = NodePath("MenuButton")
@@ -151,12 +152,9 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mkqya")
 theme_override_styles/focus = SubResource("StyleBoxFlat_pih6b")
 
 [node name="Border" type="MarginContainer" parent="Button"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 45.0
 mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 2

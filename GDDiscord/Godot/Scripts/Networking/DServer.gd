@@ -15,7 +15,7 @@ class_name DServer extends Resource
 @export var server_scene : String
 @export var server_use_steam : bool
 @export var server_public_ip : String
-@export var server_public_port : String
+@export var server_public_port : int
 
 @export var found_via_steam := false
 @export var cur_players : int

@@ -42,8 +42,6 @@ func find_player_by_name(player_name : String) -> Player:
 var dialog_confirm : ConfirmationDialog
 var is_dedicated_server : bool = OS.has_feature("dedicated_server")
 
-@export var cur_player : Player = Player.new(0)
-
 const connection_status_names = {
 	MultiplayerPeer.CONNECTION_CONNECTED : "Connected",
 	MultiplayerPeer.CONNECTION_CONNECTING : "Connecting...",
@@ -56,6 +54,12 @@ func _ready():
 	#multiplayer.peer_connected.connect(player_connected)
 	#multiplayer.peer_disconnected.connect(player_disconnected)
 	multiplayer_spawner.spawn_function = summon_player
+
+func get_current_user_or_null() -> DUser:
+	if !multiplayer.has_multiplayer_peer():
+		return null
+	return find_player_by_id(multiplayer.get_unique_id()).player_duser
+
 
 func summon_player(id : int) -> Node:
 	var player = player_scene_instance.instantiate()
@@ -96,7 +100,6 @@ func refresh_player_list():
 	for player_id in players:
 		var idx = player_list.add_item(players[player_id].player_name)
 		player_list.set_item_metadata(idx,player_id)
-
 
 
 func terminate(conx : DisconnectionType = DisconnectionType.DISCONNECTED):

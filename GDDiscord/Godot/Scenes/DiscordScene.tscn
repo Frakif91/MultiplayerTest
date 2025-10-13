@@ -271,6 +271,15 @@ split_offset = 120
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="PortEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/Port" index="1"]
+text = "4046"
+
+[node name="PortUDPEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/PortUDP" index="1"]
+text = "4044"
+
+[node name="MaxPlayerEdit" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/MaxPlayer" index="1"]
+text = "8"
+
 [node name="Label" parent="CanvasLayer/MainFrame/GuildInterface/PlayerlistAndHost/VBoxContainer/ServerCreation/BGP/BGS/ServerCreation/ScrollContainer/ServerContents/FoldableContainer/VBoxContainer/Icon" index="0"]
 text = "Icon"
 

@@ -69,14 +69,17 @@ properties/0/replication_mode = 1
 
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("multiplayer_spawner", "spawnpoint", "join_audioplayer", "leave_audioplayer", "terminate_connection_sfx")]
 script = ExtResource("1_joi3e")
+players = null
+print_instance_name = null
 player_scene_instance = ExtResource("2_00scj")
 particle_disconnect = ExtResource("2_joi3e")
+gddiscord_scene = null
+cur_player = SubResource("Resource_2kngq")
 multiplayer_spawner = NodePath("MultiplayerSpawner")
 spawnpoint = NodePath("Spawnpoint")
 join_audioplayer = NodePath("JoinSFX")
 leave_audioplayer = NodePath("LeaveSFX")
 terminate_connection_sfx = NodePath("TerminateSFX")
-cur_player = SubResource("Resource_2kngq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_by4yc")
