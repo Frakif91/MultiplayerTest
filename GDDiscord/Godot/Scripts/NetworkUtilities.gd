@@ -45,22 +45,21 @@ func get_ip_from_hostname(hostname : String) -> String:
 
 
 func _ready() -> void:
-	print("[LOCAL IP] ", NetParser.find_local_ip())
+	print_debug("[LOCAL IP] ", NetParser.find_local_ip())
 	#var initsteam = Steam.steamInit(true,480)
 	if Steam.isSteamRunning():
 		print_debug("[NetworkUtilities] Steam is running")
-		# Connect the important Steam signals once
-		Steam.lobby_created.connect(_on_lobby_created)
-		Steam.lobby_joined.connect(_on_lobby_joined)
-		Steam.lobby_invite.connect(_on_lobby_invited)
 	else:
 		var failure_reason = Steam.get_steam_init_result()
 		print("Steam is not available : reasons follows") # New line
 		for reason in failure_reason:
 			print("  ", reason, " : ", failure_reason[reason])
-		print_debug("... and that's why it's stuck (gameID is %s" % Steam.getAppID())
+		print_debug("and that's why it's stuck (gameID is %s" % Steam.getAppID())
 
 	if (OS.has_feature("dedicated_server")) or ("--server" in OS.get_cmdline_args()):
+		var launch_mode = ("dedicated_server feature") if OS.has_feature("dedicated_server") else ("server argument" if OS.get_cmdline_user_args().has("--server") else "X") 
+		print_debug()
+
 		udp_server.set_broadcast_enabled(true)
 		client_or_server = NetworkType.SERVER
 		print_verbose("[D] Starting server")

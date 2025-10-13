@@ -60,7 +60,7 @@ func _ready() -> void:
 		map_choose_menu.set_item_tooltip(i, scene.capitalize())
 		map_choose_menu.set_item_metadata(i, scenes_files[scene])
 		i += 1
-	
+
 	server_storage_inst.retrieve_servers_profiles()
 	
 	for childs in %Favorites.get_children():
@@ -87,6 +87,8 @@ func _add_server_to_server_list(server_name : String, server_ip : String, server
 	dserv.port = int(server_port)
 	dserv.server_confirmed = false
 	dserv.icon = preload("res://GDDiscord/icon.svg")
+
+	server_storage_inst.add_server_profile(dserv)
 
 	add_server_to_server_list(dserv)
 
@@ -164,7 +166,7 @@ func _on_server_list_item_clicked(server_c : DServerContainer) -> void:
 			server_c.server_info.server_confirmed = true	
 	
 	%ServerInfo.clear()
-	for key in server_info:
+	for key in server_c.server_info:
 		#%ServerInfo.push_bold()
 		%ServerInfo.append_text("[b]" + key.capitalize() + " :[/b] ")
 		%ServerInfo.append_text(str(server_info[key]))

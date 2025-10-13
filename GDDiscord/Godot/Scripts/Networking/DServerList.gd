@@ -8,6 +8,9 @@ const server_storage_path := "user://GDDiscord/stored_server_list.dsrv"
 func get_server_profile(name : String) -> DServer:
 	return server_list.get(name,null)
 
+func add_server_profile(dserv : DServer):
+	server_list[dserv.name] = dserv
+
 func store_servers_profiles() -> void:
 	var file = FileAccess.open(server_storage_path, FileAccess.ModeFlags.WRITE)
 	if file:
