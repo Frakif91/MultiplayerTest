@@ -83,8 +83,6 @@ expand_margin_bottom = 2.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awudk"]
 bg_color = Color(1, 0, 1, 1)
 corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 10
 anti_aliasing_size = 0.5
@@ -126,12 +124,13 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 5
 
-[node name="UIListEntryFriend" type="MarginContainer" node_paths=PackedStringArray("menu_button", "button", "user_name", "status", "status_extra", "profile_picture")]
-custom_minimum_size = Vector2(300, 45)
-anchors_preset = -1
+[node name="UIListEntryFriend" type="Control" node_paths=PackedStringArray("menu_button", "button", "user_name", "status", "status_extra", "profile_picture")]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 3
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.07407408
-offset_bottom = -3.0000038
+offset_right = -719.0
+offset_bottom = 50.0
 grow_horizontal = 2
 size_flags_vertical = 0
 script = ExtResource("1_pih6b")
@@ -140,11 +139,15 @@ button = NodePath("Button")
 user_name = NodePath("Button/Border/UIHB/UserName")
 status = NodePath("Button/Border/UIHB/PersonaInfo/Status")
 status_extra = NodePath("Button/Border/UIHB/PersonaInfo/StatusExtra")
-profile_picture = NodePath("Button/Border/UIHB/Icons/ProfilePicture")
-metadata/_edit_use_anchors_ = true
+profile_picture = NodePath("Button/Border/UIHB/AspectRatioContainer/Icons/ProfilePicture")
 
 [node name="Button" type="Button" parent="."]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_qhlf0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_f31t8")
 theme_override_styles/hover = SubResource("StyleBoxFlat_mkqya")
@@ -158,34 +161,47 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 7
-theme_override_constants/margin_bottom = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
 
 [node name="UIHB" type="HBoxContainer" parent="Button/Border"]
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/separation = 0
 
-[node name="Icons" type="PanelContainer" parent="Button/Border/UIHB"]
-clip_children = 1
-custom_minimum_size = Vector2(36, 36)
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Button/Border/UIHB"]
+custom_minimum_size = Vector2(51.485, 0)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+stretch_mode = 1
+alignment_horizontal = 0
+
+[node name="Icons" type="PanelContainer" parent="Button/Border/UIHB/AspectRatioContainer"]
+clip_children = 1
+layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_awudk")
 
-[node name="PlaceHolder" type="TextureRect" parent="Button/Border/UIHB/Icons"]
+[node name="PlaceHolder" type="TextureRect" parent="Button/Border/UIHB/AspectRatioContainer/Icons"]
 layout_mode = 2
 mouse_filter = 2
 texture = SubResource("PlaceholderTexture2D_cfsbk")
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="ProfilePicture" type="TextureRect" parent="Button/Border/UIHB/Icons"]
+[node name="ProfilePicture" type="TextureRect" parent="Button/Border/UIHB/AspectRatioContainer/Icons"]
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("2_qhlf0")
-expand_mode = 4
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="Button/Border/UIHB"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
 
 [node name="UserName" type="Label" parent="Button/Border/UIHB"]
 layout_mode = 2
@@ -223,12 +239,12 @@ vertical_alignment = 3
 
 [node name="BG" type="PanelContainer" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1aaic")
 
 [node name="MenuButton" type="MenuButton" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 item_count = 7
 popup/item_0/text = "Kill"
 popup/item_0/id = 0

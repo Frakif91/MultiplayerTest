@@ -101,7 +101,6 @@ func refresh_player_list():
 		var idx = player_list.add_item(players[player_id].player_name)
 		player_list.set_item_metadata(idx,player_id)
 
-
 func terminate(conx : DisconnectionType = DisconnectionType.DISCONNECTED):
 	if multiplayer.has_multiplayer_peer():
 		terminate_networking()
@@ -223,7 +222,7 @@ func ask_player_user_info(id):
 ## Respond to ask_player_name
 @rpc("any_peer","call_remote","reliable")
 func get_player_user_info():
-	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_user_info",multiplayer.multiplayer_peer.get_unique_id(),cur_player)
+	rpc_id(multiplayer.get_remote_sender_id(),&"receive_player_user_info",multiplayer.multiplayer_peer.get_unique_id(),Networking.current_duser)
 
 @rpc("any_peer","call_remote","reliable")
 func receive_player_user_info(id : int, userinfo : DUser):

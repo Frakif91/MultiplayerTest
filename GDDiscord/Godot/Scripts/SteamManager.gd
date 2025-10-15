@@ -71,11 +71,11 @@ const RESULTS_STRINGS = {
 
 
 @export var persona_status_colors : Dictionary[String,Color] = {
-	"Offline" : Color(0,0,0,1),
-	"Busy" :    Color(0,0,0,1),
-	"Away" :    Color(0,0,0,1),
-	"Online" :  Color(0,0,0,1),
-	"Playing" : Color(0,0,0,1)
+	"Offline" : Color(0.5,0.5,0.5,1),
+	"Busy" :    Color(0.8,0.8,1,1),
+	"Away" :    Color(1,1,0.8,1),
+	"Online" :  Color(1,1,1,1),
+	"Playing" : Color(0.7,1.0,0.7,1),
 }
 
 
@@ -86,6 +86,9 @@ func _ready() -> void:
 	if not Steam.isSteamRunning():
 		push_warning("Steam not running; SteamUtil will be inactive.")
 		return
+	
+	steam_id = Steam.getSteamID()
+	steam_username = Steam.getPersonaName()
 
 	# Listen for join/invite signals from GodotSteam
 	Steam.join_requested.connect(_on_lobby_join_requested)
@@ -106,8 +109,9 @@ func get_user_name(user_id: int = 0) -> String:
 	if not Steam.isSteamRunning(): return "Unknown"
 	return Steam.getPersonaName() if user_id == 0 else Steam.getFriendPersonaName(user_id)
 
+## Return the Steam.PersonaState of the user (as a readable String) (i.e "Online" or "Offline")
 func get_user_state(user_id: int = 0) -> String:
-	if not Steam.isSteamRunning(): return "Offline"
+	if not Steam.isSteamRunning(): return "Unknown"
 	var state_id: int = (
 		Steam.getPersonaState() if user_id == 0
 		else Steam.getFriendPersonaState(user_id)

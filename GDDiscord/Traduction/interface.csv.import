@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c5qdsuhqi76w2"
+
+[deps]
+
+files=["res://GDDiscord/Traduction/interface.en.translation"]
+
+source_file="res://GDDiscord/Traduction/interface.csv"
+dest_files=["res://GDDiscord/Traduction/interface.en.translation"]
+
+[params]
+
+compress=true
+delimiter=0

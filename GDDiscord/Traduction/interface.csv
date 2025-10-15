@@ -1,0 +1,14 @@
+keys,en
+srv_name,Name :
+srv_desc,Description :
+srv_port,Port
+srv_port_udp,Port UDP
+srv_password,Password
+srv_max_player,Max. Player count
+srv_map,Map
+srv_steam_disc,Steam Discovery (?)
+srv_public_ip,Public IP (?)
+srv_public_port,Public Port (?)
+srv_port_tooltip,"This is the port that will be configured for players to join the Multiplayer Network (Here, that's the port they would join to join the game)"
+,
+,Create a lobby and mark yourself as host. (Steam) Friends can see the lobby in their friends list.

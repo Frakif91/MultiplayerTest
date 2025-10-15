@@ -34,7 +34,7 @@ var server_info: Dictionary = {
 }
 var cur_server_icon : Texture = preload("res://GDDiscord/icon.svg")
 
-var current_duser : DUser = await get_duser_by_steam(Steam.getSteamID())
+@onready var current_duser : DUser = await get_duser_by_steam(Steam.getSteamID())
 
 ## Returns [000.000.000.000:00000] type of IP from a hostname
 func get_ip_from_hostname(hostname : String) -> String:
@@ -245,30 +245,11 @@ func _on_lobby_joined(lobby_id: int, success: int, _steam_id: int) -> void:
 		push_error("Server scene not found : %s" % server_info["server_scene"])
 		Steam.leaveLobby(lobby_id)
 
-#region Steam Avatar
-
-var loaded_avatars : Dictionary
-
-func steam_user_avatar_loaded(id, icon_size, buffer : PackedByteArray):
-	var avatarImage = Image.create_from_data(icon_size, icon_size, false, Image.FORMAT_RGBA8, buffer)
-	var texture = ImageTexture.create_from_image(avatarImage)
-	loaded_avatars.merge({id : texture},true)
-
-func get_steam_avatar(id) -> Texture:
-	if not loaded_avatars.has(id):
-		Steam.getPlayerAvatar(Steam.AVATAR_MEDIUM,id)
-		await Steam.avatar_loaded
-	return loaded_avatars.get(id,preload("res://GDDiscord/icon.svg"))
-
-func host_process_image(data : PackedByteArray):
-	var image = Image.create_from_data(128, 128, false, Image.FORMAT_RGBA8, data)
-	var texture = ImageTexture.create_from_image(image)
-	$TextureRect.texture = texture
 
 func get_duser_by_steam(steam_id : int) -> DUser:
 	var duser = DUser.new()
 	duser._is_steam_user = true
 	duser._steam_id = steam_id
 	duser.name = (Steam.getPersonaName() if Steam.getSteamID() == steam_id else Steam.getFriendPersonaName(steam_id) )
-	duser.avatar = await get_steam_avatar(steam_id)
+	duser.avatar = await SteamManager.get_user_avatar(steam_id)
 	return duser
