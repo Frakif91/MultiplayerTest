@@ -14,6 +14,8 @@ func _ready() -> void:
 	#await get_tree().create_timer(3.0).timeout
 	refresh_friend_list()
 	refresh_cur_user_profile()
+	quit_lobby.pressed.connect(_on_lobby_leave_pressed)
+	steam_create_lobby.pressed.connect(_on_lobby_create_pressed)
 
 func refresh_friend_list():
 	for entry in box_container_friends.get_children():
@@ -28,9 +30,18 @@ func refresh_friend_list():
 func refresh_cur_user_profile():
 	current_user_avatar.texture = await SteamManager.get_user_avatar(SteamManager.steam_id)
 	current_user_name.text = SteamManager.get_user_name(SteamManager.steam_id)
-	current_user_status.text = SteamManager.get_user_state(SteamManager.steam_id)
+	
 	if SteamManager.get_user_state() == "Online":
-		current_user_status.modulate = Color.LIGHT_GREEN
+		current_user_status.modulate = Color.GREEN
+	
+	if SteamManager.lobby_id != 0:
+		current_user_status.text = "In a Lobby."
+		quit_lobby.disabled = false
+		steam_create_lobby.disabled = true
+	else:
+		current_user_status.text = SteamManager.get_user_state(SteamManager.steam_id)
+		quit_lobby.disabled = true
+		steam_create_lobby.disabled = false
 
 func add_friend(duser : DUser):
 	var entry : UIListEntryFriend = preload("res://GDDiscord/Godot/Scenes/DiscordScene/ui_friend.tscn").instantiate()
@@ -41,3 +52,17 @@ func add_friend(duser : DUser):
 		box_container_friends.move_child(entry,0)
 	
 	list_entries.append(entry)
+
+func _process(delta):
+	refresh_cur_user_profile()
+
+func _on_lobby_leave_pressed() -> void:
+	print_debug("[FriendList] Quitting lobby")
+	if Steam.isLobby(SteamManager.lobby_id):
+		Steam.leaveLobby(SteamManager.lobby_id)
+		SteamManager.lobby_id = 0
+
+func _on_lobby_create_pressed() -> void:
+	print_debug("[FriendList] Creating Lobby")
+	SteamManager.create_lobby(null)
+	SteamManager.refresh_lobby_state_lobby()

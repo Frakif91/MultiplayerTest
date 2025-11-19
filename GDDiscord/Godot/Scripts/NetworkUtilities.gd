@@ -34,7 +34,7 @@ var server_info: Dictionary = {
 }
 var cur_server_icon : Texture = preload("res://GDDiscord/icon.svg")
 
-@onready var current_duser : DUser = await get_duser_by_steam(Steam.getSteamID())
+@onready var current_duser : DUser = await get_duser_from_steamid(Steam.getSteamID())
 
 ## Returns [000.000.000.000:00000] type of IP from a hostname
 func get_ip_from_hostname(hostname : String) -> String:
@@ -246,7 +246,7 @@ func _on_lobby_joined(lobby_id: int, success: int, _steam_id: int) -> void:
 		Steam.leaveLobby(lobby_id)
 
 
-func get_duser_by_steam(steam_id : int) -> DUser:
+func get_duser_from_steamid(steam_id : int) -> DUser:
 	var duser = DUser.new()
 	duser._is_steam_user = true
 	duser._steam_id = steam_id

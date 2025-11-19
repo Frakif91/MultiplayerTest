@@ -36,7 +36,7 @@ func update():
 		#set_anchors_to_current_rect($Button)
 		match int(Steam.getFriendPersonaState(duser._steam_id)):
 			Steam.PERSONA_STATE_ONLINE, Steam.PERSONA_STATE_BUSY, Steam.PERSONA_STATE_SNOOZE, Steam.PERSONA_STATE_AWAY:
-				if SteamManager.lobby_id != 0:
+				if SteamManager.lobby_id != 0 and Steam.getFriendGamePlayed(duser._steam_id).get("game_id",0) == Steam.getAppID():
 					subbutton.add_item("Invite to Lobby", 0)
 					subbutton.id_pressed.connect(on_button_pressed)
 				else:

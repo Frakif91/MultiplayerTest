@@ -9,6 +9,7 @@ var icon : ImageTexture
 @export var image : TextureRect
 @export var name_label : Label
 @export var message_label : Label
+@export var timestamp_label : Label
 
 
 func _init(author : int = 0, content : String = "", timestamp : int = 0):
@@ -20,6 +21,8 @@ func update():
     name_label.text = str(author)
     message_label.text = content
     image.texture = icon
+    timestamp_label.text = get_formated_timestamp()
+
 
 
 func get_formated_timestamp() -> String:

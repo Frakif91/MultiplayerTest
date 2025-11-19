@@ -72,10 +72,10 @@ const RESULTS_STRINGS = {
 
 @export var persona_status_colors : Dictionary[String,Color] = {
 	"Offline" : Color(0.5,0.5,0.5,1),
-	"Busy" :    Color(0.8,0.8,1,1),
-	"Away" :    Color(1,1,0.8,1),
+	"Busy" :    Color(0.6,0.8,1.0,1),
+	"Away" :    Color(1,1,0.5,1),
 	"Online" :  Color(1,1,1,1),
-	"Playing" : Color(0.7,1.0,0.7,1),
+	"Playing" : Color(0.5,1.0,0.5,1),
 }
 
 
@@ -116,6 +116,10 @@ func get_user_state(user_id: int = 0) -> String:
 		Steam.getPersonaState() if user_id == 0
 		else Steam.getFriendPersonaState(user_id)
 	)
+	if state_id in [1,2,3,4] and Steam.getFriendGamePlayed(user_id).has("lobby"):
+		return "Playing"
+
+
 	match state_id:
 		0: return "Offline"
 		1: return "Online"
@@ -176,10 +180,10 @@ func get_user_avatar(user_id: int = 0, size : Steam.AvatarSizes = Steam.AVATAR_M
 # --- Invites
 # -----------------------------------------------------------------------------
 
-func create_lobby(server_info : DServer) -> int:
+func create_lobby(server_info : DServer = null) -> void:
 	if not Steam.isSteamRunning():
-		push_error("Steam not running")
-		return 0
+		push_error("[SteamManager] Steam not running")
+		return
 
 	if lobby_id != 0:
 		print("[Steam] Lobby already created -> Destroying lobby")
@@ -187,15 +191,21 @@ func create_lobby(server_info : DServer) -> int:
 
 	lobby_id = -1 # -1 If pending, 0 if failed, Other if succesful
 	lobby_connection_error = 0
-	Steam.createLobby(Steam.LOBBY_TYPE_FRIENDS_ONLY, server_info.max_players)
+	Steam.createLobby(Steam.LOBBY_TYPE_FRIENDS_ONLY, (server_info.max_players if server_info else 8))
 	print_debug("[Steam] Lobby creating...")
-	await Steam.lobby_created # Steam has a builtin timeout !
+	#await Steam.lobby_created # Steam has a builtin timeout ! (Kidding)
 
-	if lobby_connection_error != 0:
-		printerr("[Steam] Failed to create lobby (Connection Error : " + RESULTS_STRINGS[lobby_connection_error] + ")")
-		return 0
-	
-	# If succesful, continues
+func disband_lobby() -> void:
+	if not Steam.isSteamRunning():
+		push_error("Steam not running")
+		return
+	Steam.leaveLobby(lobby_id)
+	lobby_id = 0
+
+func send_lobby_chat(message : String) -> void:
+	Steam.sendLobbyChatMsg(lobby_id, message)
+
+func refresh_lobby_state_game(server_info : DServer = null) -> void:
 	Steam.setLobbyGameServer(lobby_id, server_info.server_public_ip, server_info.server_public_port)
 	Steam.setLobbyJoinable(lobby_id, true)
 	Steam.allowP2PPacketRelay(true)
@@ -206,8 +216,14 @@ func create_lobby(server_info : DServer) -> int:
 	Steam.setLobbyData(lobby_id, "name", server_info.server_name + " - " + server_info.server_motd);
 	Steam.setLobbyData(lobby_id, "version", ProjectSettings.get_setting("application/config/version"));
 	Steam.setLobbyData(lobby_id, "map", server_info.server_map);
-	
-	return lobby_id
+
+func refresh_lobby_state_lobby() -> void:
+	Steam.setLobbyJoinable(lobby_id, true)
+	Steam.setLobbyData(lobby_id, "host", str(Steam.getSteamID()));
+	Steam.setLobbyData(lobby_id, "name", "GDDiscord - " + Networking.current_duser.name);
+	Steam.setLobbyData(lobby_id, "version", ProjectSettings.get_setting("application/config/version"));
+	Steam.setLobbyData(lobby_id, "lobby_id", str(lobby_id));
+	Steam.setLobbyData(lobby_id, "cur_players", str(Steam.getNumLobbyMembers(lobby_id)))
 
 
 func send_user_game_invite(user_id: int, payload: Dictionary = {}) -> void:
@@ -322,9 +338,13 @@ func _on_request_completed(result, response_code, headers, body):
 			print("Unknown game id ", json.values()[0])
 
 
-func _on_lobby_created(connect_r: int, lobby_id: int) -> void:
-	lobby_id = lobby_id
-	lobby_connection_error = (connect_r as Error)
+func _on_lobby_created(connect_r: int, lobby_r: int) -> void:
+	print_rich("[color=green][SteamManager] Lobby Confirmation Results %s[/color]" % lobby_r)
+	print_debug("Comming...")
+	if connect_r != 1:
+		self.lobby_id = lobby_r
+		self.lobby_connection_error = (connect_r as Error)
+
 
 ## Steam.avatar_loaded(avatar_id, width, rawdata) callback
 func _on_avatar_recieved(avatar_id: int, size: int, data: PackedByteArray) -> void:
@@ -353,13 +373,8 @@ func _on_lobby_joined(this_lobby_id: int, _permissions: int, _locked: bool, resp
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
 		# Set this lobby ID as your lobby ID
 		lobby_id = this_lobby_id
-
-		# Get the lobby members
-		#get_lobby_members()
-
-		# Make the initial handshake
-		#make_p2p_handshake()
-
+		lobby_connection_error = response
+		print("[SteamManager] Joined lobby %s" % this_lobby_id)
 	# Else it failed for some reason
 	else:
 		# Get the failure reason

@@ -248,14 +248,14 @@ size_flags_horizontal = 3
 
 [node name="TabContainer" type="TabContainer" parent="CanvasLayer/MainFrame/GuildInterface/Background"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="Chat" parent="CanvasLayer/MainFrame/GuildInterface/Background/TabContainer" instance=ExtResource("12_ekifu")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="FriendList" parent="CanvasLayer/MainFrame/GuildInterface/Background/TabContainer" instance=ExtResource("13_c0g5p")]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 

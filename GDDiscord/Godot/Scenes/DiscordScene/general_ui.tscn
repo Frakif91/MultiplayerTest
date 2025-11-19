@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cio0obkwxr1ep"]
+[gd_scene load_steps=7 format=3 uid="uid://cio0obkwxr1ep"]
 
+[ext_resource type="Script" uid="uid://bu1cwsub36qy" path="res://GDDiscord/Godot/Scripts/general_chat.gd" id="1_ft7vk"]
 [ext_resource type="Texture2D" uid="uid://d2d6e0xr0qgd4" path="res://GDDiscord/Assets/Icons/Add.svg" id="2_pk5qb"]
 [ext_resource type="Texture2D" uid="uid://c7cgmqbvqo7g6" path="res://GDDiscord/Assets/Icons/Check.svg" id="3_02qbj"]
 
@@ -15,10 +16,13 @@ specular_color = Color(0.8, 0.8, 0.8, 1)
 specular_shininess = 0.7
 
 [node name="Container" type="MarginContainer"]
+offset_right = 438.0
+offset_bottom = 637.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+script = ExtResource("1_ft7vk")
 
 [node name="ChannelElements" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -26,7 +30,7 @@ layout_mode = 2
 [node name="ChannelTitle" type="Label" parent="ChannelElements"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Channel - Global Chat"
+text = "Lobby Chat"
 label_settings = SubResource("LabelSettings_3kbok")
 
 [node name="HSeparator" type="HSeparator" parent="ChannelElements"]
@@ -67,10 +71,13 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+text = "eee"
 placeholder_text = "Write something here..."
 keep_editing_on_text_submit = true
+expand_to_text_length = true
+caret_blink = true
 
-[node name="Emoji" type="TextureButton" parent="ChannelElements/UserInput"]
+[node name="Send" type="TextureButton" parent="ChannelElements/UserInput"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_vertical = 8

@@ -24,6 +24,8 @@ expand_margin_bottom = 1.0
 
 [node name="ServerCreation" type="MarginContainer"]
 custom_minimum_size = Vector2(0, 365)
+offset_right = 320.0
+offset_bottom = 592.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
