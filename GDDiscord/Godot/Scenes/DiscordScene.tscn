@@ -115,6 +115,12 @@ layout_mode = 2
 [node name="ServerContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse/Favorites" instance=ExtResource("6_f02ji")]
 layout_mode = 2
 
+[node name="MarginContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB/FavoriteCollapse/Favorites/ServerContainer" index="1"]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
 [node name="FavoriteCollapse2" type="FoldableContainer" parent="CanvasLayer/MainFrame/GuildList/VSep/MC/VB/Scroll/VB"]
 layout_mode = 2
 title = "Common Ones"

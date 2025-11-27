@@ -318,6 +318,8 @@ func get_game_name_from_steam(app_id: int) -> String:
 	req.request_completed.connect(_on_request_completed)
 	req.request(url)
 	await req.request_completed
+	if not loaded_game_names.has(app_id):
+		loaded_game_names[app_id] = "Unknown Game"
 	print_debug("[SteamManager] Game name for app id %s : %s" % [app_id, loaded_game_names[app_id]])
 	return loaded_game_names[app_id]
 
